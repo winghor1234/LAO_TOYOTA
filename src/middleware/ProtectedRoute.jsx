@@ -1,9 +1,13 @@
 import { Navigate } from "react-router-dom";
-import { getToken, removeToken } from "../utils/Token";
+import useToyotaStore from "../store/ToyotaStore";
+// import { getToken, removeToken } from "../utils/Token";
+
 
 
 const ProtectedRoute = ({ children }) => {
-  const token = getToken();
+  // const token = getToken();
+  const token = useToyotaStore.getState().getToken();
+  const removeToken = useToyotaStore.getState().removeToken;
 
   if (!token) {
     removeToken(); // ถ้า token หมดอายุ ลบออก
@@ -14,3 +18,4 @@ const ProtectedRoute = ({ children }) => {
 };
 
 export default ProtectedRoute;
+

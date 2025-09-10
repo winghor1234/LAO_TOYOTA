@@ -1,8 +1,10 @@
 import { Gift, Wrench, X } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useState } from "react";
-import { createGift } from "../../../api/GIft";
+// import { createGift } from "../../../api/GIft";
 import Spinner from "../../../utils/Loading";
+import axios from "axios";
+import APIPath from "../../../api/APIPath";
 
 const AddGift = ({ show, onClose }) => {
 
@@ -37,7 +39,8 @@ const AddGift = ({ show, onClose }) => {
         data.append("files", formData.image);
       }
 
-      await createGift(data);
+      // await createGift(data);
+      await axios.post(APIPath.CREATE_GIFT, data)
       SuccessAlert("ເພີ່ມຂໍ້ມູນລາງວັນສຳເລັດ")
       onClose();
     } catch (error) {

@@ -1,13 +1,14 @@
 import { CalendarDays, Car, ChevronDown, DeleteIcon, Edit, Eye, GiftIcon, Search, Trash } from "lucide-react"
-import Swal from "sweetalert2";
 import { DeleteAlert } from "../../../utils/handleAlert/DeleteAlert";
 import { useEffect, useState } from "react";
 import EditReward from "./EditGift";
 import AddReward from "./AddGift";
 import SelectDate from "../../../utils/SelectDate";
-import { deleteGift, getAllGifts } from "../../../api/GIft";
+// import { deleteGift, getAllGifts } from "../../../api/GIft";
 import { filterByDateRange } from "../../../utils/FilterDate";
 import { filterSearch } from "../../../utils/FilterSearch";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
 
 
 const GiftData = () => {
@@ -21,7 +22,7 @@ const GiftData = () => {
 
     const fetchGifts = async () => {
         try {
-            const res = await getAllGifts();
+            const res = await axiosInstance.get(APIPath.SELECT_ALL_GIFT);
             // console.log("Fetched gifts:", res?.data?.data);
             setGifts(res?.data?.data || []);
         } catch (error) {
@@ -36,7 +37,7 @@ const GiftData = () => {
     const handleDelete = async (id) => {
         const confirmDelete = await DeleteAlert("ວ່າຈະລົບຂໍ້ມູນລາງວັນນີ້ບໍ່?", "ລົບຂໍ້ມູນລາງວັນສຳເລັດ");
         if (confirmDelete) {
-            await deleteGift(id);
+            await axiosInstance.delete(APIPath.DELETE_GIFT(id));
             fetchGifts(); // Refresh the list after deletion
 
         }

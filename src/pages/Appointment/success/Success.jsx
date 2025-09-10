@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import logo from '../../../assets/corrects.png'
 import { TopControl } from "../../../utils/TopControl";
 import { useEffect, useState } from "react";
-import { getAllBooking } from "../../../api/Booking";
-import { getAllFix } from "../../../api/Fix";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
+// import { getAllBooking } from "../../../api/Booking";
+// import { getAllFix } from "../../../api/Fix";
 
 
 
@@ -101,7 +103,7 @@ const Success = () => {
     
       const fetchData = async () => {
         try {
-          const [bookingRes, fixRes] = await Promise.all([getAllBooking(), getAllFix()]);
+          const [bookingRes, fixRes] = await Promise.all([axiosInstance.get(APIPath.SELECT_ALL_BOOKING), axiosInstance.get(APIPath.SELECT_ALL_FIX)]);
           setBookings(bookingRes?.data?.data || []);
           setFixes(fixRes?.data?.data || []);
           // console.log(res?.data?.data);

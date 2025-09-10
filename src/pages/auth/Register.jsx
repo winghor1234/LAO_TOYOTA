@@ -31,14 +31,9 @@ const Register = () => {
                                     <User className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
-                                    // name="username"
-                                    // type="text"
-                                    // required
-                                    // value={formData.username}
-                                    // onChange={handleChange}
                                     {...register("username")}
                                     className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
-                                    placeholder="username"
+                                    placeholder="ຊື່ຜູ້ໃຊ້"
                                 />
                             </div>
                             {errors.username && <p className="text-red-500">{errors.username.message}</p>}
@@ -55,14 +50,9 @@ const Register = () => {
                                 </div>
                                 <div className="appearance-none relative block w-full px-3 py-3 pl-10 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus-within:ring-red-500 focus-within:border-red-500 focus-within:z-10 sm:text-sm focus-within:caret-red-500">
                                     <input
-                                        // name="phoneNumber"
-                                        // type="number"
-                                        // required
-                                        // value={formData.phoneNumber}
-                                        // onChange={handleChange}
                                         {...register("phoneNumber")}
                                         className='w-full outline-none border-none focus:text-red-500'
-                                        placeholder="phone number"
+                                        placeholder="ເບີໂທລະສັບ"
                                     />
                                 </div>
                                 {errors.phoneNumber && <p className="text-red-500">{errors.phoneNumber.message}</p>}
@@ -80,15 +70,10 @@ const Register = () => {
                                 </div>
                                 <div className="appearance-none relative block w-full px-3 py-3 pl-10 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus-within:ring-red-500 focus-within:border-red-500 focus-within:z-10 sm:text-sm focus-within:caret-red-500">
                                     <input
-                                        // name="password"
-                                        // type="password"
-                                        // required
-                                        // value={formData.password}
-                                        // onChange={handleChange}
                                         {...register("password")}
                                         type={showPassword ? 'text' : 'password'}
                                         className='w-full outline-none border-none focus:text-red-500'
-                                        placeholder="password"
+                                        placeholder="ລະຫັດຜ່ານ"
                                     />
                                 </div>
                                 {errors.password && <p className="text-red-500">{errors.password.message}</p>}
@@ -116,14 +101,9 @@ const Register = () => {
                                     <MapPin className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
-                                    // name="province"
-                                    // type="text"
-                                    // required
-                                    // value={formData.province}
-                                    // onChange={handleChange}
                                     {...register("province")}
                                     className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
-                                    placeholder="province"
+                                    placeholder="ແຂວງ"
                                 />
                             </div>
                             {errors.province && <p className="text-red-500">{errors.province.message}</p>}
@@ -139,14 +119,9 @@ const Register = () => {
                                     <MapPin className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
-                                    // name="district"
-                                    // type="text"
-                                    // required
-                                    // value={formData.district}
-                                    // onChange={handleChange}
                                     {...register("district")}
                                     className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
-                                    placeholder="district"
+                                    placeholder="ເມືອງ"
                                 />
                             </div>
                             {errors.district && <p className="text-red-500">{errors.district.message}</p>}
@@ -162,14 +137,9 @@ const Register = () => {
                                     <MapPin className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
-                                    // name="village"
-                                    // type="text"
-                                    // required
-                                    // value={formData.village}
-                                    // onChange={handleChange}
                                     {...register("village")}
                                     className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
-                                    placeholder="village"
+                                    placeholder="ບ້ານ"
                                 />
                             </div>
                             {errors.village && <p className="text-red-500">{errors.village.message}</p>}

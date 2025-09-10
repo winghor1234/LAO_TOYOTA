@@ -1,8 +1,10 @@
 import { Gift, Wrench, X } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useEffect, useState } from "react";
-import { getAllTime, getZoneById, updateZone } from "../../../api/Time_Zone";
+// import { getAllTime, getZoneById, updateZone } from "../../../api/Time_Zone";
 import Spinner from "../../../utils/Loading";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
 
 
 
@@ -18,7 +20,7 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
 
     const handleFetchTime = async () => {
         try {
-            const res = await getAllTime();
+            const res = await axiosInstance.get(APIPath.SELECT_ALL_TIME);
             setTime(res?.data?.data || []);
         } catch (err) {
             console.error(err);
@@ -31,7 +33,7 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
 
     const handleFetchZone = async () => {
         if (!zoneId) return;
-        const res = await getZoneById(zoneId);
+        const res = await axiosInstance.get(APIPath.SELECT_ONE_ZONE(zoneId));
         const resData = res?.data?.data;
         setFormData({
             zoneName: resData.zoneName,
@@ -59,7 +61,8 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
         data.append('timeFix', formData.timeFix);
         data.append('timeId', formData.timeId);
         try {
-            await updateZone(zoneId, data);
+            // await updateZone(zoneId, data);
+            await axiosInstance.put(APIPath.UPDATE_ZONE(zoneId), data);
             // console.log("Update gift successful:", res.data);
             SuccessAlert("ແກ້ໄຂຂໍ້ມູນໂຊນສຳເລັດ");
             fetchZone();
@@ -113,10 +116,9 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
                                 setFormData((prev) => ({ ...prev, timeId: e.target.value }))
                             }
                             required
-                            className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-                        >
-                            <option  disabled>ເລືອกເວລາ</option>
-                            {time.map((item) => (
+                            className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors">
+                            <option disabled>ເລືອกເວລາ</option>
+                            {time.filter((item) => item.timeStatus !== false).map((item) => (
                                 <option key={item.time_id} value={item.time_id}>
                                     {item.time}
                                 </option>

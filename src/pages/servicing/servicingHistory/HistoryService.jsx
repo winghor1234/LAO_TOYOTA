@@ -1,10 +1,12 @@
 import { Car } from "lucide-react"
 import { useState } from "react";
 import SelectDate from "../../../utils/SelectDate";
-import {  getAllService } from "../../../api/Service";
+// import {  getAllService } from "../../../api/Service";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { filterSearch } from "../../../utils/FilterSearch";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
 
 
 const ServiceHistory = () => {
@@ -15,7 +17,7 @@ const ServiceHistory = () => {
 
     const handleFetchService = async () => {
         try {
-            const res = await getAllService();
+            const res = await axiosInstance.get(APIPath.SELECT_ALL_SERVICE);
             setServices(res?.data?.data);
         } catch (error) {
             console.error("Failed to fetch services:", error);

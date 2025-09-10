@@ -1,49 +1,54 @@
-import { Car } from "lucide-react"
 import { useEffect, useState } from "react";
-import SelectDate from "../../utils/SelectDate";
-import { getAllUsers } from "../../api/User";
 import { filterByDateRange } from "../../utils/FilterDate";
 import { filterSearch } from "../../utils/FilterSearch";
+import axiosInstance from "../../utils/AxiosInstance";
+import APIPath from "../../api/APIPath";
+import AddUser from "./AddUser";
+import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
+import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
+import SelectDate from "../../utils/SelectDate";
+import { Car, Edit, Trash } from "lucide-react";
 
 
 const User = () => {
-//   const [showEdit, setShowEdit] = useState(false);
-//   const [showAdd, setShowAdd] = useState(false);
-//   const [selectedUserId, setSelectedUserId] = useState(null);
+  const [showAdd, setShowAdd] = useState(false);
+  // const [selectedUserId, setSelectedUserId] = useState(null);
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  
 
 
   const FilteredUser = filterByDateRange(
-    filterSearch(users,"username",search), startDate, endDate, "createdAt"
+    filterSearch(users, "username", search), startDate, endDate, "createdAt"
   )
 
 
-//   const handleDeleteUser = async (id) => {
-//     try {
-//       const confirmedDelete = await DeleteAlert("ວ່າຈະລົບຂໍ້ມູນລູກຄ້າຄົນນີ້ບໍ່?", "ລົບຂໍ້ມູນລູກຄ້າສຳເລັດ");
-//       if (confirmedDelete) {
-//         await deleteUser(id);
-//         handleFetchUser();
-//       }
-//     } catch (error) {
-//       console.log(error);
-//       SuccessAlert("ລົບຂໍໍ້ມູນບໍ່ສຳເລັດ", 1500, "error");
-//     }
-//   }
+  const handleFetchUser = async () => {
+    try {
+      const res = await axiosInstance.get(APIPath.SELECT_ALL_USER);
+      console.log(res?.data);
+      setUsers(res?.data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleDeleteUser = async (id) => {
+    try {
+      const confirmedDelete = await DeleteAlert("ວ່າຈະລົບຂໍ້ມູນລູກຄ້າຄົນນີ້ບໍ່?", "ລົບຂໍ້ມູນລູກຄ້າສຳເລັດ");
+      if (confirmedDelete) {
+        await axiosInstance.delete(APIPath.DELETE_USER(id));
+        handleFetchUser();
+      }
+    } catch (error) {
+      console.log(error);
+      SuccessAlert("ລົບຂໍໍ້ມູນບໍ່ສຳເລັດ", 1500, "error");
+    }
+  }
 
   useEffect(() => {
-    const handleFetchUser = async () => {
-      try {
-        const res = await getAllUsers();
-        console.log(res?.data);
-        setUsers(res?.data?.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
     handleFetchUser();
   }, []);
 
@@ -58,17 +63,17 @@ const User = () => {
         }} />
 
         {/* Buttons */}
-        {/* <div className="flex flex-col sm:flex-row sm:justify-center gap-2 sm:gap-3">
+        <div className="flex flex-col sm:flex-row sm:justify-center gap-2 sm:gap-3">
           <button onClick={() => setShowAdd(true)} className="bg-blue-500 hover:bg-blue-600 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
             ເພີ່ມຜູ້ໃຊ້
           </button>
-        </div> */}
+        </div>
       </div>
       {/* Data Table */}
       <div className=" bg-white rounded-lg shadow-sm overflow-hidden w-full">
         {/* Desktop/Tablet Table Header (hidden on mobile) */}
         <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
-          <div className="grid grid-cols-8 gap-3 md:gap-8 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-base lg:text-lg">
+          <div className="grid grid-cols-10 gap-3 md:gap-8 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-base lg:text-lg">
             <div className="flex justify-center items-center">ລຳດັບ</div>
             <div className="flex justify-center items-center">ລະຫັດຜູ້ໃຊ້</div>
             <div className="flex justify-center items-center">ຊື່ຜູ້ໃຊ້</div>
@@ -77,6 +82,7 @@ const User = () => {
             <div className="flex justify-center items-center">ແຂວງ</div>
             <div className="flex justify-center items-center">ເບີໂທ</div>
             <div className="flex justify-center items-center">ອີເມວ</div>
+            <div className="flex justify-center items-center">ສະຖານະ</div>
             <div className="flex justify-center items-center">ດຳເນີນການ</div>
           </div>
         </div>
@@ -86,7 +92,7 @@ const User = () => {
           {
             FilteredUser.map((item, index) => {
               return (
-                <div key={index} className="grid grid-cols-8 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
+                <div key={index} className="grid grid-cols-10 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
                   <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                     {index + 1}
                   </div>
@@ -112,9 +118,11 @@ const User = () => {
                   <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                     {item.email ? <a href={`mailto:${item.email}`} className="text-blue-500 hover:underline">{item.email}</a> : "-"}
                   </div>
+                  <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                    {item.role}
+                  </div>
                   <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-4">
-                    {/* <Edit onClick={() => { setShowEdit(true); setSelectedUserId(item.user_id); }} className="cursor-pointer" /> */}
-                    {/* <Trash onClick={(e) => { e.stopPropagation(); handleDeleteUser(item.user_id); }} className="cursor-pointer" /> */}
+                    <Trash onClick={(e) => { e.stopPropagation(); handleDeleteUser(item.user_id); }} className="cursor-pointer" />
                   </div>
                 </div>
               )
@@ -155,10 +163,10 @@ const User = () => {
           </div>
         </div>
       </div>
-      {/* Edit Customer Popup */}
-      {/* <EditUser show={showEdit} onClose={() => setShowEdit(false)} userId={selectedUserId} /> */}
       {/* Add Customer Popup */}
-      {/* <AddUser show={showAdd} onClose={() => setShowAdd(false)} /> */}
+      <AddUser show={showAdd} onClose={() => setShowAdd(false)} />
+
+      
     </div >
   )
 }

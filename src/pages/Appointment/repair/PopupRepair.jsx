@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllFix, updateFixStatus } from "../../../api/Fix";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
+// import { getAllFix, updateFixStatus } from "../../../api/Fix";
 
 // PopupRepair Component
 const PopupRepair = ({ setShowPopup , bookingId }) => {
@@ -18,7 +20,7 @@ const PopupRepair = ({ setShowPopup , bookingId }) => {
 
   const fetchFix = async () => {
     try {
-      const res = await getAllFix();
+      const res = await axiosInstance.get(APIPath.SELECT_ALL_FIX);
       console.log(res?.data?.data);
       setFixes(res?.data?.data);
     } catch (error) {
@@ -48,7 +50,8 @@ const PopupRepair = ({ setShowPopup , bookingId }) => {
       data.append("kmLast", formData.kmLast);
       data.append("detailFix", formData.detailFix);
 
-      await updateFixStatus(fixId.fix_id, data);
+      // await updateFixStatus(fixId.fix_id, data);
+      await axiosInstance.put(APIPath.UPDATE_FIX_STATUS(fixId.fix_id), data);
       navigate('/user/repairSuccess');
     } catch (error) {
       console.log(error);

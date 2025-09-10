@@ -1,8 +1,9 @@
 import { Car } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { TopControl } from "../../../utils/TopControl";
-import { getAllBooking } from "../../../api/Booking";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import APIPath from "../../../api/APIPath";
 
 
 
@@ -12,17 +13,17 @@ const Approve = () => {
 
   const fetchBooking = async () => {
     try {
-      const res = await getAllBooking();
-      console.log(" res data:", res?.data?.data);
+      const res = await axios.get(APIPath.SELECT_ALL_BOOKING);
+      // console.log(" res data:", res?.data?.data);
       setBooking(res?.data?.data);
     } catch (error) {
       console.log(error);
     }
   }
 
-  const handleApprove = async(id) => {
+  const handleApprove = async(BookingId, timeId) => {
     try {
-      navigate(`/user/receiverCarDetail/${id}`);
+      navigate(`/user/receiverCarDetail/${BookingId}?time=${timeId}`);
     } catch (error) {
       console.log(error);
     }
@@ -58,7 +59,7 @@ const Approve = () => {
             <div
               
               key={index}
-              onClick={() => handleApprove(item.booking_id)}
+              onClick={() => handleApprove(item.booking_id, item.time.time_id)}
               className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors"
             >
               <div className="flex items-center gap-2 md:gap-3">

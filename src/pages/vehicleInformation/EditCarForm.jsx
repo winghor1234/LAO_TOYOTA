@@ -2,14 +2,19 @@ import { BackButton } from '../../utils/BackButton';
 import { Car } from 'lucide-react';
 import { SuccessAlert } from '../../utils/handleAlert/SuccessAlert';
 import { useEffect, useState } from 'react';
-import { getCarById, updateCar } from '../../api/Car';
+// import {  updateCar } from '../../api/Car';
+// import { getAllUsers } from '../../api/Auth';
+import axios from 'axios';
+import APIPath from '../../api/APIPath';
+import axiosInstance from '../../utils/AxiosInstance';
 
 
-const EditCarFormPopup = ({ show, onClose, userId, carId }) => {
+const EditCarFormPopup = ({ show, onClose, userId, carId, handleFetchCar }) => {
 
     // console.log("EditCarFormPopup carId:", carId);
-
+    const [users, setUsers] = useState([]);
     const [formData, setFormData] = useState({
+        userId: '',
         model: '',
         engineNumber: '',
         frameNumber: '',
@@ -21,7 +26,8 @@ const EditCarFormPopup = ({ show, onClose, userId, carId }) => {
         const fetchCarDetails = async () => {
             if (!carId) return;
             try {
-                const response = await getCarById(carId);
+                // const response = await getCarById(carId);
+                const response = await axios.get(APIPath.SELECT_ONE_CAR(carId));
                 console.log("Fetched car details:", response?.data?.data);
                 setFormData(response?.data?.data);
             } catch (error) {
@@ -42,6 +48,22 @@ const EditCarFormPopup = ({ show, onClose, userId, carId }) => {
         }));
     };
 
+      const fetchUsers = async () => {
+        try {
+          const res = await axiosInstance.get(APIPath.SELECT_ALL_USER);
+          console.log("Users:", res?.data?.data);
+          setUsers(res?.data?.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    
+      useEffect(() => {
+        fetchUsers();
+      }, []);
+    
+    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = new URLSearchParams();
@@ -52,7 +74,8 @@ const EditCarFormPopup = ({ show, onClose, userId, carId }) => {
         data.append('plateNumber', formData.plateNumber);
         data.append('province', formData.province);
         try {
-            await updateCar(carId, data);
+            await axiosInstance.put(APIPath.UPDATE_CAR(carId), data);
+            handleFetchCar();
             SuccessAlert("ເພີ່ມຂໍ້ມູນລົດສຳເລັດ");
             onClose();
         } catch (error) {
@@ -102,10 +125,15 @@ const EditCarFormPopup = ({ show, onClose, userId, carId }) => {
 
                     {/* Right side - Form Fields */}
                     <div className='grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-[400px] w-full'>
-                        {/* <div className='flex flex-col'>
-              <label className='text-sm font-medium mb-1'>ລະຫັດລູກຄ້າ</label>
-              <input name='customerId' value={formData.customerId} onChange={handleInputChange} className='w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500 transition-colors' placeholder='ລະຫັດລູກຄ້າ...' />
-            </div> */}
+                        <div className='flex flex-col'>
+                            <label className='text-sm font-medium mb-1'>ລະຫັດລູກຄ້າ</label>
+                            <select name='userId' value={formData.userId} onChange={handleInputChange} className='w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500 transition-colors'>
+                                <option disabled >ເລືອກລູກຄ້າ</option>
+                                {users?.map(user => (
+                                    <option key={user.user_id} value={user.user_id}>{user.customer_number}</option>
+                                ))}
+                            </select>
+                        </div>
                         <div className='flex flex-col'>
                             <label className='text-sm font-medium mb-1'>ຊື່ລົດ</label>
                             <input name='model' value={formData.model} onChange={handleInputChange} className='w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500 transition-colors' placeholder='ລຸ້ນລົດ...' />

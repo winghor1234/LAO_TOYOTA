@@ -1,8 +1,9 @@
 import { CalendarDays, Car, ChevronDown, DeleteIcon, Edit, Eye, GiftIcon, Search, Trash } from "lucide-react"
-import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import SelectDate from "../../../utils/SelectDate";
-import {  getAllGiftHistories } from "../../../api/GIft";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
+// import {  getAllGiftHistories } from "../../../api/GIft";
 
 
 const GiftHistoryList = () => {
@@ -13,8 +14,8 @@ const GiftHistoryList = () => {
 
     const fetchGifts = async () => {
         try {
-            const res = await getAllGiftHistories();
-            console.log("Fetched gifts:", res?.data?.data);
+            const res = await axiosInstance.get(APIPath.SELECT_ALL_GIFTHISTORY)
+            // console.log("Fetched gifts:", res?.data?.data);
             setGifts(res?.data?.data || []);
         } catch (error) {
             console.error("Error fetching gifts:", error);

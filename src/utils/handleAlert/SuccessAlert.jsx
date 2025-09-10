@@ -1,16 +1,28 @@
-import Swal from "sweetalert2";
+
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// ต้องใส่ <ToastContainer /> ใน App.jsx หรือ Layout.jsx ครั้งเดียว
+// <ToastContainer position="top-center" autoClose={1500} />
 
 /**
- * Show success alert
- * @param {string} message - The message to show
- * @param {number} timer - Duration in milliseconds before auto-close (default 1000ms)
+ * Show success toast
+ * @param {string} message - ข้อความที่จะแสดง
+ * @param {number} timer - ระยะเวลาก่อนปิดอัตโนมัติ (ms)
+ * @param {string} type - ประเภท toast: "success" | "error" | "info" | "warning"
  */
-export const SuccessAlert = (message, timer = 1500, icon = "success") => {
-Swal.fire({
-  position: "center",
-  icon: icon,
-  title: message,
-  showConfirmButton: false,
-  timer: timer
-});
+export const SuccessAlert = (message, timer = 1500, type = "success") => {
+  toast(message, {
+    position: "top-right",
+    autoClose: timer,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    type: type,
+    style: {
+    fontFamily: "'Noto Sans Lao', sans-serif",
+  },
+  });
 };

@@ -1,9 +1,11 @@
 import { Wrench, X } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useState, useEffect } from "react";
-import { getServiceById, updateService } from "../../../api/Service";
+// import { getServiceById, updateService } from "../../../api/Service";
 
 import Spinner from "../../../utils/Loading";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
 
 
 const EditService = ({ show, onClose, serviceId }) => {
@@ -20,7 +22,7 @@ const EditService = ({ show, onClose, serviceId }) => {
     const fetchDataById = async () => {
       if (!serviceId) return;
       try {
-        const res = await getServiceById(serviceId);
+        const res = await axiosInstance.get(APIPath.SELECT_ONE_SERVICE(serviceId));
         const data = res?.data?.data;
         setFormData({
           serviceName: data?.serviceName || "",
@@ -52,7 +54,8 @@ const EditService = ({ show, onClose, serviceId }) => {
     if (formData.image instanceof File) data.append("image", formData.image);
 
     try {
-      await updateService(serviceId, data);
+      // await updateService(serviceId, data);
+      await axiosInstance.put(APIPath.UPDATE_SERVICE(serviceId), data);
       SuccessAlert("ແກ້ໄຂຂໍ້ມູນສຳເລັດ");
       onClose();
     } catch (error) {

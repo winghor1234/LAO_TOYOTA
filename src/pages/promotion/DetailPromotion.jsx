@@ -1,9 +1,11 @@
 import { FaTools } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getPromotionById } from "../../api/Promotion";
+// import { getPromotionById } from "../../api/Promotion";
 import Spinner from "../../utils/Loading";
 import { BackButton } from "../../utils/BackButton";
+import axiosInstance from "../../utils/AxiosInstance";
+import APIPath from "../../api/APIPath";
 
 const DetailPromotion = () => {
     const { id } = useParams();
@@ -13,7 +15,7 @@ const DetailPromotion = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await getPromotionById(id);
+                const res = await axiosInstance.get(APIPath.SELECT_ONE_PROMOTION(id));
                 setPromotionData(res?.data?.data);
             } catch (error) {
                 console.error("Error loading promotion details:", error);

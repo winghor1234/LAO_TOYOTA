@@ -3,9 +3,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userRegister } from "../../../api/Auth";
+// import { userRegister } from "../../../api/Auth";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { z } from "zod";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
 
 // Zod schema สำหรับ register
 export const registerSchema = z.object({
@@ -31,7 +33,7 @@ export const useRegisterForm = () => {
   const submitForm = async (data) => {
     setLoading(true);
     try {
-      await userRegister(data);
+      await axiosInstance.post(APIPath.REGISTER, data)
       SuccessAlert("ລົງທະບຽນສຳເລັດ", 1500, "success");
       navigate("/login");
 

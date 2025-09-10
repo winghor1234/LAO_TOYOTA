@@ -3,14 +3,19 @@ import { FaCar } from "react-icons/fa";
 import PopupApprove from "./PopupApprove";
 import RejectZone from "./RejectZone";
 import { BackButton } from "../../../utils/BackButton";
-import { useParams } from "react-router-dom";
-import { getBookingById } from "../../../api/Booking";
+import { useParams, useSearchParams } from "react-router-dom";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
+// import { getBookingById } from "../../../api/Booking";
 
 // Main ReceiverCarDetail Component
 const ReceiverCarDetail = () => {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const timeId = searchParams.get("time");
   const bookingId = id;
-  console.log(bookingId);
+  // console.log(timeId);
+  // console.log(bookingId);
   // console.log(id);
   const [data, setData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
@@ -19,7 +24,7 @@ const ReceiverCarDetail = () => {
 
   const fetchBooking = async () => {
     try {
-      const res = await getBookingById(id);
+      const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId))
       // console.log("  data:", res?.data?.data);
       setData(res?.data?.data);
     } catch (error) {
@@ -155,7 +160,7 @@ const ReceiverCarDetail = () => {
 
       {/* Popups */}
       {showPopup && (
-        <PopupApprove setShowPopup={setShowPopup} bookingId={bookingId} />
+        <PopupApprove setShowPopup={setShowPopup} bookingId={bookingId} timeId={timeId} />
       )}
       {rejectZone && (
         <RejectZone setRejectZone={setRejectZone} />

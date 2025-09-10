@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { createPromotion } from "../../../api/Promotion";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
+import axios from "axios";
+import APIPath from "../../../api/APIPath";
 
 // Zod schema
  const promoSchema = z.object({
-  title: z.string().min(2, { message: "ຊື່ໂປຣໂມຊັ່ນຕ້ອງຢ່າงນ້ອຍ 2 ຕົວ" }),
-  detail: z.string().min(5, { message: "ລາຍລະອຽດຕ້ອງຢ່າงน້ອຍ 5 ຕົວ" }),
+  title: z.string().min(2, { message: "ຊື່ໂປຣໂມຊັ່ນຕ້ອງຢ່າງນ້ອຍ 2 ຕົວ" }),
+  detail: z.string().min(5, { message: "ລາຍລະອຽດຕ້ອງຢ່າງນ້ອຍ 5 ຕົວ" }),
   image: z.any().optional()
 });
 
@@ -32,7 +33,7 @@ export const usePromotionForm = (onClose) => {
     }
 
     try {
-      await createPromotion(formData);
+      await axios.post(APIPath.CREATE_PROMOTION, formData);
       SuccessAlert("ເພີ່ມຂໍ້ມູນສໍາເລັດ");
       onClose();
       // reset fields

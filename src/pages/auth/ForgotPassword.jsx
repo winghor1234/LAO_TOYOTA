@@ -1,46 +1,9 @@
-import { useState } from 'react';
-import { Eye, EyeOff, Mail, Lock, PhoneCall, Phone } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { forgotPassword } from '../../api/Auth';
+import { Eye, EyeOff, Lock, Phone } from 'lucide-react';
+import { ForgotPasswordForm } from '../../component/schemaValidate.jsx/authValidate/ForgotPasswordValidate';
 
 
 const ForgotPassword = () => {
-    const [showPassword, setShowPassword] = useState(false);
-    const [formData, setFormData] = useState({
-        phoneNumber: '',
-        newPassword: ''
-    });
-    const [loading, setLoading] = useState(false);
-
-    const navigate = useNavigate();
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-
-        const data = new URLSearchParams();
-        data.append("phoneNumber", formData.phoneNumber);
-        data.append("newPassword", formData.newPassword);
-
-        try {
-            const res = await forgotPassword(data);
-            console.log("Password reset successful:", res.data);
-            alert('เปลี่ยนรหัสผ่านสำเร็จ');
-            navigate('/login'); // ไปหน้า login หลังเปลี่ยนรหัสผ่านสำเร็จ
-        } catch (error) {
-            console.error("Password reset failed:", error);
-            alert('เปลี่ยนรหัสผ่านไม่สำเร็จ กรุณาตรวจสอบข้อมูล');
-        } finally {
-            setLoading(false);
-        }
-    };
+    const { showPassword, setShowPassword, loading, register, handleSubmit, errors, submitForm } = ForgotPasswordForm();
 
     return (
         <div className="bg-gradient-to-br from-red-300 to-white min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -56,7 +19,7 @@ const ForgotPassword = () => {
                     ປ່ຽນລະຫັດຜ່ານ
                 </h2>
 
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                <form className="mt-8 space-y-6" onSubmit={handleSubmit(submitForm)}>
                     <div className="space-y-4">
                         {/* Phone Number */}
                         <div>
@@ -69,22 +32,22 @@ const ForgotPassword = () => {
                                 </div>
                                 <div className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus-within:outline-none focus-within:ring-red-500 focus-within:border-red-500 focus-within:z-10 sm:text-sm focus-within:caret-red-500">
                                     <input
-                                        name="phoneNumber"
+                                        {...register('phoneNumber')}
                                         type="number"
-                                        required
-                                        value={formData.phoneNumber}
-                                        onChange={handleChange}
                                         className='w-full outline-none border-none focus:text-red-500'
                                         placeholder="phone number"
                                     />
                                 </div>
+                            </div>
+                            <div className='h-7'>
+                                {errors.phoneNumber && <span className='text-red-500'>{errors.phoneNumber.message}</span>}
                             </div>
                         </div>
 
                         {/* New Password */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                                รหัสผ่านใหม่
+                                ລະຫັດຜ່ານໃໝ່
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -92,11 +55,8 @@ const ForgotPassword = () => {
                                 </div>
                                 <div className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus-within:ring-red-500 focus-within:border-red-500 focus-within:z-10 sm:text-sm focus-within:caret-red-500">
                                     <input
-                                        name="newPassword"
+                                        {...register('newPassword')}
                                         type={showPassword ? 'text' : 'password'}
-                                        required
-                                        value={formData.newPassword}
-                                        onChange={handleChange}
                                         className='w-full outline-none border-none focus:text-red-500 '
                                         placeholder="new password"
                                     />
@@ -112,6 +72,9 @@ const ForgotPassword = () => {
                                         <Eye className="h-5 w-5 text-gray-400" />
                                     )}
                                 </button>
+                            </div>
+                            <div className='h-7'>
+                                {errors.newPassword && <span className='text-red-500'>{errors.newPassword.message}</span>}
                             </div>
                         </div>
                     </div>

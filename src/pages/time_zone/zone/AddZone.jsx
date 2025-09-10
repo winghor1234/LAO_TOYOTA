@@ -1,9 +1,11 @@
 import { Wrench, X } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useState } from "react";
-import { createZone, getAllTime } from "../../../api/Time_Zone";
+// import { createZone, getAllTime } from "../../../api/Time_Zone";
 import Spinner from "../../../utils/Loading";
 import { useEffect } from "react";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
 
 const AddZone = ({ show, onClose, fetchZone }) => {
 
@@ -26,7 +28,7 @@ const AddZone = ({ show, onClose, fetchZone }) => {
 
   const handleFetchTime = async () => {
     try {
-      const res = await getAllTime();
+      const res = await axiosInstance.get(APIPath.SELECT_ALL_TIME);
       // console.log("Fetched time :", res?.data?.data);
       setTime(res?.data?.data || []);
     } catch (error) {
@@ -48,7 +50,7 @@ const AddZone = ({ show, onClose, fetchZone }) => {
       data.append("timeFix", formData.timeFix);
 
 
-      await createZone(data);
+      await axiosInstance.post(APIPath.CREATE_ZONE, data);
       SuccessAlert("ເພີ່ມຂໍ້ມູນໂຊນສຳເລັດ")
       fetchZone();
       onClose();
@@ -100,7 +102,7 @@ const AddZone = ({ show, onClose, fetchZone }) => {
               required
               className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors">
               <option disabled>ເລືອກເວລາ</option>
-              {time.map((item) => (
+              {time.filter((item) => item.timeStatus !== false).map((item) => (
                 <option key={item.time_id} value={item.time_id}>
                   {item.time}
                 </option>

@@ -1,8 +1,9 @@
-import { Wrench, X } from "lucide-react";
+
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useState } from "react";
-import { createTime } from "../../../api/Time_Zone";
 import Spinner from "../../../utils/Loading";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
 
 const AddTime = ({ show, onClose , fetchTime }) => {
 
@@ -28,7 +29,7 @@ const AddTime = ({ show, onClose , fetchTime }) => {
       const data = new URLSearchParams();
       data.append("time", formData.time);
       data.append("date", formData.date);
-      await createTime(data);
+      await axiosInstance.post(APIPath.CREATE_TIME, data);
       SuccessAlert("ເພີ່ມຂໍ້ມູນລາງວັນສຳເລັດ")
       fetchTime();
       onClose();

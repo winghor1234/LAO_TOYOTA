@@ -1,27 +1,27 @@
 // layout.jsx
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { getToken, removeToken } from '../utils/Token';
+// import { getToken, removeToken } from '../utils/Token';
 import Sidebar from '../pages/Sidebar';
 import Header from '../pages/Header';
+import useToyotaStore from '../store/ToyotaStore';
+import { useNavigate } from 'react-router-dom';
 
 
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+  const token = useToyotaStore((state) => state.getToken());
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (!getToken()) {
-        removeToken();
-        window.location.href = "/login";
-      }
-    }, 5000); // เช็คทุก 5 วินาที
+    if (!token) {
+      navigate("/login", { replace: true });
+    }
+  }, [token, navigate]);
 
-    return () => clearInterval(interval);
-  }, []);
 
   return (
-    <div className=" flex h-screen bg-[#E2E8F0] relative overflow-hidden ">
+    <div className=" flex h-screen bg-[#E2E8F0] relative overflow-auto ">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <div className="flex-1 flex flex-col lg:ml-0">

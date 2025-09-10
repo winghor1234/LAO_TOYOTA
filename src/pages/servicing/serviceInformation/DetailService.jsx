@@ -1,9 +1,11 @@
 import { FaTools } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getServiceById } from "../../../api/Service";
+// import { getServiceById } from "../../../api/Service";
 import { BackButton } from "../../../utils/BackButton";
 import Spinner from "../../../utils/Loading";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
 
 
 const DetailService = () => {
@@ -14,7 +16,7 @@ const DetailService = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await getServiceById(id);
+                const res = await axiosInstance.get(APIPath.SELECT_ONE_SERVICE(id));
                 setServiceData(res?.data?.data);
             } catch (error) {
                 console.error("Error loading service details:", error);

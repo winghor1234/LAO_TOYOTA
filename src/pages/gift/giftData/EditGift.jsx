@@ -1,16 +1,16 @@
 import { Gift, Wrench, X } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useEffect, useState } from "react";
-
 import Spinner from "../../../utils/Loading";
-import { getGiftById, updateGift } from "../../../api/GIft";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
+// import { getGiftById, updateGift } from "../../../api/GIft";
 
 
 
 const EditGift = ({ show, onClose, giftId }) => {
 
   const [loading, setLoading] = useState(false);
-
   const [formData, setFormData] = useState({
     name: '',
     point: '',
@@ -20,7 +20,7 @@ const EditGift = ({ show, onClose, giftId }) => {
   useEffect(() => {
     const handleFetchGiftId = async () => {
       if (!giftId) return;
-      const res = await getGiftById(giftId);
+      const res = await axiosInstance.get(APIPath.SELECT_ONE_GIFT(giftId));
       const resData = res?.data?.data;
       setFormData({
         name: resData.name,
@@ -49,9 +49,8 @@ const EditGift = ({ show, onClose, giftId }) => {
     data.append('name', formData.name);
     data.append('point', formData.point);
     if (formData.image instanceof File) data.append('image', formData.image);
-
     try {
-      await updateGift(giftId, data);
+      await axiosInstance.put(APIPath.UPDATE_GIFT(giftId), data);
       // console.log("Update gift successful:", res.data);
       SuccessAlert("ແກ້ໄຂຂໍ້ມູນລາງວັນສຳເລັດ");
       onClose();

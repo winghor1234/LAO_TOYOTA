@@ -1,9 +1,10 @@
 import { Gift, Wrench, X } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useEffect, useState } from "react";
-import { getTimeById, updateTime } from "../../../api/Time_Zone";
 import Spinner from "../../../utils/Loading";
 import { formatDate } from "../../../utils/FormatDate";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
 
 
 
@@ -16,7 +17,7 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
 
     const handleFetchTime = async () => {
         if (!timeId) return;
-        const res = await getTimeById(timeId);
+        const res = await axiosInstance.get(APIPath.SELECT_ONE_TIME(timeId))
         const resData = res?.data?.data;
         setFormData({
             time: resData.time,
@@ -44,7 +45,8 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
         data.append('time', formData.time);
         data.append('date', formData.date);
         try {
-            await updateTime(timeId, data);
+            // await updateTime(timeId, data);
+            await axiosInstance.put(APIPath.UPDATE_TIME(timeId), data);
             // console.log("Update gift successful:", res.data);
             SuccessAlert("ແກ້ໄຂຂໍ້ມູນເວລາສຳເລັດ");
             fetchTime();

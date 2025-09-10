@@ -1,9 +1,11 @@
 import { Wrench, X } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import { createService } from "../../../api/Service";
+// import { createService } from "../../../api/Service";
 import { useState } from "react";
 
 import Spinner from "../../../utils/Loading";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
 
 
 const AddService = ({ show, onClose }) => {
@@ -33,7 +35,7 @@ const AddService = ({ show, onClose }) => {
     if (formData.image instanceof File) data.append("files", formData.image);
 
     try {
-      await createService(data);
+      await axiosInstance.post(APIPath.CREATE_SERVICE, data);
       SuccessAlert("ເພີ່ມຂໍ້ມູນສໍາເລັດ");
       setFormData({
         nameService: "",

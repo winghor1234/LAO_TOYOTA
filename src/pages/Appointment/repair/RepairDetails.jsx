@@ -3,7 +3,9 @@ import { FaCar } from "react-icons/fa";
 import PopupRepair from "./PopupRepair";
 import { BackButton } from "../../../utils/BackButton";
 import { useParams } from "react-router-dom";
-import { getBookingById } from "../../../api/Booking";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
+// import { getBookingById } from "../../../api/Booking";
 
 // Main RepairDetails Component
 const RepairDetails = () => {
@@ -16,7 +18,7 @@ const RepairDetails = () => {
 
   const fetchData = async () => {
     try {
-      const res = await getBookingById(id);
+      const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(id));
       console.log(" res data:", res?.data?.data);
       setFixData(res?.data?.data);
     } catch (error) {

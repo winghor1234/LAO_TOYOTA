@@ -13,12 +13,16 @@ import {
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../assets/logo.jpg'
+import useToyotaStore from "../store/ToyotaStore";
+// import { removeToken } from "../utils/Token";
 
 
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const removeToken = useToyotaStore.getState().removeToken;
+
 
 
   const currentPath = location.pathname;
@@ -33,18 +37,19 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    removeToken();
     navigate("/login");
   };
   const SideBarItems = [
     { icon: <Home className='w-5 h-5' />, label: 'Dashboard', path: '/user/dashboard', isActive: isDashboardPath },
     { icon: <Users className='w-5 h-5' />, label: 'ນັດໝາຍ', path: '/user/appointment', isActive: isAppointmentPath },
+    { icon: <Clock className='w-5 h-5' />, label: 'ຈັດການໂຊນ/ເວລາ', path: '/user/time-zone', isActive: isTimePath },
     { icon: <Gift className='w-5 h-5' />, label: 'ໂປຣໂມຊັ່ນ', path: '/user/promotion', isActive: isPromotionPath },
     { icon: <Calendar className='w-5 h-5' />, label: 'ລາງວັນ', path: '/user/gift', isActive: isGiftPath },
     { icon: <Car className='w-5 h-5' />, label: 'ຂໍ້ມູນລົດ', path: '/user/vehicle', isActive: isVehiclePath },
-    { icon: <User className='w-5 h-5' />, label: 'ຂໍ້ມູນລູກຄ້າ', path: '/user/user', isActive: isUserPath },
+    { icon: <User className='w-5 h-5' />, label: 'ຜູ້ດູເເລລະບົບ', path: '/user/user', isActive: isUserPath },
+    // { icon: <UserPen className='w-5 h-5' />, label: 'ຜູ້ດູເເລລະບົບ', path: '/user/user', isActive: isUserPath },
     { icon: <Settings className='w-5 h-5' />, label: 'ບໍລິການ', path: '/user/servicing', isActive: isServicePath },
-    { icon: <Clock className='w-5 h-5' />, label: 'ຈັດການໂຊນ/ເວລາ', path: '/user/time-zone', isActive: isTimePath },
   ];
 
   return (

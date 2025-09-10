@@ -31,8 +31,9 @@ import GiftHistoryList from "../pages/gift/giftHistory/GiftHistoryList";
 import Time_Zone from "../pages/time_zone/Time_Zone";
 import TimeData from "../pages/time_zone/time/Time";
 import ZoneData from "../pages/time_zone/zone/Zone";
+import TimeDetail from "../pages/time_zone/time/TimeDetail";
+import ZoneDetail from "../pages/time_zone/zone/ZoneDetail";
 import User from "../pages/user/User";
-// import User from "../pages/user/User";
 
 
 
@@ -169,7 +170,15 @@ const router = createBrowserRouter([
       {
         path: "promotion-detail/:id",
         element: <DetailPromotion />
-      }
+      },
+      {
+        path: 'timeDetail/:id',
+        element: <TimeDetail/>
+      },
+      {
+        path: 'zoneDetail/:id',
+        element: <ZoneDetail/>
+      },
 
 
     ],

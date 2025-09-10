@@ -1,5 +1,10 @@
 import { Users, Clock, Gift, Ticket, Car, Wrench, PlusCircle, FileText, Clock3 } from "lucide-react"
 import { PieChart, Pie, Cell, ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
+// import { getAllUsers } from "../../api/Auth";
+import { useEffect, useState } from "react";
+import axiosInstance from "../../utils/AxiosInstance";
+import APIPath from "../../api/APIPath";
+// import { getPromotions } from "../../api/Promotion";
 
 const dataCircle = [{ name: "Complete", value: 40 }, { name: "Remaining", value: 100 }];
 const COLORS = ["#E52020", "#F0F0F0"];
@@ -19,16 +24,7 @@ const dataLine = [
     { name: "Dec", value: 500 },
 ];
 
-const dashboardItems = [
-    { title: "ຂໍ້ມູນຜູ້ໃຊ້ງານທັງໝົດ", value: "1921", icon: <Users className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-    { title: "ຂາຍ", value: "1420", icon: <Clock className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-    { title: "ໂປໂມຊັນ", value: "194", icon: <Gift className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-    { title: "ລວມລາຍວັນ", value: "3102", icon: <Ticket className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-    { title: "ຂໍ້ມູນລົດ", value: "1921", icon: <Car className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-    { title: "ບໍລິການ", value: "1420", icon: <Wrench className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-    { title: "ຈັດການໂຄງ/ເວລາ", value: "194", icon: <Clock3 className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-    { title: "ລິດຕິ້ງໃຊ້ງານ", value: "3102", icon: <FileText className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-]
+
 
 
 const appointments = [
@@ -72,6 +68,38 @@ const appointments = [
 ]
 
 const Dashboard = () => {
+    const [users, setUsers] = useState([]);
+    const [promotions, setPromotions] = useState([]);
+
+    const fetchUsers = async () => {
+    try {
+        const res = await axiosInstance.get(APIPath.SELECT_ALL_USER);
+        const resp = await axiosInstance.get(APIPath.SELECT_ALL_PROMOTION);
+        setPromotions(resp?.data?.data);
+        // console.log("Users:", res?.data?.data);
+        setUsers(res?.data?.data);
+    } catch (error) {
+    console.log(error);
+    }
+};
+
+
+useEffect(() => {
+    fetchUsers();
+})
+
+const dashboardItems = [
+    { title: "ຂໍ້ມູນຜູ້ໃຊ້ງານທັງໝົດ", value: users.length, icon: <Users className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+    { title: "ຂາຍ", value: "1420", icon: <Clock className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+    { title: "ໂປໂມຊັນ", value: promotions.length, icon: <Gift className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+    { title: "ລວມລາຍວັນ", value: "3102", icon: <Ticket className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+    { title: "ຂໍ້ມູນລົດ", value: "1921", icon: <Car className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+    { title: "ບໍລິການ", value: "1420", icon: <Wrench className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+    { title: "ຈັດການໂຄງ/ເວລາ", value: "194", icon: <Clock3 className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+    { title: "ລິດຕິ້ງໃຊ້ງານ", value: "3102", icon: <FileText className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+]
+
+
     return (
         <div className="p-4 bg-gray-50 min-h-screen">
             {/* Dashboard Grid Cards */}

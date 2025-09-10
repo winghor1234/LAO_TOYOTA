@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { deleteZone, getAllZone, updateZoneStatus } from "../../../api/Time_Zone";
 import { DeleteAlert } from "../../../utils/handleAlert/DeleteAlert";
 import { filterByDateRange } from "../../../utils/FilterDate";
 import { filterSearch } from "../../../utils/FilterSearch";
-import { Car, Edit, Eye, Trash } from "lucide-react";
+import {  Clock1, Clock3, Edit,  MapPinned, Trash } from "lucide-react";
 import SelectDate from "../../../utils/SelectDate";
 import AddZone from "./AddZone";
 import EditZone from "./EditZone";
-
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
 
 
 
@@ -19,10 +20,11 @@ const ZoneData = () => {
     const [search, setSearch] = useState("");
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+    const navigate = useNavigate();
 
     const fetchZone = async () => {
         try {
-            const res = await getAllZone();
+            const res = await axiosInstance.get(APIPath.SELECT_ALL_ZONE);
             // console.log("Fetched zone :", res?.data?.data);
             setZone(res?.data?.data || []);
         } catch (error) {
@@ -33,27 +35,27 @@ const ZoneData = () => {
         fetchZone();
     }, []);
 
-    const handleToggleStatus = async (id, currentStatus) => {
-        try {
-            // Call API to update status
-            await updateZoneStatus(id, { zoneStatus: !currentStatus });
+    // const handleToggleStatus = async (id, currentStatus) => {
+    //     try {
+    //         // Call API to update status
+    //         await updateZoneStatus(id, { zoneStatus: !currentStatus });
 
-            // Update frontend list immediately (optimistic update)
-            setZone((prev) =>
-                prev.map((t) =>
-                    t.zone_id === id ? { ...t, zoneStatus: !currentStatus } : t
-                )
-            );
-        } catch (error) {
-            console.error("Failed to update status:", error);
-        }
-    };
+    //         // Update frontend list immediately (optimistic update)
+    //         setZone((prev) =>
+    //             prev.map((t) =>
+    //                 t.zone_id === id ? { ...t, zoneStatus: !currentStatus } : t
+    //             )
+    //         );
+    //     } catch (error) {
+    //         console.error("Failed to update status:", error);
+    //     }
+    // };
 
 
     const handleDelete = async (id) => {
         const confirmDelete = await DeleteAlert("ວ່າຈະລົບຂໍ້ມູນລາງວັນນີ້ບໍ່?", "ລົບຂໍ້ມູນລາງວັນສຳເລັດ");
         if (confirmDelete) {
-            await deleteZone(id);
+            await axiosInstance.delete(APIPath.DELETE_ZONE(id));
             fetchZone(); // Refresh the list after deletion
 
         }
@@ -86,47 +88,26 @@ const ZoneData = () => {
                     </button>
                 </div>
             </div>
-            {/* Data Table */}
-            <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full">
-                {/* Desktop/Tablet Table Header (hidden on mobile) */}
-                <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
-                    <div className="grid grid-cols-5 gap-3 md:gap-8 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-base lg:text-lg">
-                        <div className="flex justify-center items-center">ລຳດັບ</div>
-                        <div className="flex justify-center items-center">ຊື່ໂຊນ</div>
-                        <div className="flex justify-center items-center">ເວລາສ້ອມແປງ</div>
-                        <div className="flex justify-center items-center">ສະຖານະ</div>
-                        <div className="flex justify-center items-center">ດຳເນີນການ</div>
-                    </div>
-                </div>
+            <div className="grid grid-col-6 lg:grid-cols-6 overflow-y-auto lg:items-center gap-4 lg:gap-6 mb-6  ">
 
-                {/* Desktop/Tablet Table Body (hidden on mobile) */}
-                <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
-                    {
-                        filteredZone?.map((item, index) => (
-                            <div key={index} className="grid grid-cols-5 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
-                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
-                                    {index + 1}
+                {
+                    filteredZone?.map((item, index) => (
+                        // <div className={`flex flex-col items-center justify-start py-2 gap-2 ${item.zoneStatus ? "bg-green-600 text-white " : "bg-[#E52020] text-white "} px-2 rounded-r cursor-pointer`}>
+                            <div key={index} className="flex justify-center hover:shadow-xl ">
+                                <div onClick={() => navigate(`/user/zoneDetail/${item.zone_id}`)} key={index} className={` ${item.zoneStatus ? "bg-green-600 text-white " : "bg-[#E52020] text-white "} text-white w-full flex flex-col gap-2 px-4 py-2  rounded-l  cursor-pointer shadow-2xl`}>
+                                    <div className="flex items-center justify-start gap-3 text-md">
+                                        <MapPinned />
+                                        {item.zoneName}
+                                    </div>
+                                    <div className="flex items-center justify-start gap-3 text-md">
+                                        <Clock3/>
+                                        {item.timeFix} ນາທີ
+                                    </div>
+                                    <div className="mt-2 flex items-center justify-center">
+                                        <p className="text-2xl">{item.zoneStatus ? "ຫວ່າງ" : "ເຕັມ"}</p>
+                                    </div>
                                 </div>
-                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
-                                    {item.zoneName}
-                                </div>
-                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
-                                    {item.timeFix}
-                                </div>
-                                <div className="flex justify-center items-center">
-                                    <button
-                                        type="button"
-                                        onClick={() => handleToggleStatus(item.zone_id, item.zoneStatus)}
-                                        className={`px-3 py-1 cursor-pointer rounded-lg text-xs md:text-sm lg:text-base font-medium flex justify-center items-center transition-colors ${item.zoneStatus
-                                            ? "bg-green-600 text-white hover:bg-green-500"
-                                            : "bg-red-600 text-white hover:bg-red-500"
-                                            }`}
-                                    >
-                                        {item.zoneStatus ? "ຫວ່າງ" : "ເຕັມ"}
-                                    </button>
-                                </div>
-                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-6">
-                                    <Eye />
+                                <div className={`flex flex-col items-center justify-start py-2 gap-2 ${item.zoneStatus ? "bg-green-600 text-white " : "bg-[#E52020] text-white "} px-2 rounded-r cursor-pointer`}>
                                     <Edit onClick={() => {
                                         setShowEditZone(true);
                                         setZoneId(item.zone_id);
@@ -134,49 +115,15 @@ const ZoneData = () => {
                                     <Trash onClick={() => handleDelete(item.zone_id)} />
                                 </div>
                             </div>
-                        ))
-                    }
-                </div>
-
-                {/* Mobile Card Layout (visible only on mobile) */}
-                <div className="md:hidden divide-y divide-gray-200">
-                    <div className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
-                        <div className="flex items-center gap-3 mb-3">
-                            <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
-                                <Car className="text-gray-600 w-6 h-6" />
-                            </div>
-                            <div className="flex-1">
-                                <h3 className="font-semibold text-lg text-gray-900"></h3>
-                                <p className="text-gray-600 text-base"></p>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-1 gap-2 text-base">
-                            <div className="flex justify-between py-1">
-                                <span className="text-gray-500 font-medium">ໂທ:</span>
-                                <span className="font-medium text-gray-900"></span>
-                            </div>
-                            <div className="flex justify-between py-1">
-                                <span className="text-gray-500 font-medium">ປ້າຍ:</span>
-                                <span className="font-medium text-gray-900"></span>
-                            </div>
-                            <div className="flex justify-between py-1">
-                                <span className="text-gray-500 font-medium">ວັນທີ:</span>
-                                <span className="font-medium text-gray-900"></span>
-                            </div>
-                            <div className="flex justify-between py-1">
-                                <span className="text-gray-500 font-medium">ເວລາ:</span>
-                                <span className="font-medium text-gray-900"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        // </div>
+                    ))
+                }
+                {/* Edit Zone Popup */}
+                <EditZone show={showEditZone} onClose={() => setShowEditZone(false)} zoneId={zoneId} fetchZone={fetchZone} />
+                {/* Add Zone Popup */}
+                <AddZone show={showAddZone} onClose={() => setShowAddZone(false)} fetchZone={fetchZone} />
             </div>
-            {/* Edit Zone Popup */}
-            <EditZone show={showEditZone} onClose={() => setShowEditZone(false)} zoneId={zoneId} fetchZone={fetchZone} />
-            {/* Add Zone Popup */}
-            <AddZone show={showAddZone} onClose={() => setShowAddZone(false)} fetchZone={fetchZone} />
         </div>
-    )
-}
-
+    );
+};
 export default ZoneData;

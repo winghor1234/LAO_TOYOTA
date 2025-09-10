@@ -2,10 +2,9 @@ import { BackButton } from '../../utils/BackButton';
 import { Car } from 'lucide-react';
 import { SuccessAlert } from '../../utils/handleAlert/SuccessAlert';
 import { useEffect, useState } from 'react';
-import { createCar } from '../../api/Car';
-import { getAllUsers } from '../../api/Auth';
-
-const AddCarFormPopup = ({ show, onClose}) => {
+import axiosInstance from '../../utils/AxiosInstance';
+import APIPath from '../../api/APIPath';
+const AddCarFormPopup = ({ show, onClose , handleFetchCar}) => {
   const [users, setUsers] = useState([]);
 
   const [formData, setFormData] = useState({
@@ -19,7 +18,7 @@ const AddCarFormPopup = ({ show, onClose}) => {
 
   const fetchUsers = async () => {
     try {
-      const res = await getAllUsers();
+      const res = await axiosInstance.get(APIPath.SELECT_ALL_USER);
       console.log("Users:", res?.data?.data);
       setUsers(res?.data?.data);
     } catch (error) {
@@ -52,7 +51,8 @@ const AddCarFormPopup = ({ show, onClose}) => {
       data.append('plateNumber', formData.plateNumber);
       data.append('province', formData.province);
       // console.log();
-      await createCar(data);
+      await axiosInstance.post(APIPath.CREATE_CAR, data);
+      handleFetchCar();
       SuccessAlert("ເພີ່ມຂໍ້ມູນລົດສຳເລັດ");
       onClose();
     } catch (error) {

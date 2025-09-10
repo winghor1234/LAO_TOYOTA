@@ -4,11 +4,13 @@ import { DeleteAlert } from "../../../utils/handleAlert/DeleteAlert";
 import { useState } from "react";
 import AddService from "./AddService";
 import SelectDate from "../../../utils/SelectDate";
-import { deleteService, getAllService } from "../../../api/Service";
+// import { deleteService, getAllService } from "../../../api/Service";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { filterSearch } from "../../../utils/FilterSearch";
 import { filterByDateRange } from "../../../utils/FilterDate";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
 
 
 const ServiceInformation = () => {
@@ -23,7 +25,7 @@ const ServiceInformation = () => {
 
     const handleFetchService = async () => {
         try {
-            const res = await getAllService();
+            const res = await axiosInstance.get(APIPath.SELECT_ALL_SERVICE);
             setServices(res?.data?.data);
         } catch (error) {
             console.error("Failed to fetch services:", error);
@@ -34,7 +36,7 @@ const ServiceInformation = () => {
         try {
             const confirmDelete = await DeleteAlert("ທ່ານຕ້ອງການລົບຂໍໍ້ມູນນີ້ບໍ?", "ການລົບຂໍໍ້ມູນສຳເລັດ");
             if (confirmDelete) {
-                await deleteService(selectedService);
+                await axiosInstance.delete(APIPath.DELETE_SERVICE(selectedService));
                 handleFetchService();
             }
         } catch (error) {

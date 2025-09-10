@@ -1,49 +1,8 @@
-import { useState } from 'react';
-import { Eye, EyeOff, Mail, Lock, Phone } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { login } from '../../api/Auth';
-import { saveToken } from '../../utils/Token';
-import { SuccessAlert } from '../../utils/handleAlert/SuccessAlert';
+import { Eye, EyeOff, Lock, Phone } from 'lucide-react';
+import { LoginForm } from '../../component/schemaValidate.jsx/authValidate/LoginValidate';
 
 const Login = () => {
-    const [showPassword, setShowPassword] = useState(false);
-    const [formData, setFormData] = useState({
-        phoneNumber: '',
-        password: ''
-    });
-    const [loading, setLoading] = useState(false);
-
-    const navigate = useNavigate();
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-
-        const data = new URLSearchParams();
-        data.append("phoneNumber", formData.phoneNumber);
-        data.append("password", formData.password);
-
-        try {
-            const res = await login(data);
-            const token = res.data.data.token;
-            saveToken(token);
-            navigate('/user/dashboard');
-
-        } catch (error) {
-            SuccessAlert("ມີບາຢ່າງຜິດພາດ!!!", "1500", "error");
-            console.error("Login failed:", error);
-
-        } finally {
-            setLoading(false);
-        }
-    };
+    const { showPassword, setShowPassword, loading, register, handleSubmit, errors, submitForm } = LoginForm();
 
     return (
         <div className="bg-gradient-to-br from-red-300 to-white min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -64,7 +23,7 @@ const Login = () => {
                     </p>
                 </div>
 
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                <form className="mt-8 space-y-6" onSubmit={handleSubmit(submitForm)}>
                     <div className="space-y-4">
                         {/* Phone Input */}
                         <div>
@@ -76,15 +35,14 @@ const Login = () => {
                                     <Phone className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
-                                    id="phoneNumber"
-                                    name="phoneNumber"
+                                    {...register('phoneNumber')}
                                     type="number"
-                                    required
-                                    value={formData.phoneNumber}
-                                    onChange={handleChange}
                                     className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
-                                    placeholder="your phone number"
+                                    placeholder="ເບີໂທລະສັບ..."
                                 />
+                            </div>
+                            <div className='mt-1 h-7'>
+                                {errors.phoneNumber && <p className="text-red-500 text-xs ">{errors.phoneNumber.message}</p>}
                             </div>
                         </div>
 
@@ -100,14 +58,10 @@ const Login = () => {
 
                                 <div className="appearance-none relative block w-full px-3 py-3 pl-10 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus-within:ring-red-500 focus-within:border-red-500 focus-within:z-10 sm:text-sm focus-within:caret-red-500">
                                     <input
-                                        id="password"
-                                        name="password"
+                                        {...register('password')}
                                         type={showPassword ? 'text' : 'password'}
-                                        required
-                                        value={formData.password}
-                                        onChange={handleChange}
                                         className='w-full outline-none border-none '
-                                        placeholder="password..."
+                                        placeholder="ລະຫັດຜ່ານ..."
                                     />
                                 </div>
                                 <button
@@ -121,6 +75,9 @@ const Login = () => {
                                         <Eye className="h-5 w-5 text-gray-400" />
                                     )}
                                 </button>
+                            </div>
+                            <div className='mt-1 h-7'>
+                                {errors.password && <p className="text-red-500 text-xs">{errors.password.message}</p>}
                             </div>
                         </div>
                     </div>

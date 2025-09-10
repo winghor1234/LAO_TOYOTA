@@ -1,11 +1,14 @@
 
 import { useEffect, useState } from "react";
-import { getAllZone } from "../../../api/Time_Zone";
-import { createFix } from "../../../api/Fix";
+// import { updateTimeStatus } from "../../../api/Time_Zone";
+// import { createFix } from "../../../api/Fix";
 import { useNavigate } from "react-router-dom";
-import { updateBookingStatus } from "../../../api/Booking";
+// import { updateBookingStatus } from "../../../api/Booking";
+import axios from "axios";
+import APIPath from "../../../api/APIPath";
+import axiosInstance from "../../../utils/AxiosInstance";
 
-const PopupApprove = ({ setShowPopup, bookingId }) => {
+const PopupApprove = ({ setShowPopup, bookingId, timeId }) => {
   const [zone, setZone] = useState([]);
   const [formData, setFormData] = useState({ zone_id: "" }); // ✅ ต้องเป็น object
   const navigate = useNavigate();
@@ -14,7 +17,7 @@ const PopupApprove = ({ setShowPopup, bookingId }) => {
   // Fetch zones
   const fetchZone = async () => {
     try {
-      const res = await getAllZone();
+      const res = await axios.get(APIPath.SELECT_ALL_ZONE);
       console.log("Fetched zone :", res?.data?.data);
       setZone(res?.data?.data);
     } catch (error) {
@@ -22,21 +25,29 @@ const PopupApprove = ({ setShowPopup, bookingId }) => {
     }
   }
 
+
+
   // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!bookingId || !formData.zone_id) {
+    if (!bookingId || !formData.zone_id || !timeId) {
       return;
     }
-    
+
     try {
       // ต้องตรงกับ backend: bookingId และ zoneId
       const data = new URLSearchParams();
       data.append("bookingId", bookingId); // ✅ เปลี่ยนจาก booking_id
       data.append("zoneId", formData.zone_id); // ✅ เปลี่ยนจาก zone_id
-      await createFix(data);
-      await updateBookingStatus( bookingId, { bookingStatus: "success"} );
+      await Promise.all([
+        // createFix(data),
+        // updateBookingStatus(bookingId, { bookingStatus: "success" }),
+        // updateTimeStatus(timeId, { timeStatus: "false" })
+        axiosInstance.post(APIPath.CREATE_FIX, data),
+        axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "success" }),
+        axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "false" })
+      ]);
       setShowPopup(false);
       navigate("/user/appointment");
 

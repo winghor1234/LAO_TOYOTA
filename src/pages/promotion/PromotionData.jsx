@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { deletePromotion, getPromotions } from "../../api/Promotion";
+// import { deletePromotion, getPromotions } from "../../api/Promotion";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 import { filterSearch } from "../../utils/FilterSearch";
 import { filterByDateRange } from "../../utils/FilterDate";
@@ -10,6 +10,8 @@ import EditPromotion from "./EditPromotion";
 import SelectDate from "../../utils/SelectDate";
 import { Car, Edit, Eye, Trash } from "lucide-react";
 import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
+import axiosInstance from "../../utils/AxiosInstance";
+import APIPath from "../../api/APIPath";
 
 const PromotionData = () => {
 
@@ -25,7 +27,7 @@ const PromotionData = () => {
 
     const handleFetchPromotion = async () => {
         try {
-            const res = await getPromotions();
+            const res = await axiosInstance.get(APIPath.SELECT_ALL_PROMOTION);
             setPromotions(res?.data?.data);
         } catch (error) {
             console.error("Failed to fetch promotions:", error);
@@ -36,7 +38,7 @@ const PromotionData = () => {
         try {
             const confirmDelete = await DeleteAlert("ທ່ານຕ້ອງການລົບຂໍໍ້ມູນນີ້ບໍ?", "ການລົບຂໍໍ້ມູນສຳເລັດ");
             if (confirmDelete) {
-                await deletePromotion(selectedPromotion);
+                await axiosInstance.delete(APIPath.DELETE_PROMOTION(selectedPromotion));
                 handleFetchPromotion();
             }
         } catch (error) {
