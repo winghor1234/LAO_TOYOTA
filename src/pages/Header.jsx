@@ -48,7 +48,7 @@ useEffect(() => {
     navigate("/user/profile");
   };
 
-  const unreadCount = booking.filter((item) => item.bookingStatus !== "success").length;
+  const unreadCount = booking.filter((item) => item.bookingStatus === "await").length;
 
   return (
     <header className="bg-white w-full shadow-sm border-b border-gray-200">
@@ -91,7 +91,7 @@ useEffect(() => {
                 ) : (
                   <>
                     {booking
-                      .filter((item) => item.bookingStatus !== "success")
+                      .filter((item) => item.bookingStatus === "await")
                       .map((note) => (
                         <div
                           key={note.booking_id}

@@ -52,7 +52,7 @@ export const ProfileUpdateForm = () => {
             }
         };
         fetchProfile();
-    }, [setValue]);
+    }, []);
 
     // 🔹 submit form
     const submitForm = async (data) => {

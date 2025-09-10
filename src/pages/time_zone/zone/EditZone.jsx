@@ -44,7 +44,7 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
 
     useEffect(() => {
         handleFetchZone();
-    }, [zoneId]);
+    }, []);
     // console.log(zoneId)
 
     const handleOnChange = (e) => {

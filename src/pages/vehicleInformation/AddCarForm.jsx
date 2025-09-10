@@ -19,7 +19,7 @@ const AddCarFormPopup = ({ show, onClose , handleFetchCar}) => {
   const fetchUsers = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ALL_USER);
-      console.log("Users:", res?.data?.data);
+      // console.log("Users:", res?.data?.data);
       setUsers(res?.data?.data);
     } catch (error) {
       console.log(error);

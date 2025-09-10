@@ -12,7 +12,7 @@ export default class APIPath {
     static CHANGE_PASSWORD = `${this.BASE_URL}/user/changePassword`;
     static REFRESH = `${this.BASE_URL}/user/refresh`;
     static UPDATE_PROFILE = `${this.BASE_URL}/user/update`;
-    static DELETE = `${this.BASE_URL}/user/delete`;
+    static DELETE_USER= `${this.BASE_URL}/user/delete`;
 
     // Gift Card API
     static SELECT_ALL_GIFT = `${this.BASE_URL}/giftcard/selAll`;
@@ -36,7 +36,7 @@ export default class APIPath {
     static SELECT_FIX_BY_STATUS = `${this.BASE_URL}/fix/selByStatus`;
     static CREATE_FIX = `${this.BASE_URL}/fix/insert`;
     static UPDATE_FIX(id) { return `${this.BASE_URL}/fix/update/${id}` }
-    static UPDATE_FIX_STATUS(id, data) { return `${this.BASE_URL}/fix/updateStatus/${id}`,data }
+    static UPDATE_FIX_STATUS(id) { return `${this.BASE_URL}/fix/updateStatus/${id}` }
     static DELETE_FIX(id) { return `${this.BASE_URL}/fix/delete/${id}` }
 
     // Promotion API

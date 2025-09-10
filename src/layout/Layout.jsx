@@ -17,7 +17,7 @@ const Layout = () => {
     if (!token) {
       navigate("/login", { replace: true });
     }
-  }, [token, navigate]);
+  }, []);
 
 
   return (

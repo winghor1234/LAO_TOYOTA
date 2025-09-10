@@ -50,7 +50,7 @@ const GiftData = () => {
         "createdAt" // field ที่เก็บวันที่
     );
 
-    fetchGifts();
+    // fetchGifts();
 
 
 

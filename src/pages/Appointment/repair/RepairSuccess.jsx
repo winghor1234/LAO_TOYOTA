@@ -1,12 +1,33 @@
 // RepairSuccess Component
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
+import { useEffect, useState } from "react";
 const RepairSuccess = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
+    const [fixData, setFixData] = useState([]);
 
     const handleBack = () => {
         navigate('/user/appointment/repair');
     };
+
+    console.log(fixData)
+    const fetchData = async () => {
+        try {
+            const res = await axiosInstance.get(APIPath.SELECT_ONE_FIX(id));
+            console.log(" res data:", res?.data?.data);
+            setFixData(res?.data?.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
 
     const repairData = {
         receiptNumber: "12345678",

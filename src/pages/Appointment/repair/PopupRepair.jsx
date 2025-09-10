@@ -21,7 +21,7 @@ const PopupRepair = ({ setShowPopup , bookingId }) => {
   const fetchFix = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ALL_FIX);
-      console.log(res?.data?.data);
+      // console.log(res?.data?.data);
       setFixes(res?.data?.data);
     } catch (error) {
       console.log(error);
@@ -40,7 +40,7 @@ const PopupRepair = ({ setShowPopup , bookingId }) => {
   const handleSubmit = async() => {
     try {
       const fixId = fixes.find((fix) => fix.bookingId === bookingId);
-      console.log("fixID : ",fixId);
+      // console.log("fixID : ",fixId);
       const BookingId = fixId?.bookingId;
       const ZoneId = fixId?.zoneId;
       const data = new URLSearchParams();
@@ -52,7 +52,7 @@ const PopupRepair = ({ setShowPopup , bookingId }) => {
 
       // await updateFixStatus(fixId.fix_id, data);
       await axiosInstance.put(APIPath.UPDATE_FIX_STATUS(fixId.fix_id), data);
-      navigate('/user/repairSuccess');
+      navigate(`/user/repairSuccess/${fixId.fix_id}`);
     } catch (error) {
       console.log(error);
     }

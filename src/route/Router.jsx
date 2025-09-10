@@ -94,7 +94,7 @@ const router = createBrowserRouter([
         element: <RepairDetails />
       },
       {
-        path: "repairSuccess",
+        path: "repairSuccess/:id",
         element: <RepairSuccess />
       },
       {

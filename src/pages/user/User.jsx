@@ -17,7 +17,7 @@ const User = () => {
   const [search, setSearch] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  
+
 
 
   const FilteredUser = filterByDateRange(
@@ -35,18 +35,15 @@ const User = () => {
     }
   }
 
-  const handleDeleteUser = async (id) => {
-    try {
-      const confirmedDelete = await DeleteAlert("ວ່າຈະລົບຂໍ້ມູນລູກຄ້າຄົນນີ້ບໍ່?", "ລົບຂໍ້ມູນລູກຄ້າສຳເລັດ");
-      if (confirmedDelete) {
-        await axiosInstance.delete(APIPath.DELETE_USER(id));
-        handleFetchUser();
-      }
-    } catch (error) {
-      console.log(error);
-      SuccessAlert("ລົບຂໍໍ້ມູນບໍ່ສຳເລັດ", 1500, "error");
-    }
-  }
+  // const handleDeleteUser = async (id) => {
+  //   const confirmedDelete = await DeleteAlert("ວ່າຈະລົບຂໍ້ມູນລູກຄ້າຄົນນີ້ບໍ່?", "ລົບຂໍ້ມູນລູກຄ້າສຳເລັດ");
+  //   if (confirmedDelete) {
+  //     await axiosInstance.delete(APIPath.DELETE_USER(id));
+  //     handleFetchUser();
+
+
+  //   }
+  // }
 
   useEffect(() => {
     handleFetchUser();
@@ -73,7 +70,7 @@ const User = () => {
       <div className=" bg-white rounded-lg shadow-sm overflow-hidden w-full">
         {/* Desktop/Tablet Table Header (hidden on mobile) */}
         <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
-          <div className="grid grid-cols-10 gap-3 md:gap-8 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-base lg:text-lg">
+          <div className="grid grid-cols-9 gap-3 md:gap-8 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-base lg:text-lg">
             <div className="flex justify-center items-center">ລຳດັບ</div>
             <div className="flex justify-center items-center">ລະຫັດຜູ້ໃຊ້</div>
             <div className="flex justify-center items-center">ຊື່ຜູ້ໃຊ້</div>
@@ -83,7 +80,7 @@ const User = () => {
             <div className="flex justify-center items-center">ເບີໂທ</div>
             <div className="flex justify-center items-center">ອີເມວ</div>
             <div className="flex justify-center items-center">ສະຖານະ</div>
-            <div className="flex justify-center items-center">ດຳເນີນການ</div>
+            {/* <div className="flex justify-center items-center">ດຳເນີນການ</div> */}
           </div>
         </div>
 
@@ -92,7 +89,7 @@ const User = () => {
           {
             FilteredUser.map((item, index) => {
               return (
-                <div key={index} className="grid grid-cols-10 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
+                <div key={index} className="grid grid-cols-9 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
                   <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                     {index + 1}
                   </div>
@@ -122,7 +119,7 @@ const User = () => {
                     {item.role}
                   </div>
                   <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-4">
-                    <Trash onClick={(e) => { e.stopPropagation(); handleDeleteUser(item.user_id); }} className="cursor-pointer" />
+                    {/* <Trash onClick={(e) => { e.stopPropagation();  }} className="cursor-pointer" /> */}
                   </div>
                 </div>
               )
@@ -166,7 +163,7 @@ const User = () => {
       {/* Add Customer Popup */}
       <AddUser show={showAdd} onClose={() => setShowAdd(false)} />
 
-      
+
     </div >
   )
 }

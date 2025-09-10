@@ -153,7 +153,6 @@ const Success = () => {
                 </div>
 
                 {/* Desktop/Tablet Table Body (hidden on mobile) */}
-                {/* Desktop/Tablet Table Body (hidden on mobile) */}
                 <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
                     {filteredBookings.map((item, index) => (
                         <div key={index} onClick={() => fixDetail(item.booking_id)} className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 transition-colors">
@@ -162,9 +161,7 @@ const Success = () => {
                                     {/* <Eye className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" /> */}
                                     <img src={logo} alt="" className="h-full w-full" />
                                 </div>
-                                <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <Car className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-gray-600 " />
-                                </div>
+                       
                                 <span className="font-medium text-xs md:text-sm lg:text-base">{item?.car?.model}</span>
                             </div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item?.user?.username}</div>

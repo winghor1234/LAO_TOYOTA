@@ -1,91 +1,31 @@
 import { Car } from "lucide-react";
 import { TopControl } from "../../../utils/TopControl";
 import { TableHeader } from "../../../utils/AppointmentTableHeader";
+import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
+import { useEffect, useState } from "react";
 
-const vehicleData = [
-    {
-        brand: 'TOYOTA',
-        customer: 'Mr A',
-        phone: '020 9679 4376',
-        number: 'ກງ 5444',
-        date: '02/05/2025',
-        time: '13:23'
-    },
-    {
-        brand: 'TOYOTA',
-        customer: 'Mr B',
-        phone: '020 9679 4377',
-        number: 'ກງ 5445',
-        date: '03/05/2025',
-        time: '14:30'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-];
+
+
 
 const Cancel = () => {
+    const [booking, setBooking] = useState([]);
+
+    const fetchData = async () => {
+        try {
+            const res = await axiosInstance.get(APIPath.SELECT_ALL_BOOKING);
+            // console.log(res.data.data);
+            setBooking(res.data.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+
     return (
         <div>
             {/* Top Controls */}
@@ -93,29 +33,31 @@ const Cancel = () => {
             {/* Data Table */}
             <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full">
                 {/* Desktop/Tablet Table Header (hidden on mobile) */}
-                <TableHeader/>
+                <TableHeader />
                 {/* Desktop/Tablet Table Body (hidden on mobile) */}
                 <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
-                    {vehicleData.map((item, index) => (
+                    {booking.filter(item => item.bookingStatus === "cancel").map((item, index) => (
                         <div key={index} className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 transition-colors">
                             <div className="flex items-center gap-2 md:gap-3">
-                                <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <Car className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-gray-600" />
+                                <div className=" flex flex-col">
+                                    <span className=" bg-red-500 px-4 py-2  text-white rounded-xl text-xs font-semibold text-center w-full min-w-[60px]">
+                                        ຍົກເລີກເເລ້ວ
+                                    </span>
                                 </div>
-                                <span className="font-medium text-xs md:text-sm lg:text-base">{item.brand}</span>
+                                <span className="font-medium text-xs md:text-sm lg:text-base">{item.car.model}</span>
                             </div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.customer}</div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.phone}</div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.number}</div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.date}</div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.time}</div>
+                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item?.user?.username}</div>
+                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item?.user?.phoneNumber}</div>
+                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item?.car?.plateNumber}</div>
+                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item?.time?.date}</div>
+                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item?.time?.time}</div>
                         </div>
                     ))}
                 </div>
 
                 {/* Mobile Card Layout (visible only on mobile) */}
-                <div className="md:hidden divide-y divide-gray-200">
-                    {vehicleData.map((item, index) => (
+                {/* <div className="md:hidden divide-y divide-gray-200">
+                    {booking.filter(item => item.bookingStatus === "cancel").map((item, index) => (
                         <div key={index} className="p-4 hover:bg-gray-50 transition-colors">
                             <div className="flex items-center gap-3 mb-3">
                                 <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
@@ -146,7 +88,7 @@ const Cancel = () => {
                             </div>
                         </div>
                     ))}
-                </div>
+                </div> */}
             </div>
         </div>
     )

@@ -24,7 +24,7 @@ const DetailPromotion = () => {
             }
         };
         fetchData();
-    }, [id]);
+    }, []);
 
     if (loading) {
         return (

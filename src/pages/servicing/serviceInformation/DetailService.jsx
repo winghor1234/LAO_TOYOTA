@@ -25,7 +25,7 @@ const DetailService = () => {
             }
         };
         fetchData();
-    }, [id]);
+    }, []);
 
     if (loading) {
         return (

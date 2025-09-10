@@ -38,7 +38,7 @@ const EditCarFormPopup = ({ show, onClose, userId, carId, handleFetchCar }) => {
 
         fetchCarDetails();
 
-    }, [carId]);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -51,7 +51,7 @@ const EditCarFormPopup = ({ show, onClose, userId, carId, handleFetchCar }) => {
       const fetchUsers = async () => {
         try {
           const res = await axiosInstance.get(APIPath.SELECT_ALL_USER);
-          console.log("Users:", res?.data?.data);
+        //   console.log("Users:", res?.data?.data);
           setUsers(res?.data?.data);
         } catch (error) {
           console.log(error);

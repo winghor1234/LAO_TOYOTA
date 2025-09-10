@@ -6,7 +6,8 @@ import { BackButton } from "../../../utils/BackButton";
 import { useParams, useSearchParams } from "react-router-dom";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
-// import { getBookingById } from "../../../api/Booking";
+import { useNavigate } from "react-router-dom";
+import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 
 // Main ReceiverCarDetail Component
 const ReceiverCarDetail = () => {
@@ -20,6 +21,8 @@ const ReceiverCarDetail = () => {
   const [data, setData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [rejectZone, setRejectZone] = useState(false);
+  const navigate = useNavigate();
+
 
 
   const fetchBooking = async () => {
@@ -27,6 +30,18 @@ const ReceiverCarDetail = () => {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId))
       // console.log("  data:", res?.data?.data);
       setData(res?.data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleChangeStatus = async () => {
+    try {
+      await axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "cancel" });
+      // setRejectZone(true)
+      navigate("/user/appointment");
+      SuccessAlert("ປະຕິເສດສຳເລັດແລ້ວ");
+      fetchBooking();
     } catch (error) {
       console.log(error);
     }
@@ -120,7 +135,7 @@ const ReceiverCarDetail = () => {
                   ອະນຸມັດ
                 </button>
                 <button
-                  onClick={() => setRejectZone(true)}
+                  onClick={() => handleChangeStatus()}
                   className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition-colors font-medium text-xs lg:text-sm"
                 >
                   ປະຕິເສດ

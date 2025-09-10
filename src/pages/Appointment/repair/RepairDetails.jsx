@@ -19,7 +19,7 @@ const RepairDetails = () => {
   const fetchData = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(id));
-      console.log(" res data:", res?.data?.data);
+      // console.log(" res data:", res?.data?.data);
       setFixData(res?.data?.data);
     } catch (error) {
       console.log(error);
@@ -38,7 +38,7 @@ const RepairDetails = () => {
   }, []);
 
   return (
-    <div className="relative h-[470px] max-h-[470px] overflow-y-auto bg-gray-50 p-2 sm:p-4 lg:p-6 ">
+    <div className="relative  overflow-y-auto bg-gray-50 p-2 sm:p-4 lg:p-6 ">
       <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="p-4 sm:p-6">
           {/* Back Button */}

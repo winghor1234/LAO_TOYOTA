@@ -21,13 +21,13 @@ const Approve = () => {
     }
   }
 
-  const handleApprove = async(BookingId, timeId) => {
+  const handleApprove = async (BookingId, timeId) => {
     try {
       navigate(`/user/receiverCarDetail/${BookingId}?time=${timeId}`);
     } catch (error) {
       console.log(error);
     }
-    
+
   }
 
   useEffect(() => {
@@ -55,10 +55,8 @@ const Approve = () => {
         </div>
         {/* Desktop/Tablet Table Body (hidden on mobile) */}
         <div className="hidden md:block divide-y divide-gray-200 max-h-[400px] overflow-y-auto">
-          {booking.filter(item => item.bookingStatus !== "success").map((item, index) => (
-            <div
-              
-              key={index}
+          {booking.filter(item => item.bookingStatus === "await").map((item, index) => (
+            <div key={index}
               onClick={() => handleApprove(item.booking_id, item.time.time_id)}
               className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors"
             >
@@ -67,12 +65,6 @@ const Approve = () => {
                   <span className="bg-yellow-500 px-4 py-2  text-white rounded-xl text-xs font-semibold text-center min-w-[60px]">
                     ລໍອະນຸມັດ
                   </span>
-                  {/* <span className="bg-green-600 px-3 py-1 text-white rounded-full text-xs font-semibold text-center min-w-[60px]">
-                    ອະນຸມັດ
-                  </span> */}
-                </div>
-                <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                  <Car className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-gray-600" />
                 </div>
                 <span className="font-medium text-xs md:text-sm lg:text-base">{item.car.model}</span>
               </div>

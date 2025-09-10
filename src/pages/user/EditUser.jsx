@@ -43,7 +43,7 @@ const EditUser = ({ show, onClose, userId }) => {
     if (userId) {
       fetchUser();
     }
-  }, [userId, reset]);
+  }, []);
 
   // 🟢 Submit Form
   const onSubmit = async (formData) => {

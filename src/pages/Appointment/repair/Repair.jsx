@@ -37,7 +37,7 @@ const Repair = () => {
   }
 
   const filteredBookings = bookings.filter((booking) => {
-  if (booking.bookingStatus !== "success") return false;
+  if (booking.bookingStatus === "success") return false;
 
   const fix = fixes.find((f) => f.bookingId === booking.booking_id);
   // return true ถ้าไม่มี fix หรือ fixStatus เป็น "padding"
@@ -77,9 +77,6 @@ const Repair = () => {
                   <span className="bg-green-500 px-4 py-2  text-white rounded-xl text-xs font-semibold text-center min-w-[60px]">
                     ອະນຸມັດແລ້ວ
                   </span>
-                </div>
-                <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                  <Car className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-gray-600 " />
                 </div>
                 <span className="font-medium text-xs md:text-sm lg:text-base">{item?.car?.model}</span>
               </div>

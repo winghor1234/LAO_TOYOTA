@@ -50,7 +50,7 @@ const EditPromotion = ({ show, onClose, promotionId }) => {
       }
     };
     fetchDataById();
-  }, [promotionId, reset]);
+  }, []);
 
   const onSubmit = async (data) => {
     setLoading(true);

@@ -25,8 +25,8 @@ const Vehicle = () => {
   // const [carId, setCarId] = useState(null);
   const handleFetchCar = async () => {
     try {
-      const [resAllCar, resGetUserId] = await Promise.all([axiosInstance.get(APIPath.SELECT_ALL_CAR), axiosInstance.get(APIPath.SELECT_ONE_USER(userId))]);
-      console.log("Fetched car data:", resAllCar?.data?.data);
+      const [resAllCar, resGetUserId] = await Promise.all([axiosInstance.get(APIPath.SELECT_ALL_CAR), axiosInstance.get(APIPath.GET_PROFILE)]);
+      // console.log("Fetched car data:", resAllCar?.data?.data);
       setCar(resAllCar?.data?.data);
       setUserId(resGetUserId?.data?.data?.user_id);
     } catch (error) {
@@ -51,7 +51,7 @@ const Vehicle = () => {
 
   useEffect(() => {
     handleFetchCar();
-  }, [userId]);
+  }, []);
 
 
   const filteredCar = filterByDateRange(
