@@ -10,7 +10,7 @@ import SelectDate from "../../utils/SelectDate";
 import { Car, Edit, Trash } from "lucide-react";
 
 
-const User = () => {
+const UserList = () => {
   const [showAdd, setShowAdd] = useState(false);
   // const [selectedUserId, setSelectedUserId] = useState(null);
   const [users, setUsers] = useState([]);
@@ -168,4 +168,4 @@ const User = () => {
   )
 }
 
-export default User
+export default UserList

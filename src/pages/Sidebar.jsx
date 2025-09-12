@@ -26,12 +26,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
 
   const currentPath = location.pathname;
-  const isAppointmentPath = currentPath.startsWith('/user/appointment') || currentPath === '/user/receiverCarDetail' || currentPath === '/user/successDetail';
+  const isBookingPath = currentPath.startsWith('/user/booking') || currentPath === '/user/receiverCarDetail' || currentPath === '/user/successDetail';
   const isGiftPath = currentPath.startsWith('/user/gift');
-  const isServicePath = currentPath.startsWith('/user/servicing');
+  const isServicePath = currentPath.startsWith('/user/servicing') || currentPath.startsWith('/user/service-detail/');
   const isDashboardPath = currentPath.startsWith('/user/dashboard');
   const isPromotionPath = currentPath.startsWith('/user/promotion');
-  const isVehiclePath = currentPath.startsWith('/user/vehicle');
+  const isCar = currentPath.startsWith('/user/car');
   const isTimePath = currentPath.startsWith('/user/time-zone');
   const isUserPath = currentPath.startsWith('/user/user');
 
@@ -42,13 +42,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   };
   const SideBarItems = [
     { icon: <Home className='w-5 h-5' />, label: 'Dashboard', path: '/user/dashboard', isActive: isDashboardPath },
-    { icon: <Users className='w-5 h-5' />, label: 'ນັດໝາຍ', path: '/user/appointment', isActive: isAppointmentPath },
+    { icon: <Users className='w-5 h-5' />, label: 'ນັດໝາຍ', path: '/user/booking', isActive: isBookingPath },
     { icon: <Clock className='w-5 h-5' />, label: 'ຈັດການໂຊນ/ເວລາ', path: '/user/time-zone', isActive: isTimePath },
     { icon: <Gift className='w-5 h-5' />, label: 'ໂປຣໂມຊັ່ນ', path: '/user/promotion', isActive: isPromotionPath },
     { icon: <Calendar className='w-5 h-5' />, label: 'ລາງວັນ', path: '/user/gift', isActive: isGiftPath },
-    { icon: <Car className='w-5 h-5' />, label: 'ຂໍ້ມູນລົດ', path: '/user/vehicle', isActive: isVehiclePath },
+    { icon: <Car className='w-5 h-5' />, label: 'ຂໍ້ມູນລົດ', path: '/user/car', isActive: isCar },
     { icon: <User className='w-5 h-5' />, label: 'ຜູ້ດູເເລລະບົບ', path: '/user/user', isActive: isUserPath },
-    // { icon: <UserPen className='w-5 h-5' />, label: 'ຜູ້ດູເເລລະບົບ', path: '/user/user', isActive: isUserPath },
     { icon: <Settings className='w-5 h-5' />, label: 'ບໍລິການ', path: '/user/servicing', isActive: isServicePath },
   ];
 

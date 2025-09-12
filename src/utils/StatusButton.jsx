@@ -8,9 +8,9 @@ const StatusButton = () => {
 
     const handleButtonClick = (path) => {
         if (!path) {
-            navigate(`/user/appointment`);
+            navigate(`/user/booking`);
         } else {
-            navigate(`/user/appointment/${path}`);
+            navigate(`/user/booking/${path}`);
         }
     };
 
@@ -18,22 +18,22 @@ const StatusButton = () => {
         {
             label: 'ລໍອະນຸມັດ',
             path: '',
-            isActive: currentPath === '/user/appointment' || currentPath === '/user/appointment/'
+            isActive: currentPath === '/user/booking' || currentPath === '/user/booking/'
         },
         {
             label: 'ກຳລັງສ້ອມແປງ',
             path: 'repair',
-            isActive: currentPath === '/user/appointment/repair'
+            isActive: currentPath === '/user/booking/repair'
         },
         {
             label: 'ສຳເລັດ',
             path: 'success',
-            isActive: currentPath === '/user/appointment/success'
+            isActive: currentPath === '/user/booking/success'
         },
         {
             label: 'ຍົກເລີກ',
             path: 'cancel',
-            isActive: currentPath === '/user/appointment/cancel'
+            isActive: currentPath === '/user/booking/cancel'
         }
 
     ]

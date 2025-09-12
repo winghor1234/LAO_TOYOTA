@@ -17,9 +17,9 @@ export default class APIPath {
     // Gift Card API
     static SELECT_ALL_GIFT = `${this.BASE_URL}/giftcard/selAll`;
     static SELECT_ONE_GIFT(id) { return `${this.BASE_URL}/giftcard/selOne/${id}` }
-    static CREATE_GIFT(data) { return `${this.BASE_URL}/giftcard/insert`,data }
+    static CREATE_GIFT= `${this.BASE_URL}/giftcard/insert`
     static UPDATE_GIFT(id) { return `${this.BASE_URL}/giftcard/update/${id}` }
-    static UPDATE_GIFT_STATUS(id, data) { return `${this.BASE_URL}/giftcard/updateStatus/${id}`,data }
+    static UPDATE_GIFT_STATUS(id) { return `${this.BASE_URL}/giftcard/updateStatus/${id}` }
     static DELETE_GIFT(id) { return `${this.BASE_URL}/giftcard/delete/${id}` }
 
     // Gift History API
@@ -96,7 +96,7 @@ export default class APIPath {
     static SELECT_ZONE_BY(id) { return `${this.BASE_URL}/zone/selBy/${id}`}
     static CREATE_ZONE = `${this.BASE_URL}/zone/insert`;
     static UPDATE_ZONE(id) { return `${this.BASE_URL}/zone/update/${id}`}
-    static UPDATE_ZONE_STATUS(id, data) { return `${this.BASE_URL}/zone/updateStatus/${id}`, data}
+    static UPDATE_ZONE_STATUS(id) { return `${this.BASE_URL}/zone/updateStatus/${id}`}
     static DELETE_ZONE(id) { return `${this.BASE_URL}/zone/delete/${id}`}
 
 

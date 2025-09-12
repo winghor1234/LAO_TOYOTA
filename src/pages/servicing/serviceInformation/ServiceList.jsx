@@ -13,7 +13,7 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 
 
-const ServiceInformation = () => {
+const ServiceList = () => {
     const [showEditService, setShowEditService] = useState(false);
     const [showAddService, setShowAddService] = useState(false);
     const [services, setServices] = useState([]);
@@ -67,7 +67,7 @@ const ServiceInformation = () => {
         setEndDate(null);
     }
 
-    handleFetchService();
+    // handleFetchService();
 
     return (
         <div>
@@ -194,4 +194,4 @@ const ServiceInformation = () => {
     )
 }
 
-export default ServiceInformation
+export default ServiceList;

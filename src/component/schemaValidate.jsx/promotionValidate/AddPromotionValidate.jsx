@@ -13,7 +13,7 @@ import APIPath from "../../../api/APIPath";
   image: z.any().optional()
 });
 
-export const usePromotionForm = (onClose) => {
+export const useAddPromotionForm = ({onClose, handleFetchPromotion}) => {
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
@@ -34,6 +34,7 @@ export const usePromotionForm = (onClose) => {
 
     try {
       await axios.post(APIPath.CREATE_PROMOTION, formData);
+      handleFetchPromotion();
       SuccessAlert("ເພີ່ມຂໍ້ມູນສໍາເລັດ");
       onClose();
       // reset fields
@@ -48,13 +49,5 @@ export const usePromotionForm = (onClose) => {
     }
   };
 
-  return {
-    register,
-    handleSubmit,
-    setValue,
-    errors,
-    imageFile,
-    loading,
-    onSubmit
-  };
+  return {register,handleSubmit,setValue,errors,imageFile,loading,onSubmit};
 };

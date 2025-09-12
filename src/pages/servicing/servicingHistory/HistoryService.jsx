@@ -34,7 +34,6 @@ const ServiceHistory = () => {
         navigate(`/user/service-detail/${id}`);
     };
 
-    handleFetchService();
 
     return (
         <div>

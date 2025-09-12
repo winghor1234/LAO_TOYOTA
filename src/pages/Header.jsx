@@ -33,13 +33,10 @@ const fetchData = async () => {
   }
 };
 
-// const notifiedUsers = useRef(new Set());
+
 
 useEffect(() => {
   fetchData(); // fetch ครั้งแรก
-
-  const interval = setInterval(fetchData, 5000); // fetch ทุก 5 วินาที
-  return () => clearInterval(interval);
 }, []);
 
 
@@ -72,9 +69,10 @@ useEffect(() => {
           {/* Notification Bell */}
           <div className="relative">
             <button
-              className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200"
+              className="border w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200"
               aria-label="Notifications"
               onClick={() => setShowNotifications(!showNotifications)}
+              
             >
               <Bell className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-600" />
               {unreadCount  > 0 && (

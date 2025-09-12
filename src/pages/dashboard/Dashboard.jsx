@@ -76,16 +76,19 @@ const Dashboard = () => {
         const res = await axiosInstance.get(APIPath.SELECT_ALL_USER);
         const resp = await axiosInstance.get(APIPath.SELECT_ALL_PROMOTION);
         setPromotions(resp?.data?.data);
-        // console.log("Users:", res?.data?.data);
         setUsers(res?.data?.data);
+        console.log("Users:", res?.data?.data);
     } catch (error) {
     console.log(error);
     }
 };
 
 
+
 useEffect(() => {
+    // console.log("fetch user...")
     fetchUsers();
+    
 },[])
 
 const dashboardItems = [
@@ -233,7 +236,7 @@ const dashboardItems = [
                                         </div>
                                         <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.customer}</div>
                                         <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.phone}</div>
-                                        <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.number}</div>
+                                        <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.plate}</div>
                                         <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.date}</div>
                                         <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.time}</div>
                                     </div>
@@ -260,7 +263,7 @@ const dashboardItems = [
                                             </div>
                                             <div className="flex justify-between py-1">
                                                 <span className="text-gray-500 font-medium">ປ້າຍ:</span>
-                                                <span className="font-medium text-gray-900">{item.number}</span>
+                                                <span className="font-medium text-gray-900">{item.plate}</span>
                                             </div>
                                             <div className="flex justify-between py-1">
                                                 <span className="text-gray-500 font-medium">ວັນທີ:</span>

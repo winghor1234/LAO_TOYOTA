@@ -1,7 +1,6 @@
 import { Gift, Wrench, X } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useEffect, useState } from "react";
-// import { getAllTime, getZoneById, updateZone } from "../../../api/Time_Zone";
 import Spinner from "../../../utils/Loading";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";

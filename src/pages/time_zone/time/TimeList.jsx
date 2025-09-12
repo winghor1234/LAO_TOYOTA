@@ -14,7 +14,7 @@ import APIPath from "../../../api/APIPath";
 
 
 
-const TimeData = () => {
+const TimeList = () => {
     const [showAddTime, setShowAddTime] = useState(false);
     const [showEditTime, setShowEditTime] = useState(false);
     const [time, setTime] = useState([]);
@@ -131,4 +131,4 @@ const TimeData = () => {
     )
 }
 
-export default TimeData;
+export default TimeList;

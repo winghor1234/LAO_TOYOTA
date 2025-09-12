@@ -10,88 +10,88 @@ import APIPath from "../../../api/APIPath";
 
 
 
-const vehicleData = [
-    {
-        brand: 'TOYOTA',
-        customer: 'Mr A',
-        phone: '020 9679 4376',
-        number: 'ກງ 5444',
-        date: '02/05/2025',
-        time: '13:23'
-    },
-    {
-        brand: 'TOYOTA',
-        customer: 'Mr B',
-        phone: '020 9679 4377',
-        number: 'ກງ 5445',
-        date: '03/05/2025',
-        time: '14:30'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-    {
-        brand: 'HONDA',
-        customer: 'Mr C',
-        phone: '020 9679 4378',
-        number: 'ກງ 5446',
-        date: '04/05/2025',
-        time: '09:15'
-    },
-];
+// const vehicleData = [
+//     {
+//         brand: 'TOYOTA',
+//         customer: 'Mr A',
+//         phone: '020 9679 4376',
+//         number: 'ກງ 5444',
+//         date: '02/05/2025',
+//         time: '13:23'
+//     },
+//     {
+//         brand: 'TOYOTA',
+//         customer: 'Mr B',
+//         phone: '020 9679 4377',
+//         number: 'ກງ 5445',
+//         date: '03/05/2025',
+//         time: '14:30'
+//     },
+//     {
+//         brand: 'HONDA',
+//         customer: 'Mr C',
+//         phone: '020 9679 4378',
+//         number: 'ກງ 5446',
+//         date: '04/05/2025',
+//         time: '09:15'
+//     },
+//     {
+//         brand: 'HONDA',
+//         customer: 'Mr C',
+//         phone: '020 9679 4378',
+//         number: 'ກງ 5446',
+//         date: '04/05/2025',
+//         time: '09:15'
+//     },
+//     {
+//         brand: 'HONDA',
+//         customer: 'Mr C',
+//         phone: '020 9679 4378',
+//         number: 'ກງ 5446',
+//         date: '04/05/2025',
+//         time: '09:15'
+//     },
+//     {
+//         brand: 'HONDA',
+//         customer: 'Mr C',
+//         phone: '020 9679 4378',
+//         number: 'ກງ 5446',
+//         date: '04/05/2025',
+//         time: '09:15'
+//     },
+//     {
+//         brand: 'HONDA',
+//         customer: 'Mr C',
+//         phone: '020 9679 4378',
+//         number: 'ກງ 5446',
+//         date: '04/05/2025',
+//         time: '09:15'
+//     },
+//     {
+//         brand: 'HONDA',
+//         customer: 'Mr C',
+//         phone: '020 9679 4378',
+//         number: 'ກງ 5446',
+//         date: '04/05/2025',
+//         time: '09:15'
+//     },
+//     {
+//         brand: 'HONDA',
+//         customer: 'Mr C',
+//         phone: '020 9679 4378',
+//         number: 'ກງ 5446',
+//         date: '04/05/2025',
+//         time: '09:15'
+//     },
+//     {
+//         brand: 'HONDA',
+//         customer: 'Mr C',
+//         phone: '020 9679 4378',
+//         number: 'ກງ 5446',
+//         date: '04/05/2025',
+//         time: '09:15'
+//     },
+// ];
 
 
 
@@ -134,6 +134,8 @@ const Success = () => {
       useEffect(() => {
         fetchData();
       }, []);
+
+
     return (
         <div>
             {/* Top Controls */}
@@ -175,33 +177,33 @@ const Success = () => {
 
                 {/* Mobile Card Layout (visible only on mobile) */}
                 <div className="md:hidden divide-y divide-gray-200">
-                    {vehicleData.map((item, index) => (
+                    {filteredBookings.map((item, index) => (
                         <div key={index} className="p-4 hover:bg-gray-50 transition-colors">
                             <div className="flex items-center gap-3 mb-3">
                                 <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
                                     <Car className="text-gray-600 w-6 h-6" />
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="font-semibold text-lg text-gray-900">{item.brand}</h3>
-                                    <p className="text-gray-600 text-base">{item.customer}</p>
+                                    <h3 className="font-semibold text-lg text-gray-900">{item?.car?.model}</h3>
+                                    <p className="text-gray-600 text-base">{item?.user?.username}</p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 gap-2 text-base">
                                 <div className="flex justify-between py-1">
                                     <span className="text-gray-500 font-medium">ໂທ:</span>
-                                    <span className="font-medium text-gray-900">{item.phone}</span>
+                                    <span className="font-medium text-gray-900">{item?.user?.phoneNumber}</span>
                                 </div>
                                 <div className="flex justify-between py-1">
                                     <span className="text-gray-500 font-medium">ປ້າຍ:</span>
-                                    <span className="font-medium text-gray-900">{item.number}</span>
+                                    <span className="font-medium text-gray-900">{item?.car?.plateNumber}</span>
                                 </div>
                                 <div className="flex justify-between py-1">
                                     <span className="text-gray-500 font-medium">ວັນທີ:</span>
-                                    <span className="font-medium text-gray-900">{item.date}</span>
+                                    <span className="font-medium text-gray-900">{item?.time?.date}</span>
                                 </div>
                                 <div className="flex justify-between py-1">
                                     <span className="text-gray-500 font-medium">ເວລາ:</span>
-                                    <span className="font-medium text-gray-900">{item.time}</span>
+                                    <span className="font-medium text-gray-900">{item?.time?.time}</span>
                                 </div>
                             </div>
                         </div>

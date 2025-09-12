@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { userRegister } from "../../../api/Auth";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { z } from "zod";
 import axiosInstance from "../../../utils/AxiosInstance";

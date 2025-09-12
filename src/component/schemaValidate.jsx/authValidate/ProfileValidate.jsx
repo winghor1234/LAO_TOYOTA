@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../../utils/AxiosInstance';
 import APIPath from '../../../api/APIPath';
-// import { getProfile, updateProfile } from '../../../api/Auth';
+
 
 const ProfileUpdateSchema = z.object({
     username: z.string().min(2, " ຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ"),

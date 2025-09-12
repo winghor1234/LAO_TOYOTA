@@ -12,7 +12,7 @@ import APIPath from "../../../api/APIPath";
 
 
 
-const ZoneData = () => {
+const ZoneList = () => {
     const [showEditZone, setShowEditZone] = useState(false);
     const [showAddZone, setShowAddZone] = useState(false);
     const [zone, setZone] = useState([]);
@@ -126,4 +126,4 @@ const ZoneData = () => {
         </div>
     );
 };
-export default ZoneData;
+export default ZoneList;

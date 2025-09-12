@@ -2,12 +2,12 @@
 import { Wrench, X } from "lucide-react";
 import Spinner from "../../utils/Loading";
 import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
-import { usePromotionForm } from "../../component/schemaValidate.jsx/promotionValidate/AddPromotionValidate";
+import { useAddPromotionForm } from "../../component/schemaValidate.jsx/promotionValidate/AddPromotionValidate";
 
 
-const AddPromotion = ({ show, onClose }) => {
+const AddPromotion = ({ show, onClose, handleFetchPromotion }) => {
   const { register, handleSubmit, setValue, errors, imageFile, loading, onSubmit } =
-    usePromotionForm(onClose)
+    useAddPromotionForm({onClose, handleFetchPromotion});
 
 
   if (!show) return null;

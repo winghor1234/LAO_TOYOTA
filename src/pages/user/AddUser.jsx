@@ -1,4 +1,3 @@
-import { BackButton } from '../../utils/BackButton';
 import { SuccessAlert } from '../../utils/handleAlert/SuccessAlert';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -6,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import axiosInstance from '../../utils/AxiosInstance';
 import APIPath from '../../api/APIPath';
 import { useState } from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const UserSchema = z.object({
   username: z.string().min(2, { message: "ຊື່ຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ" }).max(30),
@@ -17,12 +17,10 @@ const UserSchema = z.object({
 });
 
 const AddUser = ({ show, onClose }) => {
-  // const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  // const navigate = useNavigate();
 
 
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm({ resolver: zodResolver(UserSchema) });
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({ resolver: zodResolver(UserSchema) });
 
   const submitForm = async (data) => {
     setLoading(true);
@@ -31,12 +29,14 @@ const AddUser = ({ show, onClose }) => {
       SuccessAlert("ເພີ່ມລູກຄ້າສຳເລັດ");
       onClose();
       // reset fields หลัง submit
-      setValue("username", "");
-      setValue("phoneNumber", "");
-      setValue("password", "");
-      setValue("province", "");
-      setValue("district", "");
-      setValue("village", "");
+      reset({
+        username: "",
+        phoneNumber: "",
+        password: "",
+        province: "",
+        district: "",
+        village: ""
+      });
     } catch (error) {
       console.error("Add User failed:", error);
       SuccessAlert("ມີບາຍຜິດພາດ!!!", 1500, "error");
@@ -62,7 +62,14 @@ const AddUser = ({ show, onClose }) => {
       >
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <BackButton />
+          <div
+            onClick={() => onClose()}
+            className="inline-flex items-center justify-center w-auto px-4 py-1 sm:py-2 bg-gray-200 hover:bg-gray-300 rounded-xl cursor-pointer transition-colors mb-4">
+            <button className="flex items-center gap-2 text-gray-700 hover:text-black">
+              <FaArrowLeft className="text-sm sm:text-base" />
+              <span className="font-medium text-sm sm:text-lg lg:text-xl">ກັບໄປຫນ້າກ່ອນ</span>
+            </button>
+          </div>
           <button className="bg-yellow-400 hover:bg-yellow-600 transition-colors w-full sm:w-auto px-4 py-2 text-white rounded-lg font-medium text-base">
             Import
           </button>
@@ -79,7 +86,7 @@ const AddUser = ({ show, onClose }) => {
               <input
                 {...register("username")}
                 className="w-full h-[40px] sm:h-[45px] rounded-lg text-base font-light border border-gray-300 outline-none px-3 hover:border-blue-500 focus:border-blue-500 transition-colors"
-         
+
                 placeholder="ຊື່ຜູ້ໃຊ້..."
               />
               <div className='h-6'>
@@ -93,7 +100,7 @@ const AddUser = ({ show, onClose }) => {
               <input
                 {...register("phoneNumber")}
                 className="w-full h-[40px] sm:h-[45px] rounded-lg text-base font-light border border-gray-300 outline-none px-3 hover:border-blue-500 focus:border-blue-500 transition-colors"
-          
+
                 placeholder="ເບີໂທ..."
               />
               <div className='h-6'>

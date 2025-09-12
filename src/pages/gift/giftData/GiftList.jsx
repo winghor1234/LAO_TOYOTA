@@ -11,7 +11,7 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 
 
-const GiftData = () => {
+const GiftList = () => {
     const [showEditReward, setShowEditReward] = useState(false);
     const [showAddReward, setShowAddReward] = useState(false);
     const [gifts, setGifts] = useState([]);
@@ -50,7 +50,6 @@ const GiftData = () => {
         "createdAt" // field ที่เก็บวันที่
     );
 
-    // fetchGifts();
 
 
 
@@ -157,4 +156,4 @@ const GiftData = () => {
     )
 }
 
-export default GiftData;
+export default GiftList;

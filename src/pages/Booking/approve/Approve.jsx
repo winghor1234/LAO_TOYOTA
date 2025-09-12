@@ -31,6 +31,7 @@ const Approve = () => {
   }
 
   useEffect(() => {
+    console.log("fetch booking...")
     fetchBooking();
   }, [])
 
@@ -62,7 +63,7 @@ const Approve = () => {
             >
               <div className="flex items-center gap-2 md:gap-3">
                 <div className="flex flex-col">
-                  <span className="bg-yellow-500 px-4 py-2  text-white rounded-xl text-xs font-semibold text-center min-w-[60px]">
+                  <span className="bg-yellow-500 px-4 py-2  text-black rounded-xl text-xs font-semibold text-center min-w-[60px]">
                     ລໍອະນຸມັດ
                   </span>
                 </div>

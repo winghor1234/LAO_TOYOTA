@@ -1,18 +1,14 @@
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "../layout/Layout";
-import Appointment from "../pages/Appointment/Appointment";
-import Approve from "../pages/Appointment/approve/Approve";
-import Repair from "../pages/Appointment/repair/Repair";
-import Cancel from "../pages/Appointment/Cancel/Cancel";
-import Success from "../pages/Appointment/success/Success";
-import ReceiverCarDetail from "../pages/Appointment/approve/ReceiverCarDetail";
-import RepairDetails from "../pages/Appointment/repair/RepairDetails";
-import SuccessDetail from "../pages/Appointment/success/SuccessDetail";
-import RepairSuccess from "../pages/Appointment/repair/RepairSuccess";
+import Repair from "../pages/Booking/repair/Repair";
+import Cancel from "../pages/Booking/Cancel/Cancel";
+import Success from "../pages/Booking/success/Success";
+import ReceiverCarDetail from "../pages/Booking/approve/ReceiverCarDetail";
+import RepairDetails from "../pages/Booking/repair/RepairDetails";
+import SuccessDetail from "../pages/Booking/success/SuccessDetail";
+import RepairSuccess from "../pages/Booking/repair/RepairSuccess";
 import Dashboard from "../pages/dashboard/Dashboard";
-import Vehicle from "../pages/vehicleInformation/Vehicle";
-import ServiceInformation from "../pages/servicing/serviceInformation/ServiceInformation";
 import Servicing from "../pages/servicing/Servicing";
 import HistoryService from "../pages/servicing/servicingHistory/HistoryService";
 import Login from "../pages/auth/Login";
@@ -23,17 +19,21 @@ import PublicRoute from "../middleware/PublicRoute";
 import UpdateProfile from "../pages/auth/UpdateProfile";
 import ChangePassword from "../pages/auth/ChangePassword";
 import DetailService from "../pages/servicing/serviceInformation/DetailService";
-import PromotionData from "../pages/promotion/PromotionData";
 import DetailPromotion from "../pages/promotion/DetailPromotion";
 import Gift from "../pages/gift/Gift";
-import GiftData from "../pages/gift/giftData/GiftData";
 import GiftHistoryList from "../pages/gift/giftHistory/GiftHistoryList";
 import Time_Zone from "../pages/time_zone/Time_Zone";
-import TimeData from "../pages/time_zone/time/Time";
-import ZoneData from "../pages/time_zone/zone/Zone";
 import TimeDetail from "../pages/time_zone/time/TimeDetail";
 import ZoneDetail from "../pages/time_zone/zone/ZoneDetail";
-import User from "../pages/user/User";
+import User from "../pages/user/UserList";
+import CarList from "../pages/Car/CarList";
+import Booking from "../pages/Booking/Booking";
+import Approve from "../pages/Booking/approve/Approve";
+import PromotionList from "../pages/promotion/PromotionList";
+import GiftList from "../pages/gift/giftData/GiftList";
+import ServiceList from "../pages/servicing/serviceInformation/ServiceList";
+import TimeList from "../pages/time_zone/time/TimeList";
+import ZoneList from "../pages/time_zone/zone/ZoneList";
 
 
 
@@ -56,19 +56,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/user",
-    element: <ProtectedRoute> <Layout /> </ProtectedRoute>,
+    element: <ProtectedRoute><Layout /></ProtectedRoute>,
     children: [
       {
         path: "dashboard",
         element: <Dashboard />
       },
       {
-        path: "appointment",
-        element: <Appointment />,
+        path: "booking",
+        element: <Booking/>,
         children: [
           {
             index: true,
-            element: <Approve />
+            element: <Approve/>
           },
           {
             path: "repair",
@@ -102,8 +102,8 @@ const router = createBrowserRouter([
         element: <SuccessDetail />
       },
       {
-        path: "vehicle",
-        element: <Vehicle />
+        path: "car",
+        element: <CarList/>
       },
       {
         path: "gift",
@@ -111,7 +111,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <GiftData />,
+            element: <GiftList/>,
           },
           {
             path: "gift-history",
@@ -125,7 +125,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <ServiceInformation />
+            element: <ServiceList/>
           },
           {
             path: "service-history",
@@ -139,11 +139,11 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <TimeData/>
+            element: <TimeList/>
           },
           {
             path: "zone",
-            element: <ZoneData />
+            element: <ZoneList/>
           }
         ]
       },
@@ -153,7 +153,7 @@ const router = createBrowserRouter([
       },
       {
         path: "promotion",
-        element: <PromotionData />,
+        element: <PromotionList/>,
       },
       {
         path: "profile",
@@ -192,9 +192,11 @@ const router = createBrowserRouter([
 const Router = () => {
   return (
     <div>
-      <RouterProvider router={router} />
+      <RouterProvider router={router}/>
     </div>
   )
 }
 
 export default Router;
+
+

@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axiosInstance from '../../../utils/AxiosInstance';
 import APIPath from '../../../api/APIPath';
-// import { changePassword } from '../../../api/Auth';
 
 const ChangePasswordSchema = z.object({
     oldPassword: z.string().min(8, " ຕ້ອງມີຢ່າງນ້ອຍ 8 ຕົວ"),

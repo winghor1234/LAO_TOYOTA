@@ -40,7 +40,7 @@ const Cancel = () => {
                         <div key={index} className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 transition-colors">
                             <div className="flex items-center gap-2 md:gap-3">
                                 <div className=" flex flex-col">
-                                    <span className=" bg-red-500 px-4 py-2  text-white rounded-xl text-xs font-semibold text-center w-full min-w-[60px]">
+                                    <span className=" bg-red-500 px-4 py-2  text-black rounded-xl text-xs font-semibold text-center w-full min-w-[60px]">
                                         ຍົກເລີກເເລ້ວ
                                     </span>
                                 </div>

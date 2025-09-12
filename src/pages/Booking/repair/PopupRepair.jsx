@@ -38,25 +38,27 @@ const PopupRepair = ({ setShowPopup , bookingId }) => {
   };
 
   const handleSubmit = async() => {
-    try {
-      const fixId = fixes.find((fix) => fix.bookingId === bookingId);
-      // console.log("fixID : ",fixId);
-      const BookingId = fixId?.bookingId;
-      const ZoneId = fixId?.zoneId;
-      const data = new URLSearchParams();
-      data.append("bookingId", BookingId);
-      data.append("zoneId", ZoneId);
-      data.append("kmNext", formData.kmNext);
-      data.append("kmLast", formData.kmLast);
-      data.append("detailFix", formData.detailFix);
+ try {
+  const fixIdObject = fixes.find((fix) => fix.bookingId === bookingId);
 
-      // await updateFixStatus(fixId.fix_id, data);
-      await axiosInstance.put(APIPath.UPDATE_FIX_STATUS(fixId.fix_id), data);
-      navigate(`/user/repairSuccess/${fixId.fix_id}`);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  if (!fixIdObject) {
+   return; 
+  }
+
+  const data = new URLSearchParams();
+  data.append("bookingId", fixIdObject.bookingId);
+  data.append("zoneId", fixIdObject.zoneId);
+  data.append("kmNext", formData.kmNext);
+  data.append("kmLast", formData.kmLast);
+  data.append("detailFix", formData.detailFix);
+
+  await axiosInstance.put(APIPath.UPDATE_FIX_STATUS(fixIdObject.fix_id), data);
+  navigate(`/user/repairSuccess/${fixIdObject.fix_id}`);
+
+ } catch (error) {
+  console.log(error);
+ }
+};
 
   useEffect(() => {
     fetchFix();

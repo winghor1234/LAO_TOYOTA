@@ -1,9 +1,7 @@
 import { CalendarDays, Car, ChevronDown, Edit, Eye, Search, Trash } from "lucide-react"
 import AddCarFormPopup from "./AddCarForm";
 import SelectDate from "../../utils/SelectDate";
-// import { deleteCar, getAllCars } from "../../api/Car";
 import { useEffect, useState } from "react";
-// import { getProfile } from "../../api/Auth";
 import EditCarFormPopup from "./EditCarForm";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 import { filterByDateRange } from "../../utils/FilterDate";
@@ -13,7 +11,7 @@ import APIPath from "../../api/APIPath";
 
 
 
-const Vehicle = () => {
+const CarList = () => {
   const [showAddCarForm, setShowAddCarForm] = useState(false);
   const [showEditCarForm, setShowEditCarForm] = useState(false);
   const [carId, setCarId] = useState(null);
@@ -61,7 +59,6 @@ const Vehicle = () => {
     "createdAt" // field ที่เก็บวันที่
   );
 
-  // handleFetchCar();
 
 
 
@@ -126,7 +123,7 @@ const Vehicle = () => {
               <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.province}</div>
               <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-6">
                 <Eye />
-                <Edit
+                <Edit className="cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();
                     setShowEditCarForm(true);
@@ -187,4 +184,4 @@ const Vehicle = () => {
   )
 }
 
-export default Vehicle
+export default CarList

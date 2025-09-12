@@ -1,29 +1,26 @@
 
 import { useEffect, useState } from "react";
-// import { updateTimeStatus } from "../../../api/Time_Zone";
-// import { createFix } from "../../../api/Fix";
 import { useNavigate } from "react-router-dom";
-// import { updateBookingStatus } from "../../../api/Booking";
 import axios from "axios";
 import APIPath from "../../../api/APIPath";
 import axiosInstance from "../../../utils/AxiosInstance";
 
 const PopupApprove = ({ setShowPopup, bookingId, timeId }) => {
   const [zone, setZone] = useState([]);
-  const [formData, setFormData] = useState({ zone_id: "" }); // ✅ ต้องเป็น object
+  const [formData, setFormData] = useState({ zone_id: "" });
   const navigate = useNavigate();
-
 
   // Fetch zones
   const fetchZone = async () => {
     try {
       const res = await axios.get(APIPath.SELECT_ALL_ZONE);
-      console.log("Fetched zone :", res?.data?.data);
+      // console.log("Fetched zone :", res?.data?.data);
       setZone(res?.data?.data);
     } catch (error) {
       console.error("Error fetching zone:", error);
     }
   }
+
 
 
 
@@ -36,14 +33,10 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId }) => {
     }
 
     try {
-      // ต้องตรงกับ backend: bookingId และ zoneId
       const data = new URLSearchParams();
-      data.append("bookingId", bookingId); // ✅ เปลี่ยนจาก booking_id
-      data.append("zoneId", formData.zone_id); // ✅ เปลี่ยนจาก zone_id
+      data.append("bookingId", bookingId); 
+      data.append("zoneId", formData.zone_id); 
       await Promise.all([
-        // createFix(data),
-        // updateBookingStatus(bookingId, { bookingStatus: "success" }),
-        // updateTimeStatus(timeId, { timeStatus: "false" })
         axiosInstance.post(APIPath.CREATE_FIX, data),
         axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "success" }),
         axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "false" })

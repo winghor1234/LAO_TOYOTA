@@ -1,19 +1,18 @@
 
 import { useEffect, useState } from "react";
-// import { deletePromotion, getPromotions } from "../../api/Promotion";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 import { filterSearch } from "../../utils/FilterSearch";
 import { filterByDateRange } from "../../utils/FilterDate";
 import { useNavigate } from "react-router-dom";
 import AddPromotion from "./AddPromotion";
-import EditPromotion from "./EditPromotion";
 import SelectDate from "../../utils/SelectDate";
-import { Car, Edit, Eye, Trash } from "lucide-react";
+import {  Edit, Eye, Trash } from "lucide-react";
 import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
+import EditPromotion from "./EditPromotion";
 
-const PromotionData = () => {
+const PromotionList = () => {
 
     const [showEditPromotion, setShowEditPromotion] = useState(false);
     const [showAddPromotion, setShowAddPromotion] = useState(false);
@@ -64,14 +63,6 @@ const PromotionData = () => {
         "createdAt" // field ที่เก็บวันที่
     );
 
-    const handleRefresh = (e) => {
-        e.preventDefault();
-        setSearch("");
-        setStartDate(null);
-        setEndDate(null);
-    }
-
-    handleFetchPromotion();
 
 
     return (
@@ -84,14 +75,6 @@ const PromotionData = () => {
                         setStartDate(startDate);
                         setEndDate(endDate);
                     }} />
-                    <button
-                        onClick={() => handleRefresh()}
-                        className="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded"
-                    >
-                        Reset
-                    </button>
-
-
                     {/* Buttons */}
                     <div onClick={() => setShowAddPromotion(true)} className="flex flex-col sm:flex-row  gap-3 sm:gap-4">
                         <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
@@ -145,6 +128,7 @@ const PromotionData = () => {
                                                 e.stopPropagation();
                                                 setShowEditPromotion(true);
                                                 setSelectedPromotion(item.promotion_id);
+
                                             }}
                                         />
                                         <Trash
@@ -158,47 +142,14 @@ const PromotionData = () => {
                             ))
                         }
                     </div>
-
-                    {/* Mobile Card Layout (visible only on mobile) */}
-                    <div className="md:hidden divide-y divide-gray-200">
-                        <div className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
-                            <div className="flex items-center gap-3 mb-3">
-                                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <Car className="text-gray-600 w-6 h-6" />
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className="font-semibold text-lg text-gray-900"></h3>
-                                    <p className="text-gray-600 text-base"></p>
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-1 gap-2 text-base">
-                                <div className="flex justify-between py-1">
-                                    <span className="text-gray-500 font-medium">ໂທ:</span>
-                                    <span className="font-medium text-gray-900"></span>
-                                </div>
-                                <div className="flex justify-between py-1">
-                                    <span className="text-gray-500 font-medium">ປ້າຍ:</span>
-                                    <span className="font-medium text-gray-900"></span>
-                                </div>
-                                <div className="flex justify-between py-1">
-                                    <span className="text-gray-500 font-medium">ວັນທີ:</span>
-                                    <span className="font-medium text-gray-900"></span>
-                                </div>
-                                <div className="flex justify-between py-1">
-                                    <span className="text-gray-500 font-medium">ເວລາ:</span>
-                                    <span className="font-medium text-gray-900"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 {/* Edit promotion */}
-                <EditPromotion show={showEditPromotion} onClose={() => setShowEditPromotion(false)} promotionId={selectedPromotion} />
+                <EditPromotion show={showEditPromotion} onClose={() => setShowEditPromotion(false)} promotionId={selectedPromotion} handleFetchPromotion={handleFetchPromotion} />
                 {/* Add promotion */}
-                <AddPromotion show={showAddPromotion} onClose={() => setShowAddPromotion(false)} />
+                <AddPromotion show={showAddPromotion} onClose={() => setShowAddPromotion(false)} handleFetchPromotion={handleFetchPromotion} />
             </div>
         </div>
     )
 }
 
-export default PromotionData
+export default PromotionList

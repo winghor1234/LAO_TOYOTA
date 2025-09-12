@@ -1,17 +1,17 @@
-import { FaTools } from "react-icons/fa";
+import { FaArrowLeft, FaTools } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-// import { getServiceById } from "../../../api/Service";
-import { BackButton } from "../../../utils/BackButton";
 import Spinner from "../../../utils/Loading";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
+import { useNavigate } from "react-router-dom";
 
 
 const DetailService = () => {
     const { id } = useParams();
     const [serviceData, setServiceData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -47,7 +47,14 @@ const DetailService = () => {
         <div className="min-h-screen bg-gray-50 p-2 sm:p-4">
             <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
                 <div className="p-4 sm:p-6">
-                    <BackButton />
+                    <div
+                        onClick={() => navigate(-1)}
+                        className="inline-flex items-center justify-center w-auto px-4 py-1 sm:py-2 bg-gray-200 hover:bg-gray-300 rounded-xl cursor-pointer transition-colors mb-4">
+                        <button className="flex items-center gap-2 text-gray-700 hover:text-black">
+                            <FaArrowLeft className="text-sm sm:text-base" />
+                            <span className="font-medium text-sm sm:text-lg lg:text-xl">ກັບໄປຫນ້າກ່ອນ</span>
+                        </button>
+                    </div>
                     <hr className="border-gray-200 my-4" />
 
                     <h2 className="text-center text-lg sm:text-xl font-semibold text-gray-800 mb-6">

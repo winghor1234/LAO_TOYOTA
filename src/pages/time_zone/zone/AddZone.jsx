@@ -1,61 +1,65 @@
-import { Wrench, X } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import { useState } from "react";
-// import { createZone, getAllTime } from "../../../api/Time_Zone";
+import { useEffect, useState } from "react";
 import Spinner from "../../../utils/Loading";
-import { useEffect } from "react";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
+import { useForm } from "react-hook-form";
 
-const AddZone = ({ show, onClose, fetchZone }) => {
-
+const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
   const [loading, setLoading] = useState(false);
   const [time, setTime] = useState([]);
-  const [timeId, setTimeId] = useState('');
 
-  const [formData, setFormData] = useState({
-    timeId: "",
-    zoneName: "",
-    timeFix: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-
-
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
+  // 📌 ดึงข้อมูล time ทั้งหมด
   const handleFetchTime = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ALL_TIME);
-      // console.log("Fetched time :", res?.data?.data);
       setTime(res?.data?.data || []);
-    } catch (error) {
-      console.error("Error fetching time:", error);
+    } catch (err) {
+      console.error(err);
     }
   };
 
   useEffect(() => {
     handleFetchTime();
-  }, [])
+  }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // 📌 ดึงข้อมูล zone มาใส่ใน form
+  const handleFetchZone = async () => {
+    if (!zoneId) return;
+    try {
+      const res = await axiosInstance.get(APIPath.SELECT_ONE_ZONE(zoneId));
+      const resData = res?.data?.data;
+      reset({
+        zoneName: resData.zoneName,
+        timeFix: resData.timeFix,
+        timeId: resData.timeId,
+      });
+    } catch (error) {
+      console.error("Fetch zone failed:", error);
+    }
+  };
+
+  useEffect(() => {
+    handleFetchZone();
+  }, [zoneId]);
+
+  // 📌 submit form
+  const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const data = new URLSearchParams();
-      data.append("timeId", timeId);
-      data.append("zoneName", formData.zoneName);
-      data.append("timeFix", formData.timeFix);
-
-
-      await axiosInstance.post(APIPath.CREATE_ZONE, data);
-      SuccessAlert("ເພີ່ມຂໍ້ມູນໂຊນສຳເລັດ")
+      await axiosInstance.put(APIPath.UPDATE_ZONE(zoneId), data);
+      SuccessAlert("ແກ້ໄຂຂໍ້ມູນໂຊນສຳເລັດ");
       fetchZone();
       onClose();
     } catch (error) {
-      console.error("Error adding zone :", error);
+      console.error("Update zone failed:", error.response?.data || error.message);
     } finally {
       setLoading(false);
     }
@@ -71,50 +75,64 @@ const AddZone = ({ show, onClose, fetchZone }) => {
       />
 
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl bg-white rounded-2xl shadow-lg p-4 sm:p-6 text-sm transition-all">
-        <h2 className="text-lg sm:text-xl font-bold text-center mb-4">ເພີ່ມຂໍ້ມູນລາງວັນ</h2>
+        <h2 className="text-lg sm:text-xl font-bold text-center mb-4">
+          ແກ້ໄຂຂໍ້ມູນໂຊນ
+        </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
-          {/* Inputs */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-            <input
-              type="text"
-              name="zoneName"
-              value={formData.zoneName}
-              onChange={handleOnChange}
-              required
-              placeholder="ຊື່ໂຊນ"
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-            />
-            <input
-              type="text"
-              name="timeFix"
-              value={formData.timeFix}
-              onChange={handleOnChange}
-              required
-              placeholder="ເວລາສ້ອມແປງ"
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-            />
-            <select
-              name="timeId"
-              id="timeId"
-              value={timeId}
-              onChange={(e) => setTimeId(e.target.value)}
-              required
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors">
-              <option disabled>ເລືອກເວລາ</option>
-              {time.filter((item) => item.timeStatus !== false).map((item) => (
-                <option key={item.time_id} value={item.time_id}>
-                  {item.time}
+            <div className="w-full">
+              <input
+                type="text"
+                {...register("zoneName", { required: "ກະລຸນາປ້ອນຊື່ໂຊນ" })}
+                placeholder="ຊື່ໂຊນ"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm"
+              />
+              {errors.zoneName && (
+                <span className="text-red-500 text-sm">{errors.zoneName.message}</span>
+              )}
+            </div>
+
+            <div className="w-full">
+              <input
+                type="text"
+                {...register("timeFix", { required: "ກະລຸນາປ້ອນເວລາສ້ອມແປງ" })}
+                placeholder="ເວລາສ້ອມແປງ"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm"
+              />
+              {errors.timeFix && (
+                <span className="text-red-500 text-sm">{errors.timeFix.message}</span>
+              )}
+            </div>
+
+            <div className="w-full">
+              <select
+                defaultValue=""
+                {...register("timeId", { required: "ກະລຸນາເລືອກເວລາ" })}
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm"
+              >
+                <option value="" disabled>
+                  ເລືອກເວລາ
                 </option>
-              ))}
-            </select>
+                {time
+                  .filter((item) => item.timeStatus !== false)
+                  .map((item) => (
+                    <option key={item.time_id} value={item.time_id}>
+                      {item.time}
+                    </option>
+                  ))}
+              </select>
+              {errors.timeId && (
+                <span className="text-red-500 text-sm">{errors.timeId.message}</span>
+              )}
+            </div>
           </div>
-          {/* Buttons */}
+
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-3">
             <button
               type="button"
               onClick={() => {
-                SuccessAlert("ຍົກເລີກການເພີ່ມຂໍ້ມູນ");
+                SuccessAlert("ຍົກເລີກການແກ້ໄຂ");
                 onClose();
               }}
               className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg w-full sm:w-28 h-10 cursor-pointer transition-colors text-sm"
@@ -136,4 +154,4 @@ const AddZone = ({ show, onClose, fetchZone }) => {
   );
 };
 
-export default AddZone;
+export default EditZone;

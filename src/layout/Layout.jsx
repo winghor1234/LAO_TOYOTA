@@ -13,11 +13,13 @@ const Layout = () => {
   const navigate = useNavigate();
   const token = useToyotaStore((state) => state.getToken());
 
+
   useEffect(() => {
     if (!token) {
       navigate("/login", { replace: true });
     }
-  }, []);
+  }, [token, navigate]);
+
 
 
   return (

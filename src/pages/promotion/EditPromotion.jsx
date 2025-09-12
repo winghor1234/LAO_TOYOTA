@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
-// import { getPromotionById, updatePromotion } from "../../api/Promotion";
 import Spinner from "../../utils/Loading";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
@@ -19,25 +18,13 @@ const promoSchema = z.object({
 
 const EditPromotion = ({ show, onClose, promotionId }) => {
   const [loading, setLoading] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    reset,
-    formState: { errors }
-  } = useForm({
-    resolver: zodResolver(promoSchema)
-  });
-
+  const {register,handleSubmit,setValue,watch,reset,formState: { errors }} = useForm({resolver: zodResolver(promoSchema)});
   const imageFile = watch("image");
 
   useEffect(() => {
     const fetchDataById = async () => {
       if (!promotionId) return;
       try {
-        // const res = await getPromotionById(promotionId);
         const res = await axiosInstance.get(APIPath.SELECT_ONE_PROMOTION(promotionId));
         const data = res?.data?.data;
         reset({
@@ -50,7 +37,7 @@ const EditPromotion = ({ show, onClose, promotionId }) => {
       }
     };
     fetchDataById();
-  }, []);
+  }, [promotionId]);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -62,7 +49,6 @@ const EditPromotion = ({ show, onClose, promotionId }) => {
     }
 
     try {
-      // await updatePromotion(promotionId, formData);
       await axiosInstance.put(APIPath.UPDATE_PROMOTION(promotionId), formData);
       SuccessAlert("ແກ້ໄຂຂໍ້ມູນສໍາເລັດ");
       onClose();
@@ -112,7 +98,7 @@ const EditPromotion = ({ show, onClose, promotionId }) => {
               <div className="relative shadow-2xl h-56 w-72 mb-2 flex items-center justify-center gap-2">
                 <img
                   src={
-                    imageFile instanceof FileList
+                    (imageFile && imageFile[0] instanceof File)
                       ? URL.createObjectURL(imageFile[0])
                       : imageFile // string URL
                   }
