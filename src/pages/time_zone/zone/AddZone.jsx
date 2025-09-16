@@ -47,7 +47,9 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
   };
 
   useEffect(() => {
-    handleFetchZone();
+    if (zoneId) {
+      handleFetchZone();
+    }
   }, [zoneId]);
 
   // 📌 submit form

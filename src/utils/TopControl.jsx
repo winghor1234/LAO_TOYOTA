@@ -7,7 +7,7 @@ export const TopControl = () => {
             {/* Top Controls */}
             <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 mb-6">
                 {/* Date pickers and search - Mobile: Stack vertically, Tablet/Desktop: Horizontal */}
-                <SelectDate/>
+                <SelectDate on/>
 
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row  gap-3 sm:gap-4">

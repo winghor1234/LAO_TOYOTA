@@ -10,7 +10,7 @@ const RepairSuccess = () => {
     const [fixData, setFixData] = useState([]);
 
     const handleBack = () => {
-        navigate('/user/appointment/repair');
+        navigate('/user/booking/repair');
     };
 
     console.log(fixData)

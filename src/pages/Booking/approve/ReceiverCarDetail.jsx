@@ -38,8 +38,9 @@ const ReceiverCarDetail = () => {
   const handleChangeStatus = async () => {
     try {
       await axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "cancel" });
+      await axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "true" });
       // setRejectZone(true)
-      navigate("/user/appointment");
+      navigate("/user/booking");
       SuccessAlert("ປະຕິເສດສຳເລັດແລ້ວ");
       fetchBooking();
     } catch (error) {

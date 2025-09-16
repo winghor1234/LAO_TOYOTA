@@ -8,6 +8,8 @@ import { filterByDateRange } from "../../utils/FilterDate";
 import { filterSearch } from "../../utils/FilterSearch";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
+import ExportExcelButton from "../../utils/ExcelExportButton";
+import ImportExcel from "../../utils/ImportExel";
 
 
 
@@ -20,6 +22,7 @@ const CarList = () => {
   const [search, setSearch] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [exportedData, setExportedData] = useState([]);
   // const [carId, setCarId] = useState(null);
   const handleFetchCar = async () => {
     try {
@@ -27,6 +30,15 @@ const CarList = () => {
       // console.log("Fetched car data:", resAllCar?.data?.data);
       setCar(resAllCar?.data?.data);
       setUserId(resGetUserId?.data?.data?.user_id);
+      setExportedData(
+        resAllCar?.data?.data?.map((item) => ({
+          ຊື່ລົດ: item.model,
+          ປ້າຍທະບຽນ: item.plateNumber,
+          ເລກຖັງ: item.frameNumber,
+          ເລກຈັກ: item.engineNumber,
+          ແຂວງ: item.province,
+        }))
+      )
     } catch (error) {
       console.error("Error fetching car data:", error);
 
@@ -77,12 +89,8 @@ const CarList = () => {
           <button className="bg-red-600 hover:bg-red-700 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
             ຄົ້ນຫາ
           </button>
-          <button className="bg-green-500 hover:bg-green-600 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
-            Export
-          </button>
-          <button className="bg-yellow-500 hover:bg-yellow-600 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
-            Import
-          </button>
+          <ExportExcelButton data={exportedData} />
+          <ImportExcel fetchTime={handleFetchCar} addToExport={setExportedData} />
           <button onClick={() => setShowAddCarForm(true)} className="bg-blue-500 hover:bg-blue-600 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
             ເພີ່ມລົດ
           </button>

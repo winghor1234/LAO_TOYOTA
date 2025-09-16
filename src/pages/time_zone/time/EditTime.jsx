@@ -29,7 +29,7 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
        if (timeId) {
         handleFetchTime();
        }
-    }, []);
+    }, [timeId]);
     // console.log(timeId)
 
     const handleOnChange = (e) => {

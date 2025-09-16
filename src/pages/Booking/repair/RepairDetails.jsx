@@ -5,30 +5,39 @@ import { BackButton } from "../../../utils/BackButton";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
-// import { getBookingById } from "../../../api/Booking";
 
-// Main RepairDetails Component
+
+
 const RepairDetails = () => {
   const { id } = useParams();
   const [showPopup, setShowPopup] = useState(false);
   const [fixData, setFixData] = useState([]);
   const [bookingId, setBookingId] = useState('');
+  const [timeId, setTimeId] = useState('');
+
+
 
 
 
   const fetchData = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(id));
-      // console.log(" res data:", res?.data?.data);
+      console.log(" res data:", res?.data?.data);
       setFixData(res?.data?.data);
     } catch (error) {
       console.log(error);
     }
   }
 
-  const handleSubmit = (id) => {
+
+
+  const handleSubmit = (bookingId, timeId) => {
+  
     setShowPopup(true);
-    setBookingId(id);
+    setBookingId(bookingId);
+    setTimeId(timeId);
+
+
 
     }
 
@@ -105,7 +114,7 @@ const RepairDetails = () => {
             {/* Action Button */}
             <div className="flex justify-center lg:justify-end">
               <button
-                onClick={() => handleSubmit(fixData?.booking_id)}
+                onClick={() => handleSubmit(fixData?.booking_id, fixData?.time?.time_id)}
                 className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full transition-colors font-medium text-sm lg:text-base w-full sm:w-auto"
               >
                 ສຳເລັດການສ້ອມແປງ
@@ -195,7 +204,7 @@ const RepairDetails = () => {
       {/* Popup */}
       {
         showPopup && (
-          <PopupRepair setShowPopup={setShowPopup} bookingId={bookingId} />
+          <PopupRepair setShowPopup={setShowPopup} bookingId={bookingId} timeId={timeId}/>
         )
       }
     </div >

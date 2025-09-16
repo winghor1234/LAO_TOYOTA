@@ -12,10 +12,10 @@ export const filterSearch = (items, key, query) => {
   const lowerQuery = query.toLowerCase();
 
   return [...items].sort((a, b) => {
-    const aValue = a[key].toLowerCase();
-    const bValue = b[key].toLowerCase();
+    const aValue = (a[key] ?? "").toString().toLowerCase();
+    const bValue = (b[key] ?? "").toString().toLowerCase();
 
-    const aMatch = aValue.includes(lowerQuery); // ตรงทั้งหมด
+    const aMatch = aValue.includes(lowerQuery);
     const bMatch = bValue.includes(lowerQuery);
 
     if (aMatch && !bMatch) return -1;

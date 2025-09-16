@@ -25,15 +25,15 @@ export const useAddPromotionForm = ({onClose, handleFetchPromotion}) => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("detail", data.detail);
+    const dataForm = new FormData();
+    dataForm.append("title", data.title);
+    dataForm.append("detail", data.detail);
     if (data.image && data.image[0] instanceof File) {
-      formData.append("files", data.image[0]);
+      dataForm.append("files", data.image[0]);
     }
 
     try {
-      await axios.post(APIPath.CREATE_PROMOTION, formData);
+      await axios.post(APIPath.CREATE_PROMOTION, dataForm);
       handleFetchPromotion();
       SuccessAlert("ເພີ່ມຂໍ້ມູນສໍາເລັດ");
       onClose();

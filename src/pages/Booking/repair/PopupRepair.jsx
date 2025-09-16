@@ -2,63 +2,66 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
-// import { getAllFix, updateFixStatus } from "../../../api/Fix";
 
 // PopupRepair Component
-const PopupRepair = ({ setShowPopup , bookingId }) => {
-  // console.log("bookingId : ",bookingId);
+const PopupRepair = ({ setShowPopup, bookingId, timeId }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    bookingId: '',
-    zoneId: '',
-    kmNext: '',
-    kmLast: '',
-    detailFix: '',
+    kmNext: "",
+    kmLast: "",
+    detailFix: "",
   });
   const [fixes, setFixes] = useState([]);
 
-
+  // ดึงข้อมูล fix ทั้งหมด
   const fetchFix = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ALL_FIX);
-      // console.log(res?.data?.data);
-      setFixes(res?.data?.data);
+      setFixes(res?.data?.data || []);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-
+  // อัปเดตค่าใน input
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleSubmit = async() => {
- try {
-  const fixIdObject = fixes.find((fix) => fix.bookingId === bookingId);
+  // ส่งข้อมูลอัปเดต
+  const handleSubmit = async () => {
+    try {
+      // หา fix เดิมที่ตรงกับ bookingId
+      const fixToUpdate = fixes.find((fix) => fix.bookingId === bookingId);
+      if (!fixToUpdate) {
+        console.log("ไม่พบ fix ที่ตรงกับ bookingId นี้");
+        return;
+      }
 
-  if (!fixIdObject) {
-   return; 
-  }
+      // เตรียมข้อมูลส่งไป backend
+      const data = {
+        bookingId,
+        zoneId: fixToUpdate.zoneId, // ใช้ zoneId เดิม
+        kmNext: formData.kmNext,
+        kmLast: formData.kmLast,
+        detailFix: formData.detailFix,
+      };
 
-  const data = new URLSearchParams();
-  data.append("bookingId", fixIdObject.bookingId);
-  data.append("zoneId", fixIdObject.zoneId);
-  data.append("kmNext", formData.kmNext);
-  data.append("kmLast", formData.kmLast);
-  data.append("detailFix", formData.detailFix);
+      // อัปเดต fix เดิม
+      await axiosInstance.put(APIPath.UPDATE_FIX_STATUS(fixToUpdate.fix_id), data);
 
-  await axiosInstance.put(APIPath.UPDATE_FIX_STATUS(fixIdObject.fix_id), data);
-  navigate(`/user/repairSuccess/${fixIdObject.fix_id}`);
+      // อัปเดตสถานะเวลา
+      await axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "true" });
 
- } catch (error) {
-  console.log(error);
- }
-};
+      navigate(`/user/repairSuccess/${fixToUpdate.fix_id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     fetchFix();
@@ -70,7 +73,6 @@ const PopupRepair = ({ setShowPopup , bookingId }) => {
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center">ລາຍລະອຽດການສ້ອມແປງ</h2>
 
         <div className="space-y-4 sm:space-y-6">
-          {/* Distance inputs */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <input
               type="number"
@@ -92,7 +94,6 @@ const PopupRepair = ({ setShowPopup , bookingId }) => {
             />
           </div>
 
-          {/* Repair details */}
           <textarea
             name="detailFix"
             value={formData.detailFix}
@@ -102,42 +103,8 @@ const PopupRepair = ({ setShowPopup , bookingId }) => {
             rows={3}
             className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors resize-none"
           />
-
-          {/* Cost inputs */}
-          {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            <input
-              type="number"
-              name="laborCost"
-              value={formData.laborCost}
-              onChange={handleInputChange}
-              required
-              placeholder="ຄ່າແຮງງານ"
-              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-            />
-            <input
-              type="number"
-              name="partsCost"
-              value={formData.partsCost}
-              onChange={handleInputChange}
-              required
-              placeholder="ຄ່າອະໄຫຼ"
-              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-            />
-          </div> */}
-
-          {/* Total price */}
-          {/* <input
-            type="number"
-            name="totalPrice"
-            value={formData.totalPrice}
-            onChange={handleInputChange}
-            required
-            placeholder="ລາຄາລວມ"
-            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-          />*/}
         </div>
 
-        {/* Action buttons */}
         <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 pt-4">
           <button
             onClick={() => setShowPopup(false)}

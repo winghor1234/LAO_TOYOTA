@@ -1,209 +1,150 @@
 import { Car } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import logo from '../../../assets/corrects.png'
-import { TopControl } from "../../../utils/TopControl";
-import { useEffect, useState } from "react";
+import logo from "../../../assets/corrects.png";
+import { useEffect, useMemo, useState } from "react";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
-// import { getAllBooking } from "../../../api/Booking";
-// import { getAllFix } from "../../../api/Fix";
-
-
-
-// const vehicleData = [
-//     {
-//         brand: 'TOYOTA',
-//         customer: 'Mr A',
-//         phone: '020 9679 4376',
-//         number: 'ກງ 5444',
-//         date: '02/05/2025',
-//         time: '13:23'
-//     },
-//     {
-//         brand: 'TOYOTA',
-//         customer: 'Mr B',
-//         phone: '020 9679 4377',
-//         number: 'ກງ 5445',
-//         date: '03/05/2025',
-//         time: '14:30'
-//     },
-//     {
-//         brand: 'HONDA',
-//         customer: 'Mr C',
-//         phone: '020 9679 4378',
-//         number: 'ກງ 5446',
-//         date: '04/05/2025',
-//         time: '09:15'
-//     },
-//     {
-//         brand: 'HONDA',
-//         customer: 'Mr C',
-//         phone: '020 9679 4378',
-//         number: 'ກງ 5446',
-//         date: '04/05/2025',
-//         time: '09:15'
-//     },
-//     {
-//         brand: 'HONDA',
-//         customer: 'Mr C',
-//         phone: '020 9679 4378',
-//         number: 'ກງ 5446',
-//         date: '04/05/2025',
-//         time: '09:15'
-//     },
-//     {
-//         brand: 'HONDA',
-//         customer: 'Mr C',
-//         phone: '020 9679 4378',
-//         number: 'ກງ 5446',
-//         date: '04/05/2025',
-//         time: '09:15'
-//     },
-//     {
-//         brand: 'HONDA',
-//         customer: 'Mr C',
-//         phone: '020 9679 4378',
-//         number: 'ກງ 5446',
-//         date: '04/05/2025',
-//         time: '09:15'
-//     },
-//     {
-//         brand: 'HONDA',
-//         customer: 'Mr C',
-//         phone: '020 9679 4378',
-//         number: 'ກງ 5446',
-//         date: '04/05/2025',
-//         time: '09:15'
-//     },
-//     {
-//         brand: 'HONDA',
-//         customer: 'Mr C',
-//         phone: '020 9679 4378',
-//         number: 'ກງ 5446',
-//         date: '04/05/2025',
-//         time: '09:15'
-//     },
-//     {
-//         brand: 'HONDA',
-//         customer: 'Mr C',
-//         phone: '020 9679 4378',
-//         number: 'ກງ 5446',
-//         date: '04/05/2025',
-//         time: '09:15'
-//     },
-// ];
-
+import BookingSearch from "../../../utils/BookingSearch";
 
 
 const Success = () => {
-     const navigate = useNavigate();
-      const [bookings, setBookings] = useState([]);
-      const [fixes, setFixes] = useState([]);
-    
-    
-      const fetchData = async () => {
-        try {
-          const [bookingRes, fixRes] = await Promise.all([axiosInstance.get(APIPath.SELECT_ALL_BOOKING), axiosInstance.get(APIPath.SELECT_ALL_FIX)]);
-          setBookings(bookingRes?.data?.data || []);
-          setFixes(fixRes?.data?.data || []);
-          // console.log(res?.data?.data);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    
-    
-    
-    
-      const fixDetail = (id) => {
-        try {
-          navigate(`/user/repairDetail/${id}`);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    
-      const filteredBookings = bookings.filter((booking) => {
-      if (booking.bookingStatus !== "success") return false;
-    
-      const fix = fixes.find((f) => f.bookingId === booking.booking_id);
-      // return true ถ้าไม่มี fix หรือ fixStatus เป็น "padding"
-      return !fix || fix.fixStatus !== "padding";
-    });
-    
-      useEffect(() => {
-        fetchData();
-      }, []);
+    const navigate = useNavigate();
+    const [bookings, setBookings] = useState([]);
+    const [fixes, setFixes] = useState([]);
+    const [exportData, setExportData] = useState([]);
 
+    const fetchData = async () => {
+        try {
+            const [bookingRes, fixRes] = await Promise.all([
+                axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
+                axiosInstance.get(APIPath.SELECT_ALL_FIX),
+            ]);
+            setBookings(bookingRes?.data?.data || []);
+            setFixes(fixRes?.data?.data || []);
+            setExportData(
+                bookingRes?.data?.data
+                    ?.filter((booking) =>
+                        fixRes?.data?.data?.some(
+                            (f) => f.bookingId === booking.booking_id && f.fixStatus === "success"
+                        )
+                    )
+                    ?.map((item) => ({
+                        ຊື່ລົດ: item?.car?.model,
+                        ຊື່ລູກຄ້າ: item?.user?.username,
+                        ເບີໂທລູກຄ້າ: item?.user?.phoneNumber,
+                        ປ້າຍທະບຽນ: item?.car?.plateNumber,
+                        ວັນທີ: item?.time?.date,
+                        ເວລາ: item?.time?.time,
+                    }))
+            );
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fixDetail = (id) => {
+        navigate(`/user/successDetail/${id}`);
+    };
+
+    const filteredBookings = useMemo(() => {
+        return bookings.filter((booking) =>
+            fixes.some(
+                (f) =>
+                    f.bookingId === booking.booking_id && f.fixStatus === "success"
+            )
+        );
+    }, [bookings, fixes]);
+
+    const handleSearch = async ({ searchText }) => {
+        try {
+            const res = await axiosInstance.get(
+                `${APIPath.SEARCH_BOOKING}?search=${searchText}`
+            );
+            setBookings(res?.data?.data || []);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
-        <div>
-            {/* Top Controls */}
-            <TopControl />
-            {/* Data Table */}
-            <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full">
-                {/* Desktop/Tablet Table Header (hidden on mobile) */}
-                <div className="hidden md:block  w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
-                    <div className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-base lg:text-lg">
-                        <div className="flex justify-center items-center">ຂໍ້ມູນຜູ້ນັດໝາຍ</div>
-                        <div className="flex justify-center items-center">ຊື່ລູກຄ້າ</div>
-                        <div className="flex justify-center items-center">ເບີໂທລູກຄ້າ</div>
-                        <div className="flex justify-center items-center">ປ້າຍທະບຽນ</div>
-                        <div className="flex justify-center items-center">ວັນທີ</div>
-                        <div className="flex justify-center items-center">ເວລາ</div>
+        <div className="p-4">
+            <BookingSearch onSearch={handleSearch} exportData={exportData} setExportData={setExportData} fetchBooking={fetchData} />
+            <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
+                {/* Desktop/Tablet Header */}
+                <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
+                    <div className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
+                        <div className="text-center">ຂໍ້ມູນຜູ້ນັດໝາຍ</div>
+                        <div className="text-center">ຊື່ລູກຄ້າ</div>
+                        <div className="text-center">ເບີໂທລູກຄ້າ</div>
+                        <div className="text-center">ປ້າຍທະບຽນ</div>
+                        <div className="text-center">ວັນທີ</div>
+                        <div className="text-center">ເວລາ</div>
                     </div>
                 </div>
 
-                {/* Desktop/Tablet Table Body (hidden on mobile) */}
+                {/* Desktop/Tablet Body */}
                 <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
                     {filteredBookings.map((item, index) => (
-                        <div key={index} onClick={() => fixDetail(item.booking_id)} className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 transition-colors">
+                        <div
+                            key={index}
+                            onClick={() => fixDetail(item.booking_id)}
+                            className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 transition-colors cursor-pointer text-xs md:text-sm lg:text-base"
+                        >
                             <div className="flex items-center gap-2 md:gap-3">
                                 <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                                    {/* <Eye className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" /> */}
-                                    <img src={logo} alt="" className="h-full w-full" />
+                                    <img src={logo} alt="success" className="h-full w-full object-contain" />
                                 </div>
-                       
-                                <span className="font-medium text-xs md:text-sm lg:text-base">{item?.car?.model}</span>
+                                <span>{item?.car?.model}</span>
                             </div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item?.user?.username}</div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item?.user?.phoneNumber}</div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item?.car?.plateNumber}</div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item?.time?.date}</div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item?.time?.time}</div>
+                            <div className="text-center">{item?.user?.username}</div>
+                            <div className="text-center">{item?.user?.phoneNumber}</div>
+                            <div className="text-center">{item?.car?.plateNumber}</div>
+                            <div className="text-center">{item?.time?.date}</div>
+                            <div className="text-center">{item?.time?.time}</div>
                         </div>
                     ))}
                 </div>
 
-                {/* Mobile Card Layout (visible only on mobile) */}
+                {/* Mobile Card Layout */}
                 <div className="md:hidden divide-y divide-gray-200">
                     {filteredBookings.map((item, index) => (
-                        <div key={index} className="p-4 hover:bg-gray-50 transition-colors">
+                        <div
+                            key={index}
+                            onClick={() => fixDetail(item.booking_id)}
+                            className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
+                        >
                             <div className="flex items-center gap-3 mb-3">
-                                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <Car className="text-gray-600 w-6 h-6" />
+                                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                                    <img src={logo} alt="success" className="h-8 w-8 object-contain" />
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="font-semibold text-lg text-gray-900">{item?.car?.model}</h3>
-                                    <p className="text-gray-600 text-base">{item?.user?.username}</p>
+                                    <h3 className="font-semibold text-base text-gray-900">
+                                        {item?.car?.model}
+                                    </h3>
+                                    <p className="text-gray-600 text-sm">{item?.user?.username}</p>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-1 gap-2 text-base">
-                                <div className="flex justify-between py-1">
-                                    <span className="text-gray-500 font-medium">ໂທ:</span>
-                                    <span className="font-medium text-gray-900">{item?.user?.phoneNumber}</span>
+                            <div className="grid grid-cols-1 gap-2 text-sm">
+                                <div className="flex justify-between">
+                                    <span className="text-gray-500">ເບີໂທ:</span>
+                                    <span className="text-gray-900">{item?.user?.phoneNumber}</span>
                                 </div>
-                                <div className="flex justify-between py-1">
-                                    <span className="text-gray-500 font-medium">ປ້າຍ:</span>
-                                    <span className="font-medium text-gray-900">{item?.car?.plateNumber}</span>
+                                <div className="flex justify-between">
+                                    <span className="text-gray-500">ປ້າຍ:</span>
+                                    <span className="text-gray-900">{item?.car?.plateNumber}</span>
                                 </div>
-                                <div className="flex justify-between py-1">
-                                    <span className="text-gray-500 font-medium">ວັນທີ:</span>
-                                    <span className="font-medium text-gray-900">{item?.time?.date}</span>
+                                <div className="flex justify-between">
+                                    <span className="text-gray-500">ວັນທີ:</span>
+                                    <span className="text-gray-900">{item?.time?.date}</span>
                                 </div>
-                                <div className="flex justify-between py-1">
-                                    <span className="text-gray-500 font-medium">ເວລາ:</span>
-                                    <span className="font-medium text-gray-900">{item?.time?.time}</span>
+                                <div className="flex justify-between">
+                                    <span className="text-gray-500">ເວລາ:</span>
+                                    <span className="text-gray-900">{item?.time?.time}</span>
                                 </div>
                             </div>
                         </div>
@@ -211,7 +152,7 @@ const Success = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Success
+export default Success;

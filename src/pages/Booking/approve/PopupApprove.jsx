@@ -42,7 +42,7 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId }) => {
         axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "false" })
       ]);
       setShowPopup(false);
-      navigate("/user/appointment");
+      navigate("/user/booking");
 
     } catch (error) {
       console.error("Error adding zone :", error);
