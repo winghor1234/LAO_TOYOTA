@@ -57,8 +57,9 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
     setLoading(true);
     try {
       await axiosInstance.put(APIPath.UPDATE_ZONE(zoneId), data);
-      SuccessAlert("ແກ້ໄຂຂໍ້ມູນໂຊນສຳເລັດ");
       fetchZone();
+      reset();
+      SuccessAlert("ແກ້ໄຂຂໍ້ມູນໂຊນສຳເລັດ");
       onClose();
     } catch (error) {
       console.error("Update zone failed:", error.response?.data || error.message);

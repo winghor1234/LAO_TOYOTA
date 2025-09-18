@@ -124,7 +124,7 @@ const CarList = () => {
 
         {/* Desktop/Tablet Table Body (hidden on mobile) */}
         <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
-          {filteredCar.map((item, index) => (
+          {filteredCar?.map((item, index) => (
             <div key={index} className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 transition-colors">
               {/* <div className="flex items-center gap-2 md:gap-3">
                 <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gray-200 rounded-full flex items-center justify-center">
