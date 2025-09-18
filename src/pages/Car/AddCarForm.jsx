@@ -7,6 +7,7 @@ import { BackButton } from '../../utils/BackButton';
 import { SuccessAlert } from '../../utils/handleAlert/SuccessAlert';
 import axiosInstance from '../../utils/AxiosInstance';
 import APIPath from '../../api/APIPath';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const schema = z.object({
   userId: z.string().min(1, 'ກະລຸນາເລືອກລູກຄ້າ'),
@@ -54,6 +55,11 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
     }
   };
 
+  const handleBack = () => {
+    reset();
+    onClose();
+  };
+
   return (
     <>
       {/* Background */}
@@ -70,7 +76,14 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
       >
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <BackButton />
+          <div
+            onClick={handleBack}
+            className="inline-flex items-center justify-center w-auto px-4 py-1 sm:py-2 bg-gray-200 hover:bg-gray-300 rounded-xl cursor-pointer transition-colors mb-4">
+            <button className="flex items-center gap-2 text-gray-700 hover:text-black">
+              <FaArrowLeft className="text-sm sm:text-base" />
+              <span className="font-medium text-sm sm:text-lg lg:text-xl">ກັບໄປຫນ້າກ່ອນ</span>
+            </button>
+          </div>
           <button className="bg-yellow-400 hover:bg-yellow-600 transition-colors px-4 py-2 text-white rounded-lg text-sm sm:text-base">
             Import
           </button>

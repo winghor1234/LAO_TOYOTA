@@ -161,9 +161,9 @@ const GiftList = () => {
                 </div>
             </div>
             {/* Edit Reward Popup */}
-            <EditReward show={showEditReward} onClose={() => setShowEditReward(false)} giftId={giftId} />
+            <EditReward show={showEditReward} onClose={() => setShowEditReward(false)} giftId={giftId} handleFetch={fetchGifts} />
             {/* Add Reward Popup */}
-            <AddReward show={showAddReward} onClose={() => setShowAddReward(false)} />
+            <AddReward show={showAddReward} onClose={() => setShowAddReward(false)} handleFetch={fetchGifts} />
         </div>
     )
 }

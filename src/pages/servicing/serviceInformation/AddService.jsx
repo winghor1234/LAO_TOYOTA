@@ -8,7 +8,7 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 
 
-const AddService = ({ show, onClose }) => {
+const AddService = ({ show, onClose, handleFetch }) => {
   const [formData, setFormData] = useState({
     nameService: "",
     description: "",
@@ -28,7 +28,6 @@ const AddService = ({ show, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     const data = new FormData();
     data.append("serviceName", formData.nameService);
     data.append("description", formData.description);
@@ -36,12 +35,13 @@ const AddService = ({ show, onClose }) => {
 
     try {
       await axiosInstance.post(APIPath.CREATE_SERVICE, data);
-      SuccessAlert("ເພີ່ມຂໍ້ມູນສໍາເລັດ");
+      handleFetch();
       setFormData({
         nameService: "",
         description: "",
         image: null,
       });
+      SuccessAlert("ເພີ່ມຂໍ້ມູນສໍາເລັດ");
       onClose();
     } catch (error) {
       console.error("create service failed:", error);

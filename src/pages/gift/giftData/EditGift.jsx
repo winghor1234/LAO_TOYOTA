@@ -8,7 +8,7 @@ import APIPath from "../../../api/APIPath";
 
 
 
-const EditGift = ({ show, onClose, giftId }) => {
+const EditGift = ({ show, onClose, giftId, handleFetch }) => {
 
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -52,6 +52,7 @@ const EditGift = ({ show, onClose, giftId }) => {
     try {
       await axiosInstance.put(APIPath.UPDATE_GIFT(giftId), data);
       // console.log("Update gift successful:", res.data);
+      handleFetch();
       SuccessAlert("ແກ້ໄຂຂໍ້ມູນລາງວັນສຳເລັດ");
       onClose();
     } catch (error) {

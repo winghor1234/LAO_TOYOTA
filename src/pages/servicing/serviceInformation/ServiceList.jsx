@@ -197,10 +197,12 @@ const ServiceList = () => {
                 show={showEditService}
                 onClose={() => setShowEditService(false)}
                 serviceId={selectedService}
+                handleFetch={handleFetchService}
             />
             <AddService
                 show={showAddService}
                 onClose={() => setShowAddService(false)}
+                handleFetch={handleFetchService}
             />
         </div>
     );

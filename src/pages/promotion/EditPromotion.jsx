@@ -16,7 +16,7 @@ const promoSchema = z.object({
   image: z.any().optional()
 });
 
-const EditPromotion = ({ show, onClose, promotionId }) => {
+const EditPromotion = ({ show, onClose, promotionId, handleFetchPromotion }) => {
   const [loading, setLoading] = useState(false);
   const {register,handleSubmit,setValue,watch,reset,formState: { errors }} = useForm({resolver: zodResolver(promoSchema)});
   const imageFile = watch("image");
@@ -50,6 +50,7 @@ const EditPromotion = ({ show, onClose, promotionId }) => {
 
     try {
       await axiosInstance.put(APIPath.UPDATE_PROMOTION(promotionId), formData);
+      handleFetchPromotion();
       SuccessAlert("ແກ້ໄຂຂໍ້ມູນສໍາເລັດ");
       onClose();
     } catch (error) {

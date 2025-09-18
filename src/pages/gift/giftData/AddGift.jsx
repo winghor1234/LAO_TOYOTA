@@ -6,7 +6,7 @@ import Spinner from "../../../utils/Loading";
 import axios from "axios";
 import APIPath from "../../../api/APIPath";
 
-const AddGift = ({ show, onClose }) => {
+const AddGift = ({ show, onClose, handleFetch }) => {
 
   const [loading, setLoading] = useState(false);
 
@@ -41,6 +41,12 @@ const AddGift = ({ show, onClose }) => {
 
       // await createGift(data);
       await axios.post(APIPath.CREATE_GIFT, data)
+      handleFetch();
+      setFormData({
+        name: "",
+        point: "",
+        image: null,
+      });
       SuccessAlert("ເພີ່ມຂໍ້ມູນລາງວັນສຳເລັດ")
       onClose();
     } catch (error) {

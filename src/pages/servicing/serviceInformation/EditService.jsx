@@ -8,7 +8,7 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 
 
-const EditService = ({ show, onClose, serviceId }) => {
+const EditService = ({ show, onClose, serviceId, handleFetch }) => {
   const [formData, setFormData] = useState({
     serviceName: "",
     description: "",
@@ -29,6 +29,7 @@ const EditService = ({ show, onClose, serviceId }) => {
           description: data?.description || "",
           image: data?.image || null,
         });
+        handleFetch();
       } catch (error) {
         console.error("Error fetching service:", error);
       }
