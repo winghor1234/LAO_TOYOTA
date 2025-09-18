@@ -34,7 +34,7 @@ const EditService = ({ show, onClose, serviceId }) => {
       }
     };
     fetchDataById();
-  }, []);
+  }, [serviceId]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;

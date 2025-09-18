@@ -29,7 +29,7 @@ const EditGift = ({ show, onClose, giftId }) => {
       });
     };
     handleFetchGiftId();
-  }, []);
+  }, [giftId]);
   // console.log(giftId)
 
   const handleOnChange = (e) => {
