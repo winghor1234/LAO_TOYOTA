@@ -9,12 +9,16 @@ import {
   Clock,
   X,
   LogOutIcon,
-  User,
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../assets/logo.jpg'
 import useToyotaStore from "../store/ToyotaStore";
-// import { removeToken } from "../utils/Token";
+import { LiaGiftsSolid } from "react-icons/lia";
+import { FaPeopleArrows } from "react-icons/fa";
+import { TbReportAnalytics } from "react-icons/tb";
+
+
+
 
 
 
@@ -34,6 +38,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const isCar = currentPath.startsWith('/user/car');
   const isTimePath = currentPath.startsWith('/user/time-zone');
   const isUserPath = currentPath.startsWith('/user/user');
+  const isReportPath = currentPath.startsWith('/user/report');
+
 
 
   const handleLogout = () => {
@@ -42,13 +48,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   };
   const SideBarItems = [
     { icon: <Home className='w-5 h-5' />, label: 'Dashboard', path: '/user/dashboard', isActive: isDashboardPath },
-    { icon: <Users className='w-5 h-5' />, label: 'ນັດໝາຍ', path: '/user/booking', isActive: isBookingPath },
+    { icon: <FaPeopleArrows className='w-5 h-5' />, label: 'ນັດໝາຍ', path: '/user/booking', isActive: isBookingPath },
     { icon: <Clock className='w-5 h-5' />, label: 'ຈັດການໂຊນ/ເວລາ', path: '/user/time-zone', isActive: isTimePath },
     { icon: <Gift className='w-5 h-5' />, label: 'ໂປຣໂມຊັ່ນ', path: '/user/promotion', isActive: isPromotionPath },
-    { icon: <Calendar className='w-5 h-5' />, label: 'ລາງວັນ', path: '/user/gift', isActive: isGiftPath },
+    { icon: <LiaGiftsSolid className='w-5 h-5' />, label: 'ລາງວັນ', path: '/user/gift', isActive: isGiftPath },
     { icon: <Car className='w-5 h-5' />, label: 'ຂໍ້ມູນລົດ', path: '/user/car', isActive: isCar },
-    { icon: <User className='w-5 h-5' />, label: 'ຜູ້ດູເເລລະບົບ', path: '/user/user', isActive: isUserPath },
+    { icon: <Users className='w-5 h-5' />, label: 'ຂໍ້ມູນລູກຄ້າ', path: '/user/user', isActive: isUserPath },
     { icon: <Settings className='w-5 h-5' />, label: 'ບໍລິການ', path: '/user/servicing', isActive: isServicePath },
+    { icon: <TbReportAnalytics className='w-5 h-5' />, label: 'ລາຍງານ', path: '/user/report', isActive: isReportPath },
   ];
 
   return (

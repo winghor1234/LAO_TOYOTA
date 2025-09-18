@@ -34,6 +34,7 @@ import GiftList from "../pages/gift/giftData/GiftList";
 import ServiceList from "../pages/servicing/serviceInformation/ServiceList";
 import TimeList from "../pages/time_zone/time/TimeList";
 import ZoneList from "../pages/time_zone/zone/ZoneList";
+import ReportList from "../pages/report/ReportList";
 
 
 
@@ -154,6 +155,10 @@ const router = createBrowserRouter([
       {
         path: "promotion",
         element: <PromotionList/>,
+      },
+      {
+        path: "report",
+        element: <ReportList/>
       },
       {
         path: "profile",

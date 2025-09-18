@@ -4,10 +4,18 @@ import { PieChart, Pie, Cell, ResponsiveContainer, AreaChart, Area, XAxis, YAxis
 import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
-// import { getPromotions } from "../../api/Promotion";
+import { Link, useNavigate } from "react-router-dom";
+import { HiOutlineWrenchScrewdriver } from "react-icons/hi2";
+import { LiaGiftsSolid } from "react-icons/lia";
+import { GrUserAdmin } from "react-icons/gr";
+import { FaChartLine } from "react-icons/fa";
+
+
+
 
 const dataCircle = [{ name: "Complete", value: 40 }, { name: "Remaining", value: 100 }];
 const COLORS = ["#E52020", "#F0F0F0"];
+
 
 const dataLine = [
     { name: "Jan", value: 50 },
@@ -27,80 +35,72 @@ const dataLine = [
 
 
 
-const appointments = [
-  {
-    status1: "ປະເມີນ",
-    status2: "ອະນຸມັດ",
-    brand: "TOYOTA",
-    customer: "Mr A",
-    phone: "020 9679 4376",
-    plate: "ກງ 5444",
-    date: "02/05/2025",
-    time: "13:23",
-  }, {
-    status1: "ປະເມີນ",
-    status2: "ອະນຸມັດ",
-    brand: "TOYOTA",
-    customer: "Mr A",
-    phone: "020 9679 4376",
-    plate: "ກງ 5444",
-    date: "02/05/2025",
-    time: "13:23",
-  }, {
-    status1: "ປະເມີນ",
-    status2: "ອະນຸມັດ",
-    brand: "TOYOTA",
-    customer: "Mr A",
-    phone: "020 9679 4376",
-    plate: "ກງ 5444",
-    date: "02/05/2025",
-    time: "13:23",
-  }, {
-    status1: "ປະເມີນ",
-    status2: "ອະນຸມັດ",
-    brand: "TOYOTA",
-    customer: "Mr A",
-    phone: "020 9679 4376",
-    plate: "ກງ 5444",
-    date: "02/05/2025",
-    time: "13:23",
-  },
-]
+
 
 const Dashboard = () => {
     const [users, setUsers] = useState([]);
     const [promotions, setPromotions] = useState([]);
+    const [booking, setBooking] = useState([]);
+    const [fix, setFix] = useState([]);
+    const [car, setCar] = useState([]);
+    const [gift, setGift] = useState([]);
+    const [time, setTime] = useState([]);
+    const [zone, setZone] = useState([]);
 
-    const fetchUsers = async () => {
-    try {
-        const res = await axiosInstance.get(APIPath.SELECT_ALL_USER);
-        const resp = await axiosInstance.get(APIPath.SELECT_ALL_PROMOTION);
-        setPromotions(resp?.data?.data);
-        setUsers(res?.data?.data);
-        console.log("Users:", res?.data?.data);
-    } catch (error) {
-    console.log(error);
-    }
-};
+    const navigate = useNavigate();
+
+    const fetchData = () => {
+        Promise.all([
+            axiosInstance.get(APIPath.SELECT_ALL_USER),
+            axiosInstance.get(APIPath.SELECT_ALL_PROMOTION),
+            axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
+            axiosInstance.get(APIPath.SELECT_ALL_FIX),
+            axiosInstance.get(APIPath.SELECT_ALL_CAR),
+            axiosInstance.get(APIPath.SELECT_ALL_GIFT),
+            axiosInstance.get(APIPath.SELECT_ALL_TIME),
+            axiosInstance.get(APIPath.SELECT_ALL_ZONE),
+        ])
+            .then(([userRes, promoRes, bookingRes, fixRes, carRes, giftRes, timeRes, zoneRes]) => {
+                setUsers(userRes?.data?.data);
+                setPromotions(promoRes?.data?.data);
+                setBooking(bookingRes?.data?.data);
+                setFix(fixRes?.data?.data);
+                setCar(carRes?.data?.data);
+                setGift(giftRes?.data?.data);
+                setTime(timeRes?.data?.data);
+                setZone(zoneRes?.data?.data);
+                // console.log("Users:", userRes?.data?.data);
+                // console.log("Promotions:", promoRes?.data?.data);
+                // console.log("Booking:", bookingRes?.data?.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+
+
+    const handleApprove = (BookingId, timeId) => {
+        navigate(`/user/receiverCarDetail/${BookingId}?time=${timeId}`);
+    };
 
 
 
-useEffect(() => {
-    // console.log("fetch user...")
-    fetchUsers();
-    
-},[])
+    useEffect(() => {
+        // console.log("fetch user...")
+        fetchData();
 
-const dashboardItems = [
-    { title: "ຂໍ້ມູນຜູ້ໃຊ້ງານທັງໝົດ", value: users.length, icon: <Users className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-    { title: "ຂາຍ", value: "1420", icon: <Clock className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-    { title: "ໂປໂມຊັນ", value: promotions.length, icon: <Gift className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-    { title: "ລວມລາຍວັນ", value: "3102", icon: <Ticket className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-    { title: "ຂໍ້ມູນລົດ", value: "1921", icon: <Car className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-    { title: "ບໍລິການ", value: "1420", icon: <Wrench className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-    { title: "ຈັດການໂຄງ/ເວລາ", value: "194", icon: <Clock3 className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-    { title: "ລິດຕິ້ງໃຊ້ງານ", value: "3102", icon: <FileText className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
-]
+    }, [])
+
+    const dashboardItems = [
+        { title: "ຂໍ້ມູນລູກຄ້າ", path:"/user/user", value: users.length, icon: <Users className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+        { title: "ຍອດບໍລິການ",path:"#", value: "1420", icon: <FaChartLine  className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+        { title: "ຂໍ້ມູນໂປໂມຊັນ",path:"/user/promotion", value: promotions.length, icon: <Gift className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+        { title: "ລາງວັນ",path:"/user/gift", value: gift.length, icon: <LiaGiftsSolid className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+        { title: "ຂໍ້ມູນລົດ",path:"/user/car", value: car.length, icon: <Car className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+        { title: "ຂໍ້ມູນບໍລິການ",path:"/user/servicing", value: fix.length, icon: <HiOutlineWrenchScrewdriver className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+        { title: "ຈັດການໂຊນ/ເວລາ",path:"/user/time-zone", value: zone.length +"/" + time.length , icon: <Clock3 className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+        { title: "ສິດເຂົ້າໃຊ້",path:"#", value: "3102", icon: <GrUserAdmin className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-red-600" /> },
+    ]
 
 
     return (
@@ -108,14 +108,15 @@ const dashboardItems = [
             {/* Dashboard Grid Cards */}
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
                 {dashboardItems.map((item, index) => (
-                    <div
+                    <Link
+                        to={item.path}
                         key={index}
                         className="bg-white w-[260px] h-[156px] rounded-lg shadow-xl flex flex-col items-center justify-center p-3 sm:p-4 md:p-5 lg:p-6 hover:shadow-2xl transition cursor-pointer min-h-[120px] sm:min-h-[140px] md:min-h-[160px]"
                     >
                         {item.icon}
                         <p className="mt-2 sm:mt-3 text-xs sm:text-sm md:text-base lg:text-lg font-medium text-center leading-tight">{item.title}</p>
                         <h1 className="text-lg sm:text-xl md:text-xl lg:text-2xl font-bold mt-1">{item.value}</h1>
-                    </div>
+                    </Link>
                 ))}
             </div>
 
@@ -154,7 +155,7 @@ const dashboardItems = [
                         </ResponsiveContainer>
                     </div>
                     {/* <p className="text-xl sm:text-2xl font-bold mt-2">0%</p> */}
-                    <p className="text-xs sm:text-sm text-red-600 mt-1 text-center px-2">ຜູ້ໃຊ້ງານເດືອນນີ້ 0 ຄົນ, ສູງກວ່າເດືອນທີ່ຜ່ານມາ 0%</p>
+                    <p className="text-xs sm:text-sm text-red-600 mt-1 text-center px-2">ຜູ້ໃຊ້ງານເດືອນນີ້ {users.length} ຄົນ, ສູງກວ່າເດືອນທີ່ຜ່ານມາ 0%</p>
                 </div>
 
                 {/* Area Chart */}
@@ -208,76 +209,93 @@ const dashboardItems = [
                 </div>
             </div>
             <h2 className="text-base mb-2 sm:text-lg md:text-xl font-medium mt-4 sm:mt-6 md:mt-8 ">ການນັດໝາຍລ້າສຸດ</h2>
-                        {/* Data Table */}
-                        <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full">
-                            {/* Desktop/Tablet Table Header (hidden on mobile) */}
-                            <div className="hidden md:block  w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
-                                <div className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-base lg:text-lg">
-                                    <div className="flex justify-center items-center">ຂໍ້ມູນຜູ້ນັດໝາຍ</div>
-                                    <div className="flex justify-center items-center">ຊື່ລູກຄ້າ</div>
-                                    <div className="flex justify-center items-center">ເບີໂທລູກຄ້າ</div>
-                                    <div className="flex justify-center items-center">ປ້າຍທະບຽນ</div>
-                                    <div className="flex justify-center items-center">ວັນທີ</div>
-                                    <div className="flex justify-center items-center">ເວລາ</div>
+            {/* Data Table */}
+            <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
+                {/* Desktop/Tablet View */}
+                <div className="hidden md:block divide-y divide-gray-200 max-h-[400px] overflow-y-auto">
+                    {booking
+                        .filter((item) => item.bookingStatus === "await")
+                        .map((item, index) => (
+                            <div
+                                key={index}
+                                onClick={() =>
+                                    handleApprove(item?.booking_id, item?.time?.time_id)
+                                }
+                                className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors"
+                            >
+                                <div className="flex items-center gap-2 md:gap-3">
+                                    <span className="bg-yellow-500 px-4 py-2 text-black rounded-xl text-xs font-semibold text-center min-w-[60px]">
+                                        ລໍອະນຸມັດ
+                                    </span>
+                                    <span className="font-medium text-xs md:text-sm lg:text-base">
+                                        {item?.car?.model}
+                                    </span>
+                                </div>
+                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                    {item?.user?.username}
+                                </div>
+                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                    {item?.user?.phoneNumber}
+                                </div>
+                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                    {item?.car?.plateNumber}
+                                </div>
+                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                    {item?.time?.date}
+                                </div>
+                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                    {item?.time?.time}
                                 </div>
                             </div>
-            
-                            {/* Desktop/Tablet Table Body (hidden on mobile) */}
-                            <div className="hidden md:block divide-y divide-gray-200">
-                                {appointments.map((item, index) => (
-                                    <div key={index}  className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 transition-colors">
-                                        <div className="flex items-center gap-2 md:gap-3">
-                                            
-                                            <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                                                <Car className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-gray-600 " />
-                                                
-                                            </div>
-                                            <span className="font-medium text-xs md:text-sm lg:text-base">{item.brand}</span>
-                                        </div>
-                                        <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.customer}</div>
-                                        <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.phone}</div>
-                                        <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.plate}</div>
-                                        <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.date}</div>
-                                        <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.time}</div>
+                        ))}
+                </div>
+
+                {/* Mobile View */}
+                <div className="md:hidden divide-y divide-gray-200">
+                    {booking
+                        .filter((item) => item?.bookingStatus === "await")
+                        .map((item, index) => (
+                            <div
+                                key={index}
+                                onClick={() =>
+                                    handleApprove(item?.booking_id, item?.time?.time_id)
+                                }
+                                className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
+                            >
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="bg-yellow-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">
+                                        ລໍອະນຸມັດ
+                                    </span>
+                                    <span className="text-sm font-medium text-gray-800">
+                                        {item?.car?.model}
+                                    </span>
+                                </div>
+                                <div className="grid grid-cols-1 gap-2 text-sm">
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-500">ຜູ້ໃຊ້:</span>
+                                        <span className="text-gray-900">{item?.user?.username}</span>
                                     </div>
-                                ))}
-                            </div>
-            
-                            {/* Mobile Card Layout (visible only on mobile) */}
-                            <div className="md:hidden divide-y divide-gray-200">
-                                {appointments.map((item, index) => (
-                                    <div key={index} className="p-4 hover:bg-gray-50 transition-colors">
-                                        <div className="flex items-center gap-3 mb-3">
-                                            <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
-                                                <Car className="text-gray-600 w-6 h-6" />
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="font-semibold text-lg text-gray-900">{item.brand}</h3>
-                                                <p className="text-gray-600 text-base">{item.customer}</p>
-                                            </div>
-                                        </div>
-                                        <div className="grid grid-cols-1 gap-2 text-base">
-                                            <div className="flex justify-between py-1">
-                                                <span className="text-gray-500 font-medium">ໂທ:</span>
-                                                <span className="font-medium text-gray-900">{item.phone}</span>
-                                            </div>
-                                            <div className="flex justify-between py-1">
-                                                <span className="text-gray-500 font-medium">ປ້າຍ:</span>
-                                                <span className="font-medium text-gray-900">{item.plate}</span>
-                                            </div>
-                                            <div className="flex justify-between py-1">
-                                                <span className="text-gray-500 font-medium">ວັນທີ:</span>
-                                                <span className="font-medium text-gray-900">{item.date}</span>
-                                            </div>
-                                            <div className="flex justify-between py-1">
-                                                <span className="text-gray-500 font-medium">ເວລາ:</span>
-                                                <span className="font-medium text-gray-900">{item.time}</span>
-                                            </div>
-                                        </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-500">ເບີໂທ:</span>
+                                        <span className="text-gray-900">{item?.user?.phoneNumber}</span>
                                     </div>
-                                ))}
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-500">ປ້າຍ:</span>
+                                        <span className="text-gray-900">{item?.car?.plateNumber}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-500">ວັນທີ:</span>
+                                        <span className="text-gray-900">{item?.time?.date}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-500">ເວລາ:</span>
+                                        <span className="text-gray-900">{item?.time?.time}</span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        ))}
+                </div>
+            </div>
         </div>
     )
 }
