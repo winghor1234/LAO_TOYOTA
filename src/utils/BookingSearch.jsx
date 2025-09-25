@@ -6,7 +6,7 @@ import ExportExcelButton from "./ExcelExportButton";
 import ImportExcel from "./ImportExel";
 
 
-const BookingSearch = ({ onSearch , exportData, setExportData, fetchBooking }) => {
+const BookingSearch = ({ onSearch , exportData, }) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [searchText, setSearchText] = useState("");
@@ -22,7 +22,7 @@ const BookingSearch = ({ onSearch , exportData, setExportData, fetchBooking }) =
             className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 mb-6"
         >
             {/* Start Date */}
-            <div className="flex items-center justify-between min-w-[200px] sm:w-auto lg:w-64 h-12 sm:h-14 border border-gray-300 px-3 py-2 bg-white shadow-sm rounded">
+            <div className="flex items-center justify-between min-w-[200px] sm:w-auto  h-12 sm:h-14 border border-gray-300 px-3 py-2 bg-white shadow-sm rounded">
                 <div className="flex items-center gap-2 flex-1">
                     <CalendarDays className="w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
                     <span className="font-semibold text-sm sm:text-base lg:text-lg">ວັນທີ່ເລີ່ມ</span>
@@ -78,7 +78,7 @@ const BookingSearch = ({ onSearch , exportData, setExportData, fetchBooking }) =
                     ຄົ້ນຫາ
                 </button>
                 <ExportExcelButton data={exportData} />
-                <ImportExcel fetchTime={fetchBooking} addToExport={setExportData} />
+                {/* <ImportExcel fetchTime={fetchBooking} addToExport={setExportData} /> */}
 
             </div>
         </form>

@@ -1,13 +1,10 @@
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "../layout/Layout";
-import Repair from "../pages/Booking/repair/Repair";
 import Cancel from "../pages/Booking/Cancel/Cancel";
 import Success from "../pages/Booking/success/Success";
 import ReceiverCarDetail from "../pages/Booking/approve/ReceiverCarDetail";
-import RepairDetails from "../pages/Booking/repair/RepairDetails";
 import SuccessDetail from "../pages/Booking/success/SuccessDetail";
-import RepairSuccess from "../pages/Booking/repair/RepairSuccess";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Servicing from "../pages/servicing/Servicing";
 import HistoryService from "../pages/servicing/servicingHistory/HistoryService";
@@ -35,6 +32,9 @@ import ServiceList from "../pages/servicing/serviceInformation/ServiceList";
 import TimeList from "../pages/time_zone/time/TimeList";
 import ZoneList from "../pages/time_zone/zone/ZoneList";
 import ReportList from "../pages/report/ReportList";
+import FixList from "../pages/Booking/fix/FixList";
+import FixDetails from "../pages/Booking/fix/FixDetails";
+import BookingSuccess from "../pages/Booking/approve/BookingSuccess";
 
 
 
@@ -72,8 +72,8 @@ const router = createBrowserRouter([
             element: <Approve/>
           },
           {
-            path: "repair",
-            element: <Repair />
+            path: "fix",
+            element: <FixList/>
           },
           {
             path: "cancel",
@@ -91,12 +91,12 @@ const router = createBrowserRouter([
         element: <ReceiverCarDetail />
       },
       {
-        path: "repairDetail/:id",
-        element: <RepairDetails />
+        path: "fixDetail/:id",
+        element: <FixDetails/>
       },
       {
-        path: "repairSuccess/:id",
-        element: <RepairSuccess />
+        path: "bookingSuccess/:id",
+        element: <BookingSuccess/>
       },
       {
         path: "successDetail/:id",

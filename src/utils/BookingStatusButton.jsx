@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom"
 
-const StatusButton = () => {
+const BookingStatusButton = () => {
     const location = useLocation();
     const currentPath = location.pathname;
 
@@ -22,8 +22,8 @@ const StatusButton = () => {
         },
         {
             label: 'ກຳລັງສ້ອມແປງ',
-            path: 'repair',
-            isActive: currentPath === '/user/booking/repair'
+            path: 'fix',
+            isActive: currentPath === '/user/booking/fix'
         },
         {
             label: 'ສຳເລັດ',
@@ -73,4 +73,4 @@ const StatusButton = () => {
     )
 }
 
-export default StatusButton
+export default BookingStatusButton

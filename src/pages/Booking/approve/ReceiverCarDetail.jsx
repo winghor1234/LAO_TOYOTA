@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { FaCar } from "react-icons/fa";
 import PopupApprove from "./PopupApprove";
-import RejectZone from "./RejectZone";
 import { BackButton } from "../../../utils/BackButton";
 import { useParams, useSearchParams } from "react-router-dom";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
-import { useNavigate } from "react-router-dom";
-import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
+import PopupReject from "./PopupReject";
+// import { useNavigate } from "react-router-dom";
+// import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 
 // Main ReceiverCarDetail Component
 const ReceiverCarDetail = () => {
@@ -19,9 +19,10 @@ const ReceiverCarDetail = () => {
   // console.log(bookingId);
   // console.log(id);
   const [data, setData] = useState([]);
+  const [timeData, setTimeData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [rejectZone, setRejectZone] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
 
 
@@ -35,23 +36,27 @@ const ReceiverCarDetail = () => {
     }
   }
 
-  const handleChangeStatus = async () => {
+  
+  
+  
+  
+  const handleFetchTime = async () => {
     try {
-      await axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "cancel" });
-      await axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "true" });
-      // setRejectZone(true)
-      navigate("/user/booking");
-      SuccessAlert("ປະຕິເສດສຳເລັດແລ້ວ");
-      fetchBooking();
+      const res = await axiosInstance.get(APIPath.SELECT_ONE_TIME(timeId));
+      // console.log("time id : ",res?.data?.data);
+      setTimeData(res?.data?.data);
     } catch (error) {
       console.log(error);
     }
   }
-
+  console.log("data booking user id  :", data?.userId);
+  const userId = data?.userId;
+  
   useEffect(() => {
     fetchBooking();
+    handleFetchTime();
   }, []);
-
+  
   return (
     <div className="relative min-h-screen  bg-gray-50 p-2 sm:p-4 lg:p-6 ">
       <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
@@ -114,16 +119,16 @@ const ReceiverCarDetail = () => {
               {/* Additional Info */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-6 py-2 text-center font-medium text-gray-700 mb-4 lg:mb-0">
                 <div className="space-y-1">
-                  <p className="font-medium text-gray-500 text-xs lg:text-sm">ສີລົດ</p>
-                  <p className="text-gray-900">{data.color}</p>
-                </div>
-                <div className="space-y-1">
                   <p className="font-medium text-gray-500 text-xs lg:text-sm">ວັນທີ</p>
                   <p className="text-gray-900">{data?.time?.date}</p>
                 </div>
                 <div className="space-y-1">
                   <p className="font-medium text-gray-500 text-xs lg:text-sm">ເວລາ</p>
                   <p className="text-gray-900">{data?.time?.time}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="font-medium text-gray-500 text-xs lg:text-sm">ໂຊນ</p>
+                  <p className="text-gray-900">{timeData?.zone?.zoneName}</p>
                 </div>
               </div>
 
@@ -136,7 +141,7 @@ const ReceiverCarDetail = () => {
                   ອະນຸມັດ
                 </button>
                 <button
-                  onClick={() => handleChangeStatus()}
+                  onClick={() => setRejectZone(true)}
                   className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition-colors font-medium text-xs lg:text-sm"
                 >
                   ປະຕິເສດ
@@ -176,10 +181,10 @@ const ReceiverCarDetail = () => {
 
       {/* Popups */}
       {showPopup && (
-        <PopupApprove setShowPopup={setShowPopup} bookingId={bookingId} timeId={timeId} />
+        <PopupApprove setShowPopup={setShowPopup} bookingId={bookingId} timeId={timeId} userId={userId} fetchBooking={fetchBooking} />
       )}
       {rejectZone && (
-        <RejectZone setRejectZone={setRejectZone} />
+        <PopupReject setRejectZone={setRejectZone}  bookingId={bookingId} timeId={timeId} fetchBooking={fetchBooking}/>
       )}
     </div>
   );

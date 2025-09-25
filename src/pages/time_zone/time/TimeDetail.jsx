@@ -1,4 +1,4 @@
-import { Calendar } from "lucide-react";
+import { Calendar, Clock3, MapPinned } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { BackButton } from "../../../utils/BackButton";
@@ -63,8 +63,18 @@ const TimeDetail = () => {
                                 <p className="text-gray-900">{time?.date}</p>
                             </div>
                             <div className="space-y-3 py-4 flex flex-col items-center" >
-                                <p className="font-medium text-gray-500 text-sm lg:text-lg">ເວລາ : </p>
+                                <div className="flex gap-2 items-center">
+                                    <Clock3 className="text-2xl lg:text-4xl text-gray-700" />
+                                    <span className="text-base lg:text-lg text-gray-500 text-center">ເວລາ : </span>
+                                </div>
                                 <p className="text-gray-900">{time?.time}</p>
+                            </div>
+                            <div className="space-y-3 py-4 flex flex-col items-center" >
+                                <div className="flex gap-2 items-center">
+                                    <MapPinned className="text-2xl lg:text-4xl text-gray-700" />
+                                    <span className="text-base lg:text-lg text-gray-500 text-center">ໂຊນ : </span>
+                                </div>
+                                <p className="text-gray-900">{time?.zone?.zoneName}</p>
                             </div>
                         </div>
                     </div>

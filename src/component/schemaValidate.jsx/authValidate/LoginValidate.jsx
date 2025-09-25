@@ -26,7 +26,7 @@ export const LoginForm = () => {
         setLoading(true);
         try {
             const res = await axiosInstance.post(APIPath.LOGIN, data)
-            // console.log("token: ", res?.data?.data?.refreshToken);
+            // console.log("login data : ", res?.data?.data);
             const token = res?.data?.data?.token;
             const refreshToken = res?.data?.data?.refreshToken;
             const tokenExpire = Date.now() + 60 * 60 * 1000; // 1 ชั่วโมง = 3600000 ms

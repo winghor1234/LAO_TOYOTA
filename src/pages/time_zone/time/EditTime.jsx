@@ -10,10 +10,24 @@ import APIPath from "../../../api/APIPath";
 
 const EditTime = ({ show, onClose, timeId, fetchTime }) => {
     const [loading, setLoading] = useState(false);
+    const [zones, setZones] = useState([]);
     const [formData, setFormData] = useState({
         time: '',
         date: '',
+        zoneId: '',
     });
+
+    const handleFetchZone = async () => {
+        try {
+            const res = await axiosInstance.get(APIPath.SELECT_ALL_ZONE);
+            if (res?.data?.data) {
+                setZones(res?.data?.data);
+            }
+            return [];
+        } catch (error) {
+            console.error("Error fetching zones:", error);
+        }
+    }
 
     const handleFetchTime = async () => {
         if (!timeId) return;
@@ -22,12 +36,14 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
         setFormData({
             time: resData.time,
             date: formatDate(resData.date),
+            zoneId: resData.zoneId,
         });
     };
 
     useEffect(() => {
        if (timeId) {
         handleFetchTime();
+        handleFetchZone();
        }
     }, [timeId]);
     // console.log(timeId)
@@ -44,6 +60,7 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
         const data = new URLSearchParams();
         data.append('time', formData.time);
         data.append('date', formData.date);
+        data.append('zoneId', formData.zoneId);
         try {
             // await updateTime(timeId, data);
             await axiosInstance.put(APIPath.UPDATE_TIME(timeId), data);
@@ -54,6 +71,7 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
             setFormData({
                 time: '',
                 date: '',
+                zoneId: '',
             });
         } catch (error) {
             console.error("Update time failed:", error.response?.data || error.message);
@@ -74,7 +92,7 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
             />
 
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl bg-white rounded-2xl shadow-lg p-4 sm:p-6 text-sm transition-all">
-                <h2 className="text-lg sm:text-xl font-bold text-center mb-4">ແກ້ໄຂ້ຂໍ້ມູນລາງວັນ</h2>
+                <h2 className="text-lg sm:text-xl font-bold text-center mb-4">ແກ້ໄຂ້ຂໍ້ມູນເວລາ</h2>
 
                 <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
                     {/* Inputs */}
@@ -97,6 +115,15 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
                             placeholder="ວັນທີ/ເດືອນ/ປີ"
                             className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
                         />
+                        <select name="zoneId" value={formData.zoneId} onChange={handleOnChange} className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors" required id="">
+                            <option value="" disabled>ເລືອກໂຊນ</option>
+                            {zones.map((zone) => (
+                                <option key={zone.zone_id} value={zone.zone_id}>{zone.zoneName}</option>
+                            ))}
+                            {zones.length === 0 && (
+                                <option value="">ບໍ່ມີໂຊນ</option>
+                            )}
+                        </select>
                     </div>
 
                     {/* Buttons */}

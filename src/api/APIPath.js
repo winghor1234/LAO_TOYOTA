@@ -12,7 +12,12 @@ export default class APIPath {
     static CHANGE_PASSWORD = `${this.BASE_URL}/user/changePassword`;
     static REFRESH = `${this.BASE_URL}/user/refresh`;
     static UPDATE_PROFILE = `${this.BASE_URL}/user/update`;
+    static UPDATE_CUSTOMER(id) { return `${this.BASE_URL}/user/update/${id}`};
+    static UPDATE_POINT = `${this.BASE_URL}/user/updatePoint`; // add new
     static DELETE_USER= `${this.BASE_URL}/user/delete`;
+    static DELETE_CUSTOMER(id) { return `${this.BASE_URL}/user/delete/${id}`};
+
+
 
     // Gift Card API
     static SELECT_ALL_GIFT = `${this.BASE_URL}/giftcard/selAll`;
@@ -50,7 +55,7 @@ export default class APIPath {
     // Booking API
     static SELECT_ALL_BOOKING = `${this.BASE_URL}/booking/selAll`;
     static SEARCH_BOOKING = `${this.BASE_URL}/booking/search`;
-    static SELECT_ONE_BOOKING(id) { return `${this.BASE_URL}/booking/selOne/${id}`}
+    static SELECT_ONE_BOOKING(booking_id) { return `${this.BASE_URL}/booking/selOne/${booking_id}`}
     static SELECT_BY_USER = `${this.BASE_URL}/booking/selByUser`;
     static SELECT_BOOKING_BY_STATUS = `${this.BASE_URL}/booking/selByStatus`;
     static CREATE_BOOKING = `${this.BASE_URL}/booking/insert`;

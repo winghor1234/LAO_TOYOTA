@@ -6,10 +6,14 @@ import APIPath from "../../api/APIPath";
 import AddUser from "./AddUser";
 import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
 import SelectDate from "../../utils/SelectDate";
-import { Car } from "lucide-react";
+import { Car, Edit, Trash } from "lucide-react";
+import EditUser from "./EditUser";
+import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 
 const UserList = () => {
   const [showAdd, setShowAdd] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const [customerId, setCustomerId] = useState(null);
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [startDate, setStartDate] = useState(null);
@@ -31,9 +35,24 @@ const UserList = () => {
     }
   };
 
+    const handleDelete = async (customerId) => {
+    try {
+      const confirmDelete = await DeleteAlert("ທ່ານຕ້ອງການລົບຂໍໍ້ມູນນີ້ບໍ?", "ການລົບຂໍໍ້ມູນສຳເລັດ");
+      if (confirmDelete) {
+        await axiosInstance.delete(APIPath.DELETE_CUSTOMER(customerId));
+        handleFetchUser();
+      }
+    } catch (error) {
+      console.error("Failed to delete car:", error);
+
+    }
+  }
+
   useEffect(() => {
     handleFetchUser();
   }, []);
+
+
 
   return (
     <div className="p-4">
@@ -61,7 +80,7 @@ const UserList = () => {
       <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full">
         {/* Table Header (Desktop/Tablet only) */}
         <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
-          <div className="grid grid-cols-9 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
+          <div className="grid grid-cols-10 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
             <div className="text-center">ລຳດັບ</div>
             <div className="text-center">ລະຫັດຜູ້ໃຊ້</div>
             <div className="text-center">ຊື່ຜູ້ໃຊ້</div>
@@ -71,6 +90,8 @@ const UserList = () => {
             <div className="text-center">ເບີໂທ</div>
             <div className="text-center">ອີເມວ</div>
             <div className="text-center">ສະຖານະ</div>
+            <div className="text-center">ດຳເນີນການ</div>
+
           </div>
         </div>
 
@@ -79,7 +100,7 @@ const UserList = () => {
           {FilteredUser.map((item, index) => (
             <div
               key={index}
-              className="grid grid-cols-9 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors text-xs md:text-sm lg:text-base"
+              className="grid grid-cols-10 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors text-xs md:text-sm lg:text-base"
             >
               <div className="text-center">{index + 1}</div>
               <div className="text-center">{item.customer_number}</div>
@@ -101,6 +122,21 @@ const UserList = () => {
                 )}
               </div>
               <div className="text-center">{item.role}</div>
+              <div className="text-center flex justify-center items-center gap-4">
+                <Edit className="cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowEdit(true); 
+                    setCustomerId(item.user_id)
+                  }}
+                />
+                <Trash
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(item.user_id);
+                  }}
+                />
+              </div>
             </div>
           ))}
         </div>
@@ -159,7 +195,9 @@ const UserList = () => {
       </div>
 
       {/* Add User Popup */}
-      <AddUser show={showAdd} onClose={() => setShowAdd(false)} />
+      <AddUser show={showAdd} onClose={() => setShowAdd(false)} handleFetch={handleFetchUser} />
+      {/* Edit User Popup */}
+      <EditUser show={showEdit} onClose={() => setShowEdit(false)} customerId={customerId} handleFetch={handleFetchUser} />
     </div>
   );
 };

@@ -16,7 +16,7 @@ const UserSchema = z.object({
   village: z.string().min(2, { message: "ບ້ານຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ" }),
 });
 
-const AddUser = ({ show, onClose }) => {
+const AddUser = ({ show, onClose , handleFetch}) => {
   const [loading, setLoading] = useState(false);
 
 
@@ -26,17 +26,11 @@ const AddUser = ({ show, onClose }) => {
     setLoading(true);
     try {
       await axiosInstance.post(APIPath.REGISTER, data)
-      SuccessAlert("ເພີ່ມລູກຄ້າສຳເລັດ");
       onClose();
       // reset fields หลัง submit
-      reset({
-        username: "",
-        phoneNumber: "",
-        password: "",
-        province: "",
-        district: "",
-        village: ""
-      });
+      reset();
+      handleFetch();
+      SuccessAlert("ເພີ່ມລູກຄ້າສຳເລັດ");
     } catch (error) {
       console.error("Add User failed:", error);
       SuccessAlert("ມີບາຍຜິດພາດ!!!", 1500, "error");

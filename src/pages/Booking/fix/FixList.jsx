@@ -1,11 +1,10 @@
-import { Car } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useMemo } from "react";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import BookingSearch from "../../../utils/BookingSearch";
 
-const Repair = () => {
+const FixList = () => {
   const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [fixes, setFixes] = useState([]);
@@ -43,7 +42,7 @@ const Repair = () => {
   };
 
   const fixDetail = (id) => {
-    navigate(`/user/repairDetail/${id}`);
+    navigate(`/user/fixDetail/${id}`);
   };
 
   const filteredBookings = useMemo(() => {
@@ -156,4 +155,4 @@ const Repair = () => {
   );
 };
 
-export default Repair;
+export default FixList;

@@ -139,7 +139,7 @@ const CarList = () => {
               <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.plateNumber}</div>
               <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.province}</div>
               <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-6">
-                <Eye />
+                {/* <Eye /> */}
                 <Edit className="cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();

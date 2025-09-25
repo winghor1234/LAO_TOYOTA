@@ -50,7 +50,7 @@ const ZoneDetail = () => {
 
                     {/* Title */}
                     <h2 className="text-center text-lg sm:text-xl lg:text-2xl font-medium mb-6 sm:mb-8">
-                        ລາຍລະອຽດເວລາ
+                        ລາຍລະອຽດໂຊນ
                     </h2>
 
                     {/* Desktop/Tablet View */}

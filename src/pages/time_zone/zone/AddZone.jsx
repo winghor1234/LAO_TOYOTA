@@ -1,68 +1,30 @@
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Spinner from "../../../utils/Loading";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { useForm } from "react-hook-form";
 
-const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
+const AddZone = ({ show, onClose, fetchZone }) => {
   const [loading, setLoading] = useState(false);
-  const [time, setTime] = useState([]);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
 
-  // 📌 ดึงข้อมูล time ทั้งหมด
-  const handleFetchTime = async () => {
-    try {
-      const res = await axiosInstance.get(APIPath.SELECT_ALL_TIME);
-      setTime(res?.data?.data || []);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  useEffect(() => {
-    handleFetchTime();
-  }, []);
-
-  // 📌 ดึงข้อมูล zone มาใส่ใน form
-  const handleFetchZone = async () => {
-    if (!zoneId) return;
-    try {
-      const res = await axiosInstance.get(APIPath.SELECT_ONE_ZONE(zoneId));
-      const resData = res?.data?.data;
-      reset({
-        zoneName: resData.zoneName,
-        timeFix: resData.timeFix,
-        timeId: resData.timeId,
-      });
-    } catch (error) {
-      console.error("Fetch zone failed:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (zoneId) {
-      handleFetchZone();
-    }
-  }, [zoneId]);
+  const { register, handleSubmit, reset, formState: { errors }, } = useForm();
 
   // 📌 submit form
-  const onSubmit = async (data) => {
+  const submitForm = async (data) => {
     setLoading(true);
     try {
-      await axiosInstance.put(APIPath.UPDATE_ZONE(zoneId), data);
+      const payload = new URLSearchParams();
+      payload.append("zoneName", data.zoneName);
+      payload.append("timeFix", data.timeFix);
+      await axiosInstance.post(APIPath.CREATE_ZONE, payload);
       fetchZone();
       reset();
       SuccessAlert("ແກ້ໄຂຂໍ້ມູນໂຊນສຳເລັດ");
       onClose();
     } catch (error) {
-      console.error("Update zone failed:", error.response?.data || error.message);
+      console.error("Create zone failed:", error.response?.data || error.message);
     } finally {
       setLoading(false);
     }
@@ -79,10 +41,10 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
 
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl bg-white rounded-2xl shadow-lg p-4 sm:p-6 text-sm transition-all">
         <h2 className="text-lg sm:text-xl font-bold text-center mb-4">
-          ແກ້ໄຂຂໍ້ມູນໂຊນ
+          ເພີ່ມຂໍ້ມູນໂຊນ
         </h2>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
+        <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <div className="w-full">
               <input
@@ -108,7 +70,7 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
               )}
             </div>
 
-            <div className="w-full">
+            {/* <div className="w-full">
               <select
                 defaultValue=""
                 {...register("timeId", { required: "ກະລຸນາເລືອກເວລາ" })}
@@ -128,7 +90,7 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
               {errors.timeId && (
                 <span className="text-red-500 text-sm">{errors.timeId.message}</span>
               )}
-            </div>
+            </div> */}
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-3">
@@ -157,4 +119,4 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
   );
 };
 
-export default EditZone;
+export default AddZone;

@@ -1,21 +1,18 @@
 import { useEffect, useState } from "react";
 import { FaCar } from "react-icons/fa";
-import PopupRepair from "./PopupRepair";
 import { BackButton } from "../../../utils/BackButton";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
+import PopupFix from "./PopupFix";
 
 
-
-const RepairDetails = () => {
+const FixDetails = () => {
   const { id } = useParams();
   const [showPopup, setShowPopup] = useState(false);
   const [fixData, setFixData] = useState([]);
   const [bookingId, setBookingId] = useState('');
   const [timeId, setTimeId] = useState('');
-
-
 
 
 
@@ -32,13 +29,9 @@ const RepairDetails = () => {
 
 
   const handleSubmit = (bookingId, timeId) => {
-  
     setShowPopup(true);
     setBookingId(bookingId);
     setTimeId(timeId);
-
-
-
     }
 
 
@@ -122,9 +115,9 @@ const RepairDetails = () => {
             </div>
 
           {/* Mobile View */}
-          {/* <div className="md:hidden space-y-6"> */}
+           <div className="md:hidden space-y-6"> 
             {/* Car Icon and Title */}
-            {/* <div className="flex flex-col items-center gap-4">
+             <div className="flex flex-col items-center gap-4">
               <div className="bg-gray-100 w-20 h-20 flex items-center justify-center rounded-full">
                 <FaCar className="text-3xl text-gray-700" />
               </div>
@@ -132,17 +125,17 @@ const RepairDetails = () => {
             </div>
 
             {/* Customer Information Cards */}
-            {/* <div className="space-y-4">
+             <div className="space-y-4">
               <div className="bg-gray-50 p-4 rounded-lg">
                 <h3 className="font-semibold text-gray-700 mb-3">ຂໍ້ມູນລູກຄ້າ</h3>
                 <div className="grid grid-cols-1 gap-3">
                   <div className="flex justify-between">
                     <span className="text-gray-500">ຊື່ລູກຄ້າ:</span>
-                    <span className="font-medium">{carData.customerName}</span>
+                    <span className="font-medium">{fixData?.user?.username}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500">ເບີໂທ:</span>
-                    <span className="font-medium">{carData.phone}</span>
+                    <span className="font-medium">{fixData?.user?.phoneNumber}</span>
                   </div>
                 </div>
               </div>
@@ -152,23 +145,19 @@ const RepairDetails = () => {
                 <div className="grid grid-cols-1 gap-3">
                   <div className="flex justify-between">
                     <span className="text-gray-500">ປ້າຍທະບຽນ:</span>
-                    <span className="font-medium">{carData.plateNumber}</span>
+                    <span className="font-medium">{fixData?.car?.plateNumber}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500">ເລກຈັກ:</span>
-                    <span className="font-medium">{carData.engineNumber}</span>
+                    <span className="font-medium">{fixData?.car?.engineNumber}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500">ເລກຖັງ:</span>
-                    <span className="font-medium">{carData.chassisNumber}</span>
+                    <span className="font-medium">{fixData?.car?.frameNumber}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500">ລຸ້ນລົດ:</span>
-                    <span className="font-medium">{carData.carModel}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">ສີລົດ:</span>
-                    <span className="font-medium">{carData.color}</span>
+                    <span className="font-medium">{fixData?.car?.model}</span>
                   </div>
                 </div>
               </div>
@@ -178,18 +167,18 @@ const RepairDetails = () => {
                 <div className="grid grid-cols-1 gap-3">
                   <div className="flex justify-between">
                     <span className="text-gray-500">ວັນທີ:</span>
-                    <span className="font-medium">{carData.date}</span>
+                    <span className="font-medium">{fixData?.time?.date}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500">ເວລາ:</span>
-                    <span className="font-medium">{carData.time}</span>
+                    <span className="font-medium">{fixData?.time?.time}</span>
                   </div>
                 </div>
               </div>
-            </div>  */}
+            </div>  
 
             {/* Action Button for Mobile */}
-            {/* <div className="pt-4">
+             <div className="pt-4">
               <button
                 onClick={() => {setShowPopup(true); }}
                 className="bg-green-500 hover:bg-green-600 text-white py-3 rounded-full transition-colors font-medium w-full"
@@ -197,18 +186,18 @@ const RepairDetails = () => {
                 ສຳເລັດການສ້ອມແປງ
               </button>
             </div>
-          </div> */}
+          </div> 
         </div >
       </div >
 
       {/* Popup */}
       {
         showPopup && (
-          <PopupRepair setShowPopup={setShowPopup} bookingId={bookingId} timeId={timeId}/>
+          <PopupFix setShowPopup={setShowPopup} bookingId={bookingId} timeId={timeId}/>
         )
       }
     </div >
   );
 };
 
-export default RepairDetails;
+export default FixDetails;

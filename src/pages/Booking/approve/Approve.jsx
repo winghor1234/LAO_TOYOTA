@@ -13,6 +13,7 @@ const Approve = () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ALL_BOOKING);
       setBooking(res?.data?.data);
+      console.log(res?.data?.data);
       setExportData(
         res?.data?.data?.filter((item) => item.bookingStatus === "await").map((item) => ({
           ຊື່ລົດ: item?.car?.model,
@@ -49,7 +50,6 @@ const Approve = () => {
     <div className="p-4">
       {/* Search */}
       <BookingSearch onSearch={handleSearch} exportData={exportData} setExportData={setExportData} fetchBooking={fetchBooking}/>
-
       {/* Data Table */}
       <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
         {/* Desktop/Tablet View */}

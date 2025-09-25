@@ -10,25 +10,11 @@ import APIPath from "../../../api/APIPath";
 
 const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
     const [loading, setLoading] = useState(false);
-    const [time, setTime] = useState([]);
     const [formData, setFormData] = useState({
-        timeId: '',
         zoneName: '',
         timeFix: '',
     });
 
-    const handleFetchTime = async () => {
-        try {
-            const res = await axiosInstance.get(APIPath.SELECT_ALL_TIME);
-            setTime(res?.data?.data || []);
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    useEffect(() => {
-        handleFetchTime();
-    }, []);
 
     const handleFetchZone = async () => {
         if (!zoneId) return;
@@ -37,7 +23,6 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
         setFormData({
             zoneName: resData.zoneName,
             timeFix: resData.timeFix,
-            timeId: resData.timeId,
         });
     };
 
@@ -58,7 +43,6 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
         const data = new URLSearchParams();
         data.append('zoneName', formData.zoneName);
         data.append('timeFix', formData.timeFix);
-        data.append('timeId', formData.timeId);
         try {
             // await updateZone(zoneId, data);
             await axiosInstance.put(APIPath.UPDATE_ZONE(zoneId), data);
@@ -108,22 +92,6 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
                             placeholder="ເວລາສ້ອມແປງ"
                             className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
                         />
-                        <select
-                            name="timeId"
-                            value={formData.timeId || ""}
-                            onChange={(e) =>
-                                setFormData((prev) => ({ ...prev, timeId: e.target.value }))
-                            }
-                            required
-                            className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors">
-                            <option disabled>ເລືອกເວລາ</option>
-                            {time.filter((item) => item.timeStatus !== false).map((item) => (
-                                <option key={item.time_id} value={item.time_id}>
-                                    {item.time}
-                                </option>
-                            ))}
-                        </select>
-
                     </div>
 
                     {/* Buttons */}

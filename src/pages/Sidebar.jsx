@@ -1,15 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import {
-  Home,
-  Users,
-  Gift,
-  Calendar,
-  Car,
-  Settings,
-  Clock,
-  X,
-  LogOutIcon,
-} from 'lucide-react';
+import {Home,Users,Gift,Car,Settings,Clock,X,LogOutIcon} from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../assets/logo.jpg'
 import useToyotaStore from "../store/ToyotaStore";
@@ -19,18 +9,13 @@ import { TbReportAnalytics } from "react-icons/tb";
 
 
 
-
-
-
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const removeToken = useToyotaStore.getState().removeToken;
 
-
-
   const currentPath = location.pathname;
-  const isBookingPath = currentPath.startsWith('/user/booking') || currentPath === '/user/receiverCarDetail' || currentPath === '/user/successDetail';
+  const isBookingPath = currentPath.startsWith('/user/booking') || currentPath.startsWith('/user/receiverCarDetail') || currentPath.startsWith('/user/fixDetail')  || currentPath.startsWith('/user/cancelDetail') || currentPath.startsWith('/user/successDetail');
   const isGiftPath = currentPath.startsWith('/user/gift');
   const isServicePath = currentPath.startsWith('/user/servicing') || currentPath.startsWith('/user/service-detail/');
   const isDashboardPath = currentPath.startsWith('/user/dashboard');

@@ -44,15 +44,15 @@ const Success = () => {
     };
 
     const fixDetail = (id) => {
-        navigate(`/user/successDetail/${id}`);
+        const fixId = fixes.find((f) => f.bookingId === id )?.fix_id;
+        console.log("fix id:", fixId);
+        if(!fixId) return;
+        navigate(`/user/successDetail/${fixId}`);
     };
 
     const filteredBookings = useMemo(() => {
         return bookings.filter((booking) =>
-            fixes.some(
-                (f) =>
-                    f.bookingId === booking.booking_id && f.fixStatus === "success"
-            )
+            fixes.some((f) =>f.bookingId === booking.booking_id && f.fixStatus === "success")
         );
     }, [bookings, fixes]);
 

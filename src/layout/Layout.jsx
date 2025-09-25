@@ -30,7 +30,7 @@ const Layout = () => {
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         {/* Main Content Area */}
-        <main className="flex-1 p-2 lg:p-4 overflow-auto">
+        <main className="flex-1 p-2 lg:p-4 overflow-auto scroll-hide">
           <Outlet/>
         </main>
       </div>

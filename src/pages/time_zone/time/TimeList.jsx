@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { filterByDateRange } from "../../../utils/FilterDate";
 import { filterSearch } from "../../../utils/FilterSearch";
-import { Calendar, TimerIcon, Edit, Trash } from "lucide-react";
+import { Calendar, TimerIcon, Edit, Trash, MapPinned } from "lucide-react";
 import SelectDate from "../../../utils/SelectDate";
 import AddTime from "./AddTime";
 import EditTime from "./EditTime";
@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { DeleteAlert } from "../../../utils/handleAlert/DeleteAlert";
 import ExportExcelButton from "../../../utils/ExcelExportButton";
 import ImportExcel from "../../../utils/ImportExel";
-import APIPath from "../../../api/APIPath";
 import axiosInstance from "../../../utils/AxiosInstance";
+import APIPath from "../../../api/APIPath";
 
 const TimeList = () => {
     const [showAddTime, setShowAddTime] = useState(false);
@@ -27,6 +27,7 @@ const TimeList = () => {
         try {
             const res = await axiosInstance.get(APIPath.SELECT_ALL_TIME);
             const data = res?.data?.data || [];
+            console.log("Fetched time :", data);
             setTime(data);
 
             // อัปเดต exportData ทุกครั้งเมื่อ fetch
@@ -73,7 +74,7 @@ const TimeList = () => {
                 {/* Export Excel */}
                 <ExportExcelButton data={exportData} fileName="TimeData.xlsx" />
                 {/* Import Excel */}
-                <ImportExcel fetchTime={fetchTime} addToExport={(newData) => setExportData((prev) => [...prev, newData])} />
+                <ImportExcel fetchData={fetchTime} addToExport={(newData) => setExportData((prev) => [...prev, newData])} />
                 <div onClick={() => setShowAddTime(true)} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
                         ເພີ່ມ
@@ -87,33 +88,32 @@ const TimeList = () => {
                     <div key={item.time_id} className="flex justify-center hover:shadow-xl">
                         <div
                             onClick={() => navigate(`/user/timeDetail/${item.time_id}`)}
-                            className={`${item.timeStatus ? "bg-green-600 text-white" : "bg-[#E52020] text-white"
-                                } text-white w-full px-4 py-2 rounded-l cursor-pointer shadow-2xl`}
-                        >
-                            <div className="flex items-center justify-start gap-3 text-md">
+                            className={`${item.timeStatus ? "bg-green-600 text-white" : "bg-[#E52020] text-white"} text-white cursor-pointer w-full px-4 py-2 rounded-lcursor-pointer shadow-2xl`}>
+                            <div className="ml-4 flex items-center justify-start gap-3 text-md">
                                 <TimerIcon />
                                 {item.time}
                             </div>
-                            <div className="mt-2 flex items-center justify-start gap-3 text-md">
+                            <div className="mt-2 ml-4 flex items-center justify-start gap-3 text-md">
                                 <Calendar />
                                 {item.date}
                             </div>
-                            <div className="mt-2 flex items-center justify-center">
+                            <div className="mt-2 ml-4 flex items-center justify-start gap-3 text-2xl font-semibold">
+                                <MapPinned />
+                                {item?.zone?.zoneName}
+                            </div>
+                            <div className="mt-2 ml-4 flex items-center justify-start font-semibold">
                                 <p className="text-2xl">{item.timeStatus ? "ຫວ່າງ" : "ເຕັມ"}</p>
                             </div>
                         </div>
-                        <div
-                            className={`flex flex-col items-center justify-start py-2 gap-2 ${item.timeStatus ? "bg-green-600 text-white" : "bg-[#E52020] text-white"
-                                } px-2 rounded-r cursor-pointer`}
-                        >
+                        <div className={`flex flex-col items-center justify-start py-2 gap-2 ${item.timeStatus ? "bg-green-600 text-white" : "bg-[#E52020] text-white"} px-2 rounded-r cursor-pointer`}>
                             <Edit
-                                className="text-white"
+                                className="text-white h-5 w-5 cursor-pointer"
                                 onClick={() => {
                                     setShowEditTime(true);
                                     setTimeId(item.time_id);
                                 }}
                             />
-                            <Trash className="text-white" onClick={() => handleDelete(item.time_id)} />
+                            <Trash className="text-white h-5 w-5 cursor-pointer" onClick={() => handleDelete(item.time_id)} />
                         </div>
                     </div>
                 ))}

@@ -4,12 +4,15 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 
 // PopupRepair Component
-const PopupRepair = ({ setShowPopup, bookingId, timeId }) => {
+const PopupFix = ({ setShowPopup, bookingId, timeId }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     kmNext: "",
     kmLast: "",
     detailFix: "",
+    carFixPrice: "",
+    carPartPrice: "",
+    totalPrice: "",
   });
   const [fixes, setFixes] = useState([]);
 
@@ -49,6 +52,9 @@ const PopupRepair = ({ setShowPopup, bookingId, timeId }) => {
         kmNext: formData.kmNext,
         kmLast: formData.kmLast,
         detailFix: formData.detailFix,
+        fixCarPrice: formData.carFixPrice,
+        carPartPrice: formData.carPartPrice,
+        totalPrice: formData.totalPrice
       };
 
       // อัปเดต fix เดิม
@@ -57,7 +63,9 @@ const PopupRepair = ({ setShowPopup, bookingId, timeId }) => {
       // อัปเดตสถานะเวลา
       await axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "true" });
 
-      navigate(`/user/repairSuccess/${fixToUpdate.fix_id}`);
+      await axiosInstance.put(APIPath.UPDATE_ZONE_STATUS(fixToUpdate.zoneId), { zoneStatus: "true" });
+
+      navigate(`/user/successDetail/${fixToUpdate.fix_id}`);
     } catch (error) {
       console.log(error);
     }
@@ -103,6 +111,37 @@ const PopupRepair = ({ setShowPopup, bookingId, timeId }) => {
             rows={3}
             className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors resize-none"
           />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <input
+              type="number"
+              name="carFixPrice"
+              value={formData.carFixPrice}
+              onChange={handleInputChange}
+              required
+              placeholder="ຄ່າແຮງງານ"
+              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+            />
+            <input
+              type="number"
+              name="carPartPrice"
+              value={formData.carPartPrice}
+              onChange={handleInputChange}
+              required
+              placeholder="ຄ່າອະໄຫຼ"
+              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+            />
+          </div>
+
+          <input
+            type="number"
+            name="totalPrice"
+            value={formData.totalPrice}
+            onChange={handleInputChange}
+            required
+            placeholder="ລາຄາລວມ"
+            rows={3}
+            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors resize-none"
+          />
         </div>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 pt-4">
@@ -124,4 +163,4 @@ const PopupRepair = ({ setShowPopup, bookingId, timeId }) => {
   );
 };
 
-export default PopupRepair;
+export default PopupFix;

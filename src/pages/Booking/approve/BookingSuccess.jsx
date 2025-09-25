@@ -4,25 +4,26 @@ import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { useEffect, useState } from "react";
-const RepairSuccess = () => {
+const BookingSuccess = () => {
     const navigate = useNavigate();
     const { id } = useParams();
-    const [fixData, setFixData] = useState([]);
+    const [booking, setBooking] = useState([]);
 
     const handleBack = () => {
-        navigate('/user/booking/repair');
+        navigate('/user/booking');
     };
 
-    console.log(fixData)
+    // console.log("id from params:", id);
     const fetchData = async () => {
         try {
-            const res = await axiosInstance.get(APIPath.SELECT_ONE_FIX(id));
-            console.log(" res data:", res?.data?.data);
-            setFixData(res?.data?.data);
+            const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(id));
+            console.log(" res booking data:", res?.data?.data);
+            setBooking(res?.data?.data);
         } catch (error) {
             console.log(error);
         }
     }
+
 
     useEffect(() => {
         fetchData();
@@ -80,25 +81,22 @@ const RepairSuccess = () => {
                             {/* Car and date info */}
                             <div className="bg-gray-50 p-4 rounded-lg space-y-3">
                                 <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
-                                    <p className="font-medium text-gray-800">{repairData.carModel}</p>
-                                    <p className="font-medium text-gray-600">{repairData.date}</p>
+                                    <p className="font-medium text-gray-800">{booking?.car?.model}</p>
+                                    <p className="font-medium text-gray-600">{booking?.time?.date}</p>
                                 </div>
                                 <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
-                                    <p className="font-medium text-gray-800">{repairData.mechanicName}</p>
-                                    <p className="font-medium text-gray-600">{repairData.time}</p>
+                                    <p className="font-medium text-gray-800">{booking?.user?.username}</p>
+                                    <p className="font-medium text-gray-600">{booking?.time?.time}</p>
                                 </div>
                             </div>
 
                             {/* Divider */}
                             <hr className="border-gray-300" />
-
                             {/* Services */}
                             <div className="space-y-2">
-                                {repairData.services.map((service, index) => (
-                                    <p key={index} className="font-medium text-gray-800 text-center sm:text-left">
-                                        {service}
+                                    <p className="font-medium text-gray-800 text-center sm:text-left">
+                                        {booking?.service?.serviceName}
                                     </p>
-                                ))}
                             </div>
 
                             {/* Divider */}
@@ -106,7 +104,7 @@ const RepairSuccess = () => {
 
                             {/* Points earned */}
                             <p className="font-medium text-green-600 text-center text-lg">
-                                ທ່ານໄດ້ຮັບ {repairData.points}
+                                ທ່ານໄດ້ຮັບ +50 ຄະແນນ
                             </p>
 
                             {/* Initial symptoms */}
@@ -126,4 +124,4 @@ const RepairSuccess = () => {
     );
 };
 
-export default RepairSuccess;
+export default BookingSuccess;
