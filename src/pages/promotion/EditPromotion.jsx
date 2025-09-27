@@ -1,66 +1,10 @@
-
 import { Wrench, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
 import Spinner from "../../utils/Loading";
-import axiosInstance from "../../utils/AxiosInstance";
-import APIPath from "../../api/APIPath";
-
-// Zod schema
-const promoSchema = z.object({
-  title: z.string().min(2, { message: "ຊື່ໂປຣໂມຊັ່ນຕ້ອງຢ່າງນ້ອຍ 2 ຕົວ" }),
-  detail: z.string().min(5, { message: "ລາຍລະອຽດຕ້ອງຢ່າງນ້ອຍ 5 ຕົວ" }),
-  image: z.any().optional()
-});
+import { useEditPromotionForm } from "../../component/schemaValidate/promotionValidate/EditPromotionValidate";
 
 const EditPromotion = ({ show, onClose, promotionId, handleFetchPromotion }) => {
-  const [loading, setLoading] = useState(false);
-  const {register,handleSubmit,setValue,watch,reset,formState: { errors }} = useForm({resolver: zodResolver(promoSchema)});
-  const imageFile = watch("image");
-
-  useEffect(() => {
-    const fetchDataById = async () => {
-      if (!promotionId) return;
-      try {
-        const res = await axiosInstance.get(APIPath.SELECT_ONE_PROMOTION(promotionId));
-        const data = res?.data?.data;
-        reset({
-          title: data?.title || "",
-          detail: data?.detail || "",
-          image: data?.image || null
-        });
-      } catch (error) {
-        console.error("Error fetching promotion:", error);
-      }
-    };
-    fetchDataById();
-  }, [promotionId]);
-
-  const onSubmit = async (data) => {
-    setLoading(true);
-    const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("detail", data.detail);
-    if (data.image && data.image[0] instanceof File) {
-      formData.append("image", data.image[0]);
-    }
-
-    try {
-      await axiosInstance.put(APIPath.UPDATE_PROMOTION(promotionId), formData);
-      handleFetchPromotion();
-      SuccessAlert("ແກ້ໄຂຂໍ້ມູນສໍາເລັດ");
-      onClose();
-    } catch (error) {
-      console.error("Update promotion failed:", error.response?.data || error.message);
-      SuccessAlert("ການແກ້ໄຂຂໍ້ມູນລົ້ມເຫຼວ", 1500, "warning");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  const { register, handleSubmit, setValue, imageFile, submitForm, loading, formState: { errors } } = useEditPromotionForm({ onClose, handleFetchPromotion, promotionId });
   if (!show) return null;
 
   return (
@@ -73,26 +17,31 @@ const EditPromotion = ({ show, onClose, promotionId, handleFetchPromotion }) => 
         <h2 className="text-lg sm:text-xl font-bold text-center mb-4">
           ແກ້ໄຂໂປຣໂມຊັ່ນ
         </h2>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
+        <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-            <input
-              type="text"
-              placeholder="ຊື່ໂປຣໂມຊັ່ນ"
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-              {...register("title")}
-            />
-            {errors.title && <p className="text-red-500">{errors.title.message}</p>}
-
-            <input
-              type="text"
-              placeholder="ລາຍລະອຽດ"
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-              {...register("detail")}
-            />
-            {errors.detail && <p className="text-red-500">{errors.detail.message}</p>}
+            <div className="flex flex-col">
+              <input
+                type="text"
+                placeholder="ຊື່ໂປຣໂມຊັ່ນ"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                {...register("title")}
+              />
+              <div className="h-6">
+                {errors.title && <p className="text-red-500">{errors.title.message}</p>}
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <input
+                type="text"
+                placeholder="ລາຍລະອຽດ"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                {...register("detail")}
+              />
+              <div className="h-6">
+                {errors.detail && <p className="text-red-500">{errors.detail.message}</p>}
+              </div>
+            </div>
           </div>
-
           {/* Image preview */}
           <div className="mb-2">
             {(imageFile && imageFile[0] instanceof File) || (imageFile && typeof imageFile === "string") ? (
@@ -120,8 +69,7 @@ const EditPromotion = ({ show, onClose, promotionId, handleFetchPromotion }) => 
               </div>
             )}
           </div>
-
-
+          {/* upload file */}
           <div className="border border-gray-300 rounded-lg flex items-center gap-2 px-2 py-1">
             <Wrench className="text-gray-400 w-5 h-5 sm:w-6 sm:h-6" />
             <input
@@ -130,7 +78,6 @@ const EditPromotion = ({ show, onClose, promotionId, handleFetchPromotion }) => 
               className="w-full py-1 sm:py-2 px-2 sm:px-3 text-sm sm:text-base outline-none"
             />
           </div>
-
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-3">
             <button
               type="button"

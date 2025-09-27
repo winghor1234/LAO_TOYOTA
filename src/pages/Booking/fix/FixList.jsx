@@ -10,7 +10,6 @@ const FixList = () => {
   const [fixes, setFixes] = useState([]);
   const [exportData, setExportData] = useState([]);
 
-
   const fetchData = async () => {
     try {
       const [bookingRes, fixRes] = await Promise.all([
@@ -19,23 +18,15 @@ const FixList = () => {
       ]);
       setBookings(bookingRes?.data?.data || []);
       setFixes(fixRes?.data?.data || []);
-      setExportData(
-        bookingRes?.data?.data
-          ?.filter((booking) =>
-            fixRes?.data?.data?.some(
-              (f) => f.bookingId === booking.booking_id && f.fixStatus === "padding"
-            )
-          )
-          ?.map((item) => ({
-            ຊື່ລົດ: item?.car?.model,
-            ຊື່ລູກຄ້າ: item?.user?.username,
-            ເບີໂທລູກຄ້າ: item?.user?.phoneNumber,
-            ປ້າຍທະບຽນ: item?.car?.plateNumber,
-            ວັນທີ: item?.time?.date,
-            ເວລາ: item?.time?.time,
-          }))
+      setExportData(bookingRes?.data?.data?.filter((booking) => fixRes?.data?.data?.some((f) => f.bookingId === booking.booking_id && f.fixStatus === "padding"))?.map((item) => ({
+        ຊື່ລົດ: item?.car?.model,
+        ຊື່ລູກຄ້າ: item?.user?.username,
+        ເບີໂທລູກຄ້າ: item?.user?.phoneNumber,
+        ປ້າຍທະບຽນ: item?.car?.plateNumber,
+        ວັນທີ: item?.time?.date,
+        ເວລາ: item?.time?.time,
+      }))
       );
-
     } catch (error) {
       console.log(error);
     }
@@ -45,20 +36,11 @@ const FixList = () => {
     navigate(`/user/fixDetail/${id}`);
   };
 
-  const filteredBookings = useMemo(() => {
-    return bookings.filter((booking) =>
-      fixes.some(
-        (f) =>
-          f.bookingId === booking.booking_id && f.fixStatus === "padding"
-      )
-    );
-  }, [bookings, fixes]);
+  const filteredBookings = useMemo(() => { return bookings.filter((booking) => fixes.some((f) => f.bookingId === booking.booking_id && f.fixStatus === "padding")) }, [bookings, fixes]);
 
   const handleSearch = async ({ searchText }) => {
     try {
-      const res = await axiosInstance.get(
-        `${APIPath.SEARCH_BOOKING}?search=${searchText}`
-      );
+      const res = await axiosInstance.get(`${APIPath.SEARCH_BOOKING}?search=${searchText}`);
       setBookings(res?.data?.data || []);
     } catch (error) {
       console.log(error);
@@ -72,7 +54,6 @@ const FixList = () => {
   return (
     <div className="p-4">
       <BookingSearch onSearch={handleSearch} exportData={exportData} setExportData={setExportData} fetchBooking={fetchData} />
-
       <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
         {/* Desktop/Tablet Header */}
         <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
@@ -85,7 +66,6 @@ const FixList = () => {
             <div className="text-center">ເວລາ</div>
           </div>
         </div>
-
         {/* Desktop/Tablet Body */}
         <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
           {filteredBookings.map((item, index) => (
@@ -108,15 +88,13 @@ const FixList = () => {
             </div>
           ))}
         </div>
-
         {/* Mobile Card Layout */}
         <div className="md:hidden divide-y divide-gray-200">
           {filteredBookings.map((item, index) => (
             <div
               key={index}
               onClick={() => fixDetail(item.booking_id)}
-              className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
-            >
+              className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
               <div className="flex items-center justify-between mb-2">
                 <span className="bg-green-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">
                   ອະນຸມັດແລ້ວ

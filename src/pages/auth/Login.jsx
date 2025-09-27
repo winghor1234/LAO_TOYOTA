@@ -1,19 +1,15 @@
 import { Eye, EyeOff, Lock, Phone } from 'lucide-react';
-import { LoginForm } from '../../component/schemaValidate.jsx/authValidate/LoginValidate';
+import { useLoginForm } from '../../component/schemaValidate/authValidate/LoginValidate';
 
 const Login = () => {
-    const { showPassword, setShowPassword, loading, register, handleSubmit, errors, submitForm } = LoginForm();
+    const { showPassword, setShowPassword, loading, register, handleSubmit, formState: { errors }, submitForm } = useLoginForm();
 
     return (
         <div className="bg-gradient-to-br from-red-300 to-white min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8 shadow-lg p-8 bg-white rounded">
                 <div>
                     <div className="mx-auto h-20 w-20 flex items-center justify-center">
-                        <img
-                            src="/src/assets/logo.jpg"
-                            alt="Lao Toyota"
-                            className="h-16 w-auto rounded-full"
-                        />
+                        <img src="/src/assets/logo.jpg" alt="Lao Toyota" className="h-16 w-auto rounded " />
                     </div>
                     <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
                         ເຂົ້າສູ່ລະບົບ
@@ -22,7 +18,6 @@ const Login = () => {
                         ກະລຸນາເຂົ້າສູ່ລະບົບດ້ວຍບັນຊີຂອງທ່ານ
                     </p>
                 </div>
-
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit(submitForm)}>
                     <div className="space-y-4">
                         {/* Phone Input */}
@@ -83,26 +78,13 @@ const Login = () => {
                     </div>
 
                     {/* Remember me and forgot password */}
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                            <input
-                                id="remember-me"
-                                name="remember-me"
-                                type="checkbox"
-                                className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
-                            />
-                            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                                ຈື່ຂ້ອຍໄວ້
-                            </label>
-                        </div>
-
+                    <div className="flex items-center justify-end">
                         <div className="text-sm">
                             <a href="/forgot-password" className="font-medium text-red-600 hover:text-red-500">
-                                ລືມລະຫັດຜ່ານ?
+                                ລືມລະຫັດຜ່ານ ?
                             </a>
                         </div>
                     </div>
-
                     {/* Submit Button */}
                     <div>
                         <button

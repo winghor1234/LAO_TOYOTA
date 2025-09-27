@@ -1,67 +1,11 @@
-import APIPath from '../../api/APIPath';
-import axiosInstance from '../../utils/AxiosInstance';
+import { useEditUserForm } from '../../component/schemaValidate/userValidate/EditUserValidate';
 import { SuccessAlert } from '../../utils/handleAlert/SuccessAlert';
-import { useEffect } from 'react';
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { FaArrowLeft } from 'react-icons/fa';
 
-// 🟢 Zod Schema
-const schema = z.object({
-  username: z.string().min(2, "ຊື່ຕ້ອງຢ່າງນ້ອຍ 2 ຕົວອັກສອນ"),
-  phoneNumber: z.string().min(8, "ເບີໂທຕ້ອງຢ່າງນ້ອຍ 8 ຕົວ").regex(/^\d+$/, "ເບີໂທຕ້ອງເປັນຕົວເລກ"),
-  village: z.string().min(2, "ກະລຸນາປ້ອນບ້ານ ຕ້ອງຢ່າງນ້ອຍ 2 ຕົວອັກສອນ"),
-  district: z.string().min(2, "ກະລຸນາປ້ອນເມືອງ ຕ້ອງຢ່າງນ້ອຍ 2 ຕົວອັກສອນ"),
-  province: z.string().min(2, "ກະລຸນາປ້ອນແຂວງ ຕ້ອງຢ່າງນ້ອຍ 2 ຕົວອັກສອນ"),
-  email: z.string().email("ອີເມວບໍ່ຖືກຕ້ອง").optional().or(z.literal("")),
-});
+
 
 const EditUser = ({ show, onClose, customerId, handleFetch }) => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({
-    resolver: zodResolver(schema),
-  });
-
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axiosInstance.get(APIPath.SELECT_ONE_USER(customerId));
-        reset({
-          username: res?.data?.data?.username || "",
-          phoneNumber: res?.data?.data?.phoneNumber?.toString() || "",
-          province: res?.data?.data?.province || "",
-          district: res?.data?.data?.district || "",
-          village: res?.data?.data?.village || "",
-          email: res?.data?.data?.email || "",
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    if (customerId) fetchUser();
-  }, [customerId, reset]);
-
-  // 🟢 Submit Form
-  const onSubmit = async (formData) => {
-    try {
-      const payload = {
-        ...formData,
-        phoneNumber: parseInt(formData.phoneNumber, 10),
-        email: formData.email === "" ? null : formData.email, 
-      };
-
-        await axiosInstance.put(APIPath.UPDATE_CUSTOMER(customerId), payload);
-      // console.log("User updated successfully:", res);
-      handleFetch();
-      SuccessAlert("ແກ້ໄຂຂໍ້ມູນລູກຄ້າສຳເລັດ");
-      onClose();
-    } catch (error) {
-      console.error("Error updating user:", error);
-      SuccessAlert("ມີບາງຢ່າງຜິດພາດ!!!", 1500, "error");
-    }
-  };
+  const { register, handleSubmit, formState: { errors }, submitForm } = useEditUserForm({ customerId, handleFetch, onClose });
 
   return (
     <>
@@ -92,7 +36,7 @@ const EditUser = ({ show, onClose, customerId, handleFetch }) => {
         <hr className="border-gray-300 border-1 w-full my-3" />
 
         {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full p-3">
+        <form onSubmit={handleSubmit(submitForm)} className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full p-3">
           <div className="flex flex-col">
             <label className="text-base font-medium mb-1">ຊື່ຜູ້ໃຊ້</label>
             <input {...register("username")} className="w-full h-[40px] rounded-lg text-base font-light border border-gray-300 outline-none px-3 hover:border-blue-500 focus:border-blue-500" placeholder="ຊື່ຜູ້ໃຊ້..." />

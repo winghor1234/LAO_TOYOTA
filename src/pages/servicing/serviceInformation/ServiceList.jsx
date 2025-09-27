@@ -1,9 +1,4 @@
-import {
-    Car,
-    Edit,
-    Eye,
-    Trash,
-} from "lucide-react";
+import { Car, Edit, Eye, Trash } from "lucide-react";
 import EditService from "./EditService";
 import { DeleteAlert } from "../../../utils/handleAlert/DeleteAlert";
 import { useState, useEffect } from "react";
@@ -25,6 +20,7 @@ const ServiceList = () => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
 
+    // Fetch services from the API
     const handleFetchService = async () => {
         try {
             const res = await axiosInstance.get(APIPath.SELECT_ALL_SERVICE);
@@ -34,6 +30,7 @@ const ServiceList = () => {
         }
     };
 
+    // Delete service
     const handleDeleteService = async (id) => {
         try {
             const confirmDelete = await DeleteAlert(
@@ -53,10 +50,12 @@ const ServiceList = () => {
         handleFetchService();
     }, []);
 
+    // Handle navigation to detail service
     const handleToDetailService = (id) => {
         navigate(`/user/service-detail/${id}`);
     };
 
+    //  Search 
     const filteredServices = filterByDateRange(
         filterSearch(services, "serviceName", search),
         startDate,
@@ -64,6 +63,7 @@ const ServiceList = () => {
         "createdAt"
     );
 
+    // Reset
     const handleRefresh = (e) => {
         e.preventDefault();
         setSearch("");
@@ -75,30 +75,20 @@ const ServiceList = () => {
         <div className="p-4">
             {/* Top Controls */}
             <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 mb-4">
-                <SelectDate
-                    onSearch={setSearch}
-                    placeholder="ຄົ້ນຫາບໍລິການ..."
-                    onDateChange={({ startDate, endDate }) => {
-                        setStartDate(startDate);
-                        setEndDate(endDate);
-                    }}
+                <SelectDate onSearch={setSearch} placeholder="ຄົ້ນຫາບໍລິການ..." onDateChange={({ startDate, endDate }) => {
+                    setStartDate(startDate);
+                    setEndDate(endDate);
+                }}
                 />
-                <button
-                    onClick={handleRefresh}
-                    className="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded text-sm"
-                >
+                <button onClick={handleRefresh} className="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded text-sm">
                     Reset
                 </button>
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                    <button
-                        onClick={() => setShowAddService(true)}
-                        className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base"
-                    >
+                    <button onClick={() => setShowAddService(true)} className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
                         ເພີ່ມ
                     </button>
                 </div>
             </div>
-
             {/* Data Table */}
             <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full">
                 {/* Table Header (Desktop/Tablet only) */}
@@ -111,7 +101,6 @@ const ServiceList = () => {
                         <div className="text-center">ດຳເນີນການ</div>
                     </div>
                 </div>
-
                 {/* Table Body (Desktop/Tablet only) */}
                 <div className="hidden md:block divide-y divide-gray-200 max-h-[400px] overflow-y-auto">
                     {filteredServices.map((item, index) => (
@@ -134,15 +123,13 @@ const ServiceList = () => {
                             <div className="text-center">{item.description}</div>
                             <div className="flex justify-center gap-4">
                                 <Eye />
-                                <Edit
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setShowEditService(true);
-                                        setSelectedService(item.service_id);
-                                    }}
+                                <Edit onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowEditService(true);
+                                    setSelectedService(item.service_id);
+                                }}
                                 />
-                                <Trash
-                                    onClick={(e) => {
+                                <Trash onClick={(e) => {
                                         e.stopPropagation();
                                         handleDeleteService(item.service_id);
                                     }}
@@ -151,7 +138,6 @@ const ServiceList = () => {
                         </div>
                     ))}
                 </div>
-
                 {/* Mobile Card Layout */}
                 <div className="md:hidden divide-y divide-gray-200">
                     {filteredServices.map((item, index) => (
@@ -172,16 +158,13 @@ const ServiceList = () => {
                                 </div>
                             </div>
                             <div className="flex justify-end gap-4 text-gray-600">
-                                <Eye />
-                                <Edit
-                                    onClick={(e) => {
+                                <Edit onClick={(e) => {
                                         e.stopPropagation();
                                         setShowEditService(true);
                                         setSelectedService(item.service_id);
                                     }}
                                 />
-                                <Trash
-                                    onClick={(e) => {
+                                <Trash onClick={(e) => {
                                         e.stopPropagation();
                                         handleDeleteService(item.service_id);
                                     }}
@@ -191,19 +174,9 @@ const ServiceList = () => {
                     ))}
                 </div>
             </div>
-
             {/* Popups */}
-            <EditService
-                show={showEditService}
-                onClose={() => setShowEditService(false)}
-                serviceId={selectedService}
-                handleFetch={handleFetchService}
-            />
-            <AddService
-                show={showAddService}
-                onClose={() => setShowAddService(false)}
-                handleFetch={handleFetchService}
-            />
+            <EditService show={showEditService} onClose={() => setShowEditService(false)} serviceId={selectedService} handleFetch={handleFetchService}/>
+            <AddService show={showAddService}  onClose={() => setShowAddService(false)}  handleFetch={handleFetchService}/>
         </div>
     );
 };

@@ -1,76 +1,12 @@
 import { Wrench, X } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import { useState, useEffect } from "react";
-// import { getServiceById, updateService } from "../../../api/Service";
-
 import Spinner from "../../../utils/Loading";
-import axiosInstance from "../../../utils/AxiosInstance";
-import APIPath from "../../../api/APIPath";
+import { useServiceEditForm } from "../../../component/schemaValidate/serviceValidate/EditServiceValidate";
+
 
 
 const EditService = ({ show, onClose, serviceId, handleFetch }) => {
-  const [formData, setFormData] = useState({
-    serviceName: "",
-    description: "",
-    image: null,
-  });
-  const [loading, setLoading] = useState(false);
-
-
-
-  useEffect(() => {
-    const fetchDataById = async () => {
-      if (!serviceId) return;
-      try {
-        const res = await axiosInstance.get(APIPath.SELECT_ONE_SERVICE(serviceId));
-        const data = res?.data?.data;
-        setFormData({
-          serviceName: data?.serviceName || "",
-          description: data?.description || "",
-          image: data?.image || null,
-        });
-        handleFetch();
-      } catch (error) {
-        console.error("Error fetching service:", error);
-      }
-    };
-    fetchDataById();
-  }, [serviceId]);
-
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "image" && files?.length > 0) {
-      setFormData((prev) => ({ ...prev, image: files[0] }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const data = new FormData();
-    data.append("serviceName", formData.serviceName);
-    data.append("description", formData.description);
-    if (formData.image instanceof File) data.append("image", formData.image);
-
-    try {
-      // await updateService(serviceId, data);
-      await axiosInstance.put(APIPath.UPDATE_SERVICE(serviceId), data);
-      SuccessAlert("ແກ້ໄຂຂໍ້ມູນສຳເລັດ");
-      onClose();
-    } catch (error) {
-      console.error("Update service failed:", error.response?.data || error.message);
-
-      // console.error("Update service failed:", error);
-      SuccessAlert("ການແກ້ໄຂຂໍ້ມູນລົ້ມເຫຼວ", 1500, "warning");
-    } finally {
-      setLoading(false);
-    }
-  };
-    // console.log("Form Data:", formData);
-  // console.log(" serviceId :", serviceId);
-
+  const { register, handleSubmit, formState: { errors }, submitForm, loading, setValue, imageFile } = useServiceEditForm({ serviceId, handleFetch });
   if (!show) return null;
 
   return (
@@ -84,44 +20,42 @@ const EditService = ({ show, onClose, serviceId, handleFetch }) => {
           ແກ້ໄຂການບໍລິການ
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+        <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-            <input
-              type="text"
-              name="serviceName"
-              value={formData.serviceName}
-              onChange={handleChange}
-              required
-              placeholder="ຊື່ສ້ອມແປງ"
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-            />
-            <input
-              type="text"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-              placeholder="ລາຍລະອຽດ"
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-            />
+            <div className="flex flex-col">
+              <input
+                {...register("serviceName")}
+                placeholder="ຊື່ສ້ອມແປງ"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+              />
+              <div className="h-6">
+                {errors.serviceName && <p className="text-red-500">{errors.serviceName.message}</p>}
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <input
+                {...register("description")}
+                placeholder="ລາຍລະອຽດ"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+              />
+              <div className="h-6">
+                {errors.description && <p className="text-red-500">{errors.description.message}</p>}
+              </div>
+            </div>
           </div>
 
           {/* Image preview */}
           <div className="mb-2">
-            {formData.image ? (
+            {imageFile ? (
               <div className="relative shadow-2xl h-56 w-72 mb-2 flex items-center justify-center gap-2">
                 <img
-                  src={
-                    formData.image instanceof File
-                      ? URL.createObjectURL(formData.image)
-                      : formData.image
-                  }
+                  src={imageFile instanceof File ? URL.createObjectURL(imageFile) : imageFile}
                   alt="service"
                   className="w-full h-full object-contain rounded-lg"
                 />
                 <button
                   type="button"
-                  onClick={() => setFormData({ ...formData, image: null })}
+                  onClick={() => setValue("image", null)}
                   className="bg-red-500 text-white cursor-pointer absolute top-1 right-1 px-2 py-1 rounded-lg text-sm hover:bg-red-600"
                 >
                   <X />
@@ -129,20 +63,18 @@ const EditService = ({ show, onClose, serviceId, handleFetch }) => {
               </div>
             ) : (
               <div className="h-56 w-72 mb-2 flex items-center justify-center shadow-2xl">
-                <h1 className="text-gray-500 font-extrabold text-2xl">
-                  ບໍ່ມີຮູບພາບ
-                </h1>
+                <h1 className="text-gray-500 font-extrabold text-2xl">ບໍ່ມີຮູບພາບ</h1>
               </div>
             )}
           </div>
+
 
           {/* File upload */}
           <div className="border border-gray-300 rounded-lg flex items-center gap-2 px-2 py-1">
             <Wrench className="text-gray-400 w-5 h-5 sm:w-6 sm:h-6" />
             <input
               type="file"
-              name="image"
-              onChange={handleChange}
+              onChange={(e) => setValue("image", e.target.files[0])}
               className="w-full py-1 sm:py-2 px-2 sm:px-3 text-sm sm:text-base outline-none"
             />
           </div>

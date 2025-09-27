@@ -28,7 +28,7 @@ const ServiceStatusButton = () => {
     return (
         <>
             {/* Status Buttons */}
-            <div className="border flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-2 md:gap-3 lg:gap-4 xl:gap-6 mb-2 sm:mb-4 lg:mb-4">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-2 md:gap-3 lg:gap-4 xl:gap-6 mb-2 sm:mb-4 lg:mb-4">
                 {/* Service Button */}
                 {ButtonItem.map((item) => (
                     <button

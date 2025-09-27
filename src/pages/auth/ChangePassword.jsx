@@ -1,7 +1,7 @@
 import { BackButton } from "../../utils/BackButton";
-import { ChangePasswordForm } from "../../component/schemaValidate.jsx/authValidate/ChangePasswordValidate";
+import { ChangePasswordForm } from "../../component/schemaValidate/authValidate/ChangePasswordValidate";
 const ChangePassword = () => {
-  const { register, handleSubmit, errors, submitForm, loading, message } = ChangePasswordForm();
+  const { register, handleSubmit, formState: { errors }, submitForm, loading, } = ChangePasswordForm();
 
 
   return (
@@ -9,29 +9,28 @@ const ChangePassword = () => {
       <BackButton />
       <h2 className="text-2xl font-bold mb-4">Change Password</h2>
       <form onSubmit={handleSubmit(submitForm)} className="space-y-4">
-        <input
-          {...register("oldPassword")}
-          type="password"
-          placeholder="Old Password"
-          className="w-full px-3 py-2 border rounded"
-        />
-        <div className="h-7">
-          {errors.oldPassword && (
-            <p className="text-red-500 text-sm">{errors.oldPassword.message}</p>
-          )}
+        <div className="flex flex-col">
+          <input
+            {...register("oldPassword")}
+            type="password"
+            placeholder="Old Password"
+            className="w-full px-3 py-2 border rounded"
+          />
+          <div className="h-6">
+            {errors.oldPassword && (<p className="text-red-500 text-sm">{errors.oldPassword.message}</p>)}
+          </div>
         </div>
-        <input
-          {...register("newPassword")}
-          type="password"
-          placeholder="New Password"
-          className="w-full px-3 py-2 border rounded"
-        />
-        <div className="h-7">
-          {errors.newPassword && (
-            <p className="text-red-500 text-sm">{errors.newPassword.message}</p>
-          )}
+        <div className="flex flex-col"> 
+          <input
+            {...register("newPassword")}
+            type="password"
+            placeholder="New Password"
+            className="w-full px-3 py-2 border rounded"
+          />
+          <div className="h-6">
+            {errors.newPassword && (<p className="text-red-500 text-sm">{errors.newPassword.message}</p>)}
+          </div>
         </div>
-
         <button
           type="submit"
           disabled={loading}
@@ -41,7 +40,6 @@ const ChangePassword = () => {
           {loading ? "Changing..." : "Change Password"}
         </button>
       </form>
-      {message && <p className="mt-2 text-center">{message}</p>}
     </div>
   );
 };

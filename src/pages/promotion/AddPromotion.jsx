@@ -1,24 +1,17 @@
-
 import { Wrench, X } from "lucide-react";
 import Spinner from "../../utils/Loading";
 import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
-import { useAddPromotionForm } from "../../component/schemaValidate.jsx/promotionValidate/AddPromotionValidate";
-
-
+import { useAddPromotionForm } from "../../component/schemaValidate/promotionValidate/AddPromotionValidate";
 const AddPromotion = ({ show, onClose, handleFetchPromotion }) => {
-  const { register, handleSubmit, setValue, errors, imageFile, loading, onSubmit } =
-    useAddPromotionForm({onClose, handleFetchPromotion});
-
+  const { register, handleSubmit, setValue, errors, imageFile, loading, onSubmit } = useAddPromotionForm({onClose, handleFetchPromotion});
 
   if (!show) return null;
-
   return (
     <>
       <div
         className="fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity"
         onClick={onClose}
       />
-
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl bg-white rounded-2xl shadow-lg p-4 sm:p-6 text-sm transition-all">
         <h2 className="text-lg sm:text-xl font-bold text-center mb-4">ເພີ່ມການສ້ອມແປງ</h2>
 

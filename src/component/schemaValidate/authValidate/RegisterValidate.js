@@ -22,27 +22,15 @@ export const useRegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({resolver: zodResolver(registerSchema),});
 
-  // สร้าง react-hook-form
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm({
-    resolver: zodResolver(registerSchema),
-  });
-
-  // ฟังก์ชัน submit form
   const submitForm = async (data) => {
     setLoading(true);
     try {
       await axiosInstance.post(APIPath.REGISTER, data)
       SuccessAlert("ລົງທະບຽນສຳເລັດ", 1500, "success");
       navigate("/login");
-
-      // reset fields หลัง submit
-      setValue("username", "");
-      setValue("phoneNumber", "");
-      setValue("password", "");
-      setValue("province", "");
-      setValue("district", "");
-      setValue("village", "");
+      reset();
     } catch (error) {
       console.error("Register failed:", error);
       SuccessAlert("ມີບາຍຜິດພາດ!!!", 1500, "error");
@@ -51,5 +39,5 @@ export const useRegisterForm = () => {
     }
   };
 
-  return { showPassword, setShowPassword, loading, register, handleSubmit, errors, submitForm };
+  return { showPassword, setShowPassword, loading, register, handleSubmit, formState: { errors }, submitForm };
 };

@@ -1,34 +1,9 @@
+import { useAddZoneForm } from "../../../component/schemaValidate/time-zone/AddZoneValidate";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import { useState } from "react";
 import Spinner from "../../../utils/Loading";
-import axiosInstance from "../../../utils/AxiosInstance";
-import APIPath from "../../../api/APIPath";
-import { useForm } from "react-hook-form";
 
 const AddZone = ({ show, onClose, fetchZone }) => {
-  const [loading, setLoading] = useState(false);
-
-
-  const { register, handleSubmit, reset, formState: { errors }, } = useForm();
-
-  // 📌 submit form
-  const submitForm = async (data) => {
-    setLoading(true);
-    try {
-      const payload = new URLSearchParams();
-      payload.append("zoneName", data.zoneName);
-      payload.append("timeFix", data.timeFix);
-      await axiosInstance.post(APIPath.CREATE_ZONE, payload);
-      fetchZone();
-      reset();
-      SuccessAlert("ແກ້ໄຂຂໍ້ມູນໂຊນສຳເລັດ");
-      onClose();
-    } catch (error) {
-      console.error("Create zone failed:", error.response?.data || error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { register, handleSubmit, formState: { errors }, submitForm, loading } = useAddZoneForm({ onClose, fetchZone });
 
   if (!show) return null;
 
@@ -38,59 +13,34 @@ const AddZone = ({ show, onClose, fetchZone }) => {
         className="fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity"
         onClick={onClose}
       />
-
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl bg-white rounded-2xl shadow-lg p-4 sm:p-6 text-sm transition-all">
         <h2 className="text-lg sm:text-xl font-bold text-center mb-4">
           ເພີ່ມຂໍ້ມູນໂຊນ
         </h2>
-
         <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-            <div className="w-full">
+            <div className="w-full flex flex-col">
               <input
                 type="text"
-                {...register("zoneName", { required: "ກະລຸນາປ້ອນຊື່ໂຊນ" })}
+                {...register("zoneName")}
                 placeholder="ຊື່ໂຊນ"
                 className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm"
               />
-              {errors.zoneName && (
-                <span className="text-red-500 text-sm">{errors.zoneName.message}</span>
-              )}
+              <div className="h-6">
+                {errors.zoneName && (<span className="text-red-500 text-sm">{errors.zoneName.message}</span> )}
+              </div>
             </div>
-
             <div className="w-full">
               <input
                 type="text"
-                {...register("timeFix", { required: "ກະລຸນາປ້ອນເວລາສ້ອມແປງ" })}
+                {...register("timeFix")}
                 placeholder="ເວລາສ້ອມແປງ"
                 className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm"
               />
-              {errors.timeFix && (
-                <span className="text-red-500 text-sm">{errors.timeFix.message}</span>
-              )}
+              <div className="h-6">
+                {errors.timeFix && (<span className="text-red-500 text-sm">{errors.timeFix.message}</span> )}
+              </div>
             </div>
-
-            {/* <div className="w-full">
-              <select
-                defaultValue=""
-                {...register("timeId", { required: "ກະລຸນາເລືອກເວລາ" })}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm"
-              >
-                <option value="" disabled>
-                  ເລືອກເວລາ
-                </option>
-                {time
-                  .filter((item) => item.timeStatus !== false)
-                  .map((item) => (
-                    <option key={item.time_id} value={item.time_id}>
-                      {item.time}
-                    </option>
-                  ))}
-              </select>
-              {errors.timeId && (
-                <span className="text-red-500 text-sm">{errors.timeId.message}</span>
-              )}
-            </div> */}
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-3">

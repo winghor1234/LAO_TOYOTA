@@ -14,18 +14,15 @@ const FixDetails = () => {
   const [bookingId, setBookingId] = useState('');
   const [timeId, setTimeId] = useState('');
 
-
-
   const fetchData = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(id));
-      console.log(" res data:", res?.data?.data);
+      // console.log(" res data:", res?.data?.data);
       setFixData(res?.data?.data);
     } catch (error) {
       console.log(error);
     }
   }
-
 
 
   const handleSubmit = (bookingId, timeId) => {

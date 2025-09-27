@@ -13,6 +13,7 @@ const DetailService = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    // Fetch service details
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -27,6 +28,7 @@ const DetailService = () => {
         fetchData();
     }, []);
 
+    // Render loading state
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -35,6 +37,7 @@ const DetailService = () => {
         );
     }
 
+    // Render no data found
     if (!serviceData) {
         return (
             <div className="flex items-center justify-center min-h-screen text-gray-500">
@@ -56,11 +59,9 @@ const DetailService = () => {
                         </button>
                     </div>
                     <hr className="border-gray-200 my-4" />
-
                     <h2 className="text-center text-lg sm:text-xl font-semibold text-gray-800 mb-6">
                         ລາຍລະອຽດບໍລິການ
                     </h2>
-
                     {/* Desktop / Tablet View */}
                     <div className="hidden md:block">
                         <div className="flex gap-6 items-center justify-around p-4 rounded-lg shadow-sm">
@@ -84,7 +85,6 @@ const DetailService = () => {
                                 </div>
                             </div>
                         </div>
-
                         {serviceData.image && (
                             <div className="mt-6 flex justify-center">
                                 <img
@@ -95,7 +95,6 @@ const DetailService = () => {
                             </div>
                         )}
                     </div>
-
                     {/* Mobile View */}
                     <div className="md:hidden space-y-4">
                         <div className="flex flex-col items-center gap-3">
@@ -104,7 +103,6 @@ const DetailService = () => {
                             </div>
                             <p className="text-base text-gray-500">ຂໍ້ມູນບໍລິການ</p>
                         </div>
-
                         <div className="bg-gray-50 p-4 rounded-md shadow-inner space-y-3">
                             <div>
                                 <span className="text-base text-gray-500 block">ຊື່:</span>
@@ -119,7 +117,6 @@ const DetailService = () => {
                                 </span>
                             </div>
                         </div>
-
                         {serviceData.image && (
                             <div className="flex justify-center">
                                 <img

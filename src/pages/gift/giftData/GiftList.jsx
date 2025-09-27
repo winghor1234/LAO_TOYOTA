@@ -1,10 +1,9 @@
-import { CalendarDays, Car, ChevronDown, DeleteIcon, Edit, Eye, GiftIcon, Search, Trash } from "lucide-react"
+import {  Edit, Eye, GiftIcon, Trash } from "lucide-react"
 import { DeleteAlert } from "../../../utils/handleAlert/DeleteAlert";
 import { useEffect, useState } from "react";
 import EditReward from "./EditGift";
 import AddReward from "./AddGift";
 import SelectDate from "../../../utils/SelectDate";
-// import { deleteGift, getAllGifts } from "../../../api/GIft";
 import { filterByDateRange } from "../../../utils/FilterDate";
 import { filterSearch } from "../../../utils/FilterSearch";
 import axiosInstance from "../../../utils/AxiosInstance";
@@ -20,6 +19,7 @@ const GiftList = () => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
 
+    // Function Fetch data of gift
     const fetchGifts = async () => {
         try {
             const res = await axiosInstance.get(APIPath.SELECT_ALL_GIFT);
@@ -27,13 +27,14 @@ const GiftList = () => {
             setGifts(res?.data?.data || []);
         } catch (error) {
             console.error("Error fetching gifts:", error);
-            // Swal.fire("Error", "Failed to fetch gifts. Please try again later.", "error");
         }
     };
+
     useEffect(() => {
         fetchGifts();
     }, []);
 
+    // Function Delete
     const handleDelete = async (id) => {
         const confirmDelete = await DeleteAlert("ວ່າຈະລົບຂໍ້ມູນລາງວັນນີ້ບໍ່?", "ລົບຂໍ້ມູນລາງວັນສຳເລັດ");
         if (confirmDelete) {
@@ -43,34 +44,27 @@ const GiftList = () => {
         }
     }
 
+    // Function Search 
     const filteredGifts = filterByDateRange(
-        filterSearch(gifts, "name", search), // filter search ก่อน
+        filterSearch(gifts, "name", search),
         startDate,
         endDate,
-        "createdAt" // field ที่เก็บวันที่
+        "createdAt"
     );
-
-
-
 
     return (
         <div>
             {/* Top Controls */}
             <div className="flex flex-col sm:flex-row lg:flex-row lg:items-center gap-4 lg:gap-6 mb-6">
-                {/* Date pickers and search - Mobile: Stack vertically, Tablet/Desktop: Horizontal */}
                 <SelectDate onSearch={setSearch} placeholder="ຄົ້ນຫາລາງວັນ..." onDateChange={({ startDate, endDate }) => {
                     setStartDate(startDate);
                     setEndDate(endDate);
                 }} />
-
                 {/* Buttons */}
                 <div onClick={() => setShowAddReward(true)} className="flex flex-col sm:flex-row  gap-3 sm:gap-4">
-                    <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
-                        ເພີ່ມ
-                    </button>
+                    <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">ເພີ່ມ</button>
                 </div>
             </div>
-
             {/* Mobile Card Layout - visible only on mobile */}
             <div className="md:hidden space-y-4 mb-6">
                 {filteredGifts?.map((item, index) => (
@@ -80,17 +74,8 @@ const GiftList = () => {
                             <div className="text-sm font-medium text-gray-600">#{index + 1}</div>
                             <div className="flex items-center gap-3">
                                 <Eye className="w-4 h-4" />
-                                <Edit
-                                    className="w-4 h-4"
-                                    onClick={() => {
-                                        setShowEditReward(true);
-                                        setGiftId(item.giftcard_id);
-                                    }}
-                                />
-                                <Trash
-                                    className="w-4 h-4"
-                                    onClick={() => handleDelete(item.giftcard_id)}
-                                />
+                                <Edit className="w-4 h-4" onClick={() => { setShowEditReward(true); setGiftId(item.giftcard_id); }} />
+                                <Trash className="w-4 h-4" onClick={() => handleDelete(item.giftcard_id)} />
                             </div>
                         </div>
 

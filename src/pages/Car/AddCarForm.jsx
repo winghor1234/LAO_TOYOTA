@@ -1,65 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Car } from 'lucide-react';
-import { BackButton } from '../../utils/BackButton';
-import { SuccessAlert } from '../../utils/handleAlert/SuccessAlert';
-import axiosInstance from '../../utils/AxiosInstance';
-import APIPath from '../../api/APIPath';
-import { FaArrowLeft } from 'react-icons/fa';
 
-const schema = z.object({
-  userId: z.string().min(1, 'ກະລຸນາເລືອກລູກຄ້າ'),
-  model: z.string().min(1, 'ກະລຸນາປ້ອນຊື່ລົດ'),
-  engineNumber: z.string().min(1, 'ກະລຸນາປ້ອນເລກຈັກ'),
-  frameNumber: z.string().min(1, 'ກະລຸນາປ້ອນເລກຖັງ'),
-  plateNumber: z.string().min(1, 'ກະລຸນາປ້ອນປ້າຍທະບຽນ'),
-  province: z.string().min(1, 'ກະລຸນາປ້ອນແຂວງ'),
-});
+import { Car } from 'lucide-react';
+import { SuccessAlert } from '../../utils/handleAlert/SuccessAlert';
+import { FaArrowLeft } from 'react-icons/fa';
+import { useAddCarForm } from '../../component/schemaValidate/carValidate/AddCarFormValidate';
 
 export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
-  const [users, setUsers] = useState([]);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    resolver: zodResolver(schema),
-  });
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const res = await axiosInstance.get(APIPath.SELECT_ALL_USER);
-        setUsers(res?.data?.data || []);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchUsers();
-  }, []);
-
-  const onSubmit = async (data) => {
-    try {
-      const payload = new URLSearchParams(data);
-      await axiosInstance.post(APIPath.CREATE_CAR, payload);
-      handleFetchCar();
-      SuccessAlert('ເພີ່ມຂໍ້ມູນລົດສຳເລັດ');
-      onClose();
-      reset();
-    } catch (error) {
-      console.error('Error adding car:', error);
-    }
-  };
-
-  const handleBack = () => {
-    reset();
-    onClose();
-  };
-
+  const { register, handleSubmit, formState: { errors }, users, onSubmit, handleBack } = useAddCarForm({ handleFetchCar, onClose });
   return (
     <>
       {/* Background */}
@@ -84,9 +30,9 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
               <span className="font-medium text-sm sm:text-lg lg:text-xl">ກັບໄປຫນ້າກ່ອນ</span>
             </button>
           </div>
-          <button className="bg-yellow-400 hover:bg-yellow-600 transition-colors px-4 py-2 text-white rounded-lg text-sm sm:text-base">
+          {/* <button className="bg-yellow-400 hover:bg-yellow-600 transition-colors px-4 py-2 text-white rounded-lg text-sm sm:text-base">
             Import
-          </button>
+          </button> */}
         </div>
         <hr className="border-gray-300 border-1 w-full my-3" />
 

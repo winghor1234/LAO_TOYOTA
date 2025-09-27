@@ -66,7 +66,15 @@ const CarList = () => {
   //   } catch (error) {
   //     console.log(error);
   //   }
-  // };
+  // // };
+
+  //   useEffect(() => {
+  //   if (search.trim() !== "") {
+  //     handleSearch({ searchText: search });
+  //   } else {
+  //     handleFetchCar(); // ถ้า search ว่าง โหลดทั้งหมด
+  //   }
+  // }, [search]);
 
   useEffect(() => {
     handleFetchCar();
@@ -74,7 +82,7 @@ const CarList = () => {
 
 
   const filteredCar = filterByDateRange(
-    filterSearch(car, "engineNumber", search), // filter search ก่อน
+    filterSearch(car, "plateNumber", search), // filter search ก่อน
     startDate,
     endDate,
     "createdAt" // field ที่เก็บวันที่
@@ -88,18 +96,18 @@ const CarList = () => {
       {/* Top Controls */}
       <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 mb-6">
         {/* Date pickers and search - Mobile: Stack vertically, Tablet/Desktop: Horizontal */}
-        <SelectDate onSearch={setSearch} placeholder="ຄົ້ນຫາລົດ..." onDateChange={({ startDate, endDate }) => {
+        <SelectDate onSearch={setSearch} placeholder="ຄົ້ນຫາລົດດ້ວຍປ້າຍທະບຽນ..." onDateChange={({ startDate, endDate }) => {
           setStartDate(startDate);
           setEndDate(endDate);
         }} />
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row sm:justify-center gap-2 sm:gap-3">
-          <button className="bg-red-600 hover:bg-red-700 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
+          <button  className="bg-red-600 hover:bg-red-700 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
             ຄົ້ນຫາ
           </button>
           <ExportExcelButton data={exportedData} />
-          <ImportExcel fetchTime={handleFetchCar} addToExport={setExportedData} />
+          {/* <ImportExcel fetchTime={handleFetchCar} addToExport={setExportedData} /> */}
           <button onClick={() => setShowAddCarForm(true)} className="bg-blue-500 hover:bg-blue-600 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
             ເພີ່ມລົດ
           </button>
@@ -126,20 +134,13 @@ const CarList = () => {
         <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
           {filteredCar?.map((item, index) => (
             <div key={index} className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 transition-colors">
-              {/* <div className="flex items-center gap-2 md:gap-3">
-                <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                  <Car className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-gray-600 " />
-                </div>
-                <span className="font-medium text-xs md:text-sm lg:text-base">kham</span>
-              </div> */}
               <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{index + 1}</div>
               <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.model}</div>
+              <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.plateNumber}</div>
               <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.engineNumber}</div>
               <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.frameNumber}</div>
-              <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.plateNumber}</div>
               <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.province}</div>
               <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-6">
-                {/* <Eye /> */}
                 <Edit className="cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();

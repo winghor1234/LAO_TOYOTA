@@ -13,27 +13,15 @@ const TimeDetail = () => {
     const [time, setTime] = useState([]);
     const [showEditTime, setShowEditTime] = useState(false);
 
-
-
     const fetchData = async () => {
         try {
             const res = await axiosInstance.get(APIPath.SELECT_ONE_TIME(id));
-            console.log(" res data:", res?.data?.data);
+            // console.log(" res data:", res?.data?.data);
             setTime(res?.data?.data);
         } catch (error) {
             console.log(error);
         }
     }
-
-
-
-    //   const handleSubmit = (id) => {
-    //     setShowPopup(true);
-    //     setBookingId(id);
-
-    //     }
-
-
     useEffect(() => {
         fetchData();
     }, []);
@@ -44,9 +32,7 @@ const TimeDetail = () => {
                 <div className="p-4 sm:p-6">
                     {/* Back Button */}
                     <BackButton />
-
                     <hr className="border-gray-300 w-full mb-4 sm:mb-6" />
-
                     {/* Title */}
                     <h2 className="text-center text-lg sm:text-xl lg:text-2xl font-medium mb-6 sm:mb-8">
                         ລາຍລະອຽດເວລາ
@@ -80,17 +66,12 @@ const TimeDetail = () => {
                     </div>
                     {/* Action Button */}
                     <div className="flex justify-center lg:justify-end">
-                        <button
-                            onClick={() => {
-                                setShowEditTime(true);
-                            }}
-                            className="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-full transition-colors font-medium text-sm lg:text-base w-full sm:w-auto">
+                        <button onClick={() => { setShowEditTime(true) }} className="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-full transition-colors font-medium text-sm lg:text-base w-full sm:w-auto">
                             ແກ້ໄຂ
                         </button>
                     </div>
                 </div >
             </div >
-
             {/* Popup */}
             {
                 <EditTime show={showEditTime} onClose={() => setShowEditTime(false)} timeId={id} />

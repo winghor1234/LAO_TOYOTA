@@ -8,16 +8,16 @@ import { useEffect, useState } from "react";
 
 
 
-export const promoSchema = z.object({
+export const promotionSchema = z.object({
     title: z.string().min(2, { message: "ຊື່ໂປຣໂມຊັ່ນຕ້ອງຢ່າງນ້ອຍ 2 ຕົວ" }),
-    detail: z.string().min(5, { message: "ລາຍລະອຽດຕ້ອງຢ່າງນ້ອຍ 5 ຕົວ" }),
+    detail: z.string().min(2, { message: "ລາຍລະອຽດຕ້ອງຢ່າງນ້ອຍ 2 ຕົວ" }),
     image: z.any().optional()
 });
 
 
 export const useEditPromotionForm = ({ onClose, promotionId, handleFetchPromotion }) => {
     const [loading, setLoading] = useState(false);
-    const { register, handleSubmit, setValue, reset, watch, formState: { errors } } = useForm({ resolver: zodResolver(promoSchema) });
+    const { register, handleSubmit, setValue, reset, watch, formState: { errors } } = useForm({ resolver: zodResolver(promotionSchema) });
     const imageFile = watch("image");
 
     useEffect(() => {
@@ -41,7 +41,7 @@ export const useEditPromotionForm = ({ onClose, promotionId, handleFetchPromotio
         fetchDataById();
     }, [promotionId]);
 
-    const onSubmit = async (data) => {
+    const submitForm = async (data) => {
         setLoading(true);
         const formData = new FormData();
         formData.append("title", data.title);
@@ -63,5 +63,5 @@ export const useEditPromotionForm = ({ onClose, promotionId, handleFetchPromotio
         }
     };
 
-    return {register,handleSubmit,setValue,errors,imageFile,loading,onSubmit}
+    return {register,handleSubmit,setValue,formState: { errors },imageFile,loading,submitForm}
 }

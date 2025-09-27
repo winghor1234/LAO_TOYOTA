@@ -173,7 +173,7 @@ const router = createBrowserRouter([
         element: <DetailService />
       },
       {
-        path: "promotion-detail/:id",
+        path: "promotionDetail/:id",
         element: <DetailPromotion />
       },
       {

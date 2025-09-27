@@ -1,82 +1,10 @@
 import { Car } from "lucide-react";
 import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
-import { useEffect, useState } from "react";
-import APIPath from "../../api/APIPath";
-import axiosInstance from "../../utils/AxiosInstance";
 import { FaArrowLeft } from "react-icons/fa";
-import { useForm } from "react-hook-form";
-
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-const schema = z.object({
-    userId: z.string().min(1, "ກະລຸນາເລືອກລູກຄ້າ"),
-    model: z.string().min(1, "ກະລຸນາປ້ອນຊື່ລົດ"),
-    engineNumber: z.string().min(5, "ກະລຸນາປ້ອນເລກຈັກ"),
-    frameNumber: z.string().min(5, "ກະລຸນາປ້ອນເລກຖັງ"),
-    plateNumber: z.string().min(4, "ກະລຸນາປ້ອນປ້າຍທະບຽນ"),
-    province: z.string().min(2, "ກະລຸນາປ້ອນແຂວງ"),
-});
+import { useEditCarForm } from "../../component/schemaValidate/carValidate/EditCarFormValidate";
 
 const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
-    const [users, setUsers] = useState([]);
-    const { register, handleSubmit, reset, formState: { errors }, } = useForm({
-        resolver: zodResolver(schema),
-        defaultValues: {
-            userId: "",
-            model: "",
-            engineNumber: "",
-            frameNumber: "",
-            plateNumber: "",
-            province: "",
-        },
-    });
-
-
-    useEffect(() => {
-        if (!carId) return;
-
-        Promise.all([
-            axiosInstance.get(APIPath.SELECT_ONE_CAR(carId)),
-            axiosInstance.get(APIPath.SELECT_ALL_USER),
-        ])
-            .then(([carResponse, usersResponse]) => {
-                // ตั้งค่า users state สำหรับ select dropdown
-                setUsers(usersResponse?.data?.data || []);
-
-                // ตั้งค่า default values ของ form ให้ตรงกับข้อมูลรถ
-                const carData = carResponse?.data?.data;
-                if (carData) {
-                    reset({
-                        userId: carData.user_id || "",
-                        model: carData.model || "",
-                        engineNumber: carData.engineNumber || "",
-                        frameNumber: carData.frameNumber || "",
-                        plateNumber: carData.plateNumber || "",
-                        province: carData.province || "",
-                    });
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching car details:", error);
-            });
-    }, [carId, reset]);
-
-
-
-
-
-    // submit form
-    const onSubmit = async (data) => {
-        try {
-            await axiosInstance.put(APIPath.UPDATE_CAR(carId), data);
-            handleFetchCar();
-            SuccessAlert("ແກ້ໄຂຂໍ້ມູນລົດສຳເລັດ");
-            onClose();
-        } catch (error) {
-            console.error("Error updating car:", error);
-        }
-    };
+const { register, handleSubmit, formState: { errors }, OnSubmit, users, onSubmit } = useEditCarForm({ carId, handleFetchCar, onClose });
 
     return (
         <>
@@ -86,7 +14,6 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
                     }`}
                 onClick={onClose}
             />
-
             {/* Popup */}
             <div
                 className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-gray-50 rounded-2xl shadow-lg w-full max-w-3xl p-4 sm:p-6 text-sm transition-all ${show ? "scale-100 opacity-100" : "scale-90 opacity-0 pointer-events-none"
@@ -105,9 +32,9 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
                             </span>
                         </button>
                     </div>
-                    <button className="bg-yellow-400 hover:bg-yellow-600 transition-colors px-4 py-2 text-white rounded-lg text-sm sm:text-base">
+                    {/* <button className="bg-yellow-400 hover:bg-yellow-600 transition-colors px-4 py-2 text-white rounded-lg text-sm sm:text-base">
                         Import
-                    </button>
+                    </button> */}
                 </div>
                 <hr className="border-gray-300 border-1 w-full my-3" />
 
@@ -154,8 +81,7 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
                                     </option>
                                 ))}
                             </select>
-                            {errors.userId && (
-                                <span className="text-red-500 text-xs mt-1">{errors.userId.message}</span>
+                            {errors.userId && (<span className="text-red-500 text-xs mt-1">{errors.userId.message}</span>
                             )}
                         </div>
                         <div className="flex flex-col">

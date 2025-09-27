@@ -7,8 +7,6 @@ import BookingSearch from "../../../utils/BookingSearch";
 const Cancel = () => {
     const [booking, setBooking] = useState([]);
     const [exportData, setExportData] = useState([]);
-
-
     const fetchData = async () => {
         try {
             const res = await axiosInstance.get(APIPath.SELECT_ALL_BOOKING);
@@ -30,9 +28,7 @@ const Cancel = () => {
 
     const handleSearch = async ({ searchText }) => {
         try {
-            const res = await axiosInstance.get(
-                `${APIPath.SEARCH_BOOKING}?search=${searchText}`
-            );
+            const res = await axiosInstance.get(`${APIPath.SEARCH_BOOKING}?search=${searchText}`);
             setBooking(res?.data?.data || []);
         } catch (error) {
             console.log(error);
@@ -44,19 +40,17 @@ const Cancel = () => {
     }, []);
 
 
-    
+
 
     return (
         <div className="p-4">
             <BookingSearch onSearch={handleSearch} exportData={exportData} setExportData={setExportData} fetchBooking={fetchData} />
-
             {/* Data Table */}
             <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
                 {/* Desktop/Tablet Table Header */}
                 <div className="hidden md:block">
                     <TableHeader />
                 </div>
-
                 {/* Desktop/Tablet Table Body */}
                 <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
                     {booking
@@ -92,7 +86,6 @@ const Cancel = () => {
                             </div>
                         ))}
                 </div>
-
                 {/* Mobile Card Layout */}
                 <div className="md:hidden divide-y divide-gray-200">
                     {booking
@@ -100,8 +93,7 @@ const Cancel = () => {
                         .map((item, index) => (
                             <div
                                 key={index}
-                                className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
-                            >
+                                className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
                                 <div className="flex items-center justify-between mb-2">
                                     <span className="bg-red-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">
                                         ຍົກເລີກເເລ້ວ

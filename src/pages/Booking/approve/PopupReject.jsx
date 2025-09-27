@@ -29,7 +29,7 @@ const PopupReject = ({ setRejectZone, bookingId, timeId, fetchBooking }) => {
   const handleFetchTime = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_TIME(timeId));
-      console.log("time id : ",res?.data?.data);
+      // console.log("time id : ",res?.data?.data);
       setTimeData(res?.data?.data);
     } catch (error) {
       console.log(error);

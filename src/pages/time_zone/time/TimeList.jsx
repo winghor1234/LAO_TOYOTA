@@ -27,7 +27,7 @@ const TimeList = () => {
         try {
             const res = await axiosInstance.get(APIPath.SELECT_ALL_TIME);
             const data = res?.data?.data || [];
-            console.log("Fetched time :", data);
+            // console.log("Fetched time :", data);
             setTime(data);
 
             // อัปเดต exportData ทุกครั้งเมื่อ fetch
@@ -48,11 +48,7 @@ const TimeList = () => {
     }, []);
 
     const handleDelete = async (id) => {
-        const confirmDelete = await DeleteAlert(
-            "ວ່າຈະລົບຂໍ້ມູນລາງວັນນີ້ບໍ່?",
-            "ລົບຂໍ້ມູນລາງວັນສຳເລັດ"
-        );
-
+        const confirmDelete = await DeleteAlert("ວ່າຈະລົບຂໍ້ມູນລາງວັນນີ້ບໍ່?", "ລົບຂໍ້ມູນລາງວັນສຳເລັດ");
         if (confirmDelete) {
             await axiosInstance.delete(APIPath.DELETE_TIME(id));
             fetchTime();
@@ -106,12 +102,10 @@ const TimeList = () => {
                             </div>
                         </div>
                         <div className={`flex flex-col items-center justify-start py-2 gap-2 ${item.timeStatus ? "bg-green-600 text-white" : "bg-[#E52020] text-white"} px-2 rounded-r cursor-pointer`}>
-                            <Edit
-                                className="text-white h-5 w-5 cursor-pointer"
-                                onClick={() => {
-                                    setShowEditTime(true);
-                                    setTimeId(item.time_id);
-                                }}
+                            <Edit className="text-white h-5 w-5 cursor-pointer" onClick={() => {
+                                setShowEditTime(true);
+                                setTimeId(item.time_id);
+                            }}
                             />
                             <Trash className="text-white h-5 w-5 cursor-pointer" onClick={() => handleDelete(item.time_id)} />
                         </div>
@@ -121,12 +115,7 @@ const TimeList = () => {
 
             {/* Popups */}
             <EditTime show={showEditTime} onClose={() => setShowEditTime(false)} timeId={timeId} fetchTime={fetchTime} />
-            <AddTime
-                show={showAddTime}
-                onClose={() => setShowAddTime(false)}
-                fetchTime={fetchTime}
-                addToExport={(newData) => setExportData((prev) => [...prev, { ...newData, status: "ຫວ່າງ" },])}
-            />
+            <AddTime show={showAddTime} onClose={() => setShowAddTime(false)} fetchTime={fetchTime} addToExport={(newData) => setExportData((prev) => [...prev, { ...newData, status: "ຫວ່າງ" },])} />
         </div>
     );
 };

@@ -143,15 +143,12 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
       pointData.append("user_id", userId );
       pointData.append("point", 50);
 
-      console.log("point data userid :", timeData?.booking?.userId );
-
       await Promise.all([
         axiosInstance.post(APIPath.CREATE_FIX, fixData),
         axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "success" }),
         axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "false" }),
         axiosInstance.put(APIPath.UPDATE_POINT, pointData), // add new
-      ])
-      // setRejectZone(true)
+      ]);
       navigate("/user/bookingSuccess/" + bookingId);
       SuccessAlert("ອະນຸມັດສຳເລັດແລ້ວ");
       fetchBooking();
@@ -163,7 +160,7 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
   const handleFetchTime = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_TIME(timeId));
-      console.log("time id : ", res?.data?.data);
+      // console.log("time id : ", res?.data?.data);
       setTimeData(res?.data?.data);
     } catch (error) {
       console.log(error);

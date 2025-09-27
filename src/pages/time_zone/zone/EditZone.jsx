@@ -1,97 +1,43 @@
-import { Gift, Wrench, X } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import { useEffect, useState } from "react";
 import Spinner from "../../../utils/Loading";
-import axiosInstance from "../../../utils/AxiosInstance";
-import APIPath from "../../../api/APIPath";
-
-
+import { useEditZoneForm } from "../../../component/schemaValidate/time-zone/EditZoneValidate";
 
 
 const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
-    const [loading, setLoading] = useState(false);
-    const [formData, setFormData] = useState({
-        zoneName: '',
-        timeFix: '',
-    });
-
-
-    const handleFetchZone = async () => {
-        if (!zoneId) return;
-        const res = await axiosInstance.get(APIPath.SELECT_ONE_ZONE(zoneId));
-        const resData = res?.data?.data;
-        setFormData({
-            zoneName: resData.zoneName,
-            timeFix: resData.timeFix,
-        });
-    };
-
-    useEffect(() => {
-        handleFetchZone();
-    }, [zoneId]);
-    // console.log(zoneId)
-
-    const handleOnChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        // Handle form submission
-        const data = new URLSearchParams();
-        data.append('zoneName', formData.zoneName);
-        data.append('timeFix', formData.timeFix);
-        try {
-            // await updateZone(zoneId, data);
-            await axiosInstance.put(APIPath.UPDATE_ZONE(zoneId), data);
-            // console.log("Update gift successful:", res.data);
-            SuccessAlert("ແກ້ໄຂຂໍ້ມູນໂຊນສຳເລັດ");
-            fetchZone();
-            onClose();
-        } catch (error) {
-            console.error("Update zone failed:", error.response?.data || error.message);
-            // Handle error (e.g., show error alert)
-
-        } finally {
-            setLoading(false);
-        }
-    };
-
+    const { register, handleSubmit, formState: { errors },submitForm, loading  } = useEditZoneForm({ onClose, fetchZone, zoneId });
     if (!show) return null;
 
     return (
         <>
-            <div
-                className="fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity"
-                onClick={onClose}
-            />
-
+            <div className="fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity" onClick={onClose} />
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl bg-white rounded-2xl shadow-lg p-4 sm:p-6 text-sm transition-all">
                 <h2 className="text-lg sm:text-xl font-bold text-center mb-4">ແກ້ໄຂ້ຂໍ້ມູນໂຊນ</h2>
-
-                <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+                <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
                     {/* Inputs */}
                     <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                        <input
-                            type="text"
-                            name="zoneName"
-                            value={formData.zoneName}
-                            onChange={handleOnChange}
-                            required
-                            placeholder="ຊື່ໂຊນ"
-                            className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-                        />
-                        <input
-                            type="text"
-                            name="timeFix"
-                            value={formData.timeFix}
-                            onChange={handleOnChange}
-                            required
-                            placeholder="ເວລາສ້ອມແປງ"
-                            className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-                        />
+
+                        <div className="flex flex-col">
+                            <input
+                                type="text"
+                                {...register("zoneName")}
+                                placeholder="ຊື່ໂຊນ"
+                                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                            />
+                            <div className="h-6">
+                                {errors.zoneName && <span className="text-red-500 text-xs">{errors.zoneName.message}</span>}
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                            <input
+                                type="text"
+                                {...register("timeFix")}
+                                placeholder="ເວລາສ້ອມແປງ"
+                                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                            />
+                            <div className="h-6">
+                                {errors.timeFix && <span className="text-red-500 text-xs">{errors.timeFix.message}</span>}
+                            </div>
+                        </div>
                     </div>
 
                     {/* Buttons */}

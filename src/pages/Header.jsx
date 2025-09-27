@@ -1,7 +1,6 @@
 import { Bell, Menu } from 'lucide-react';
-import { useEffect,  useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Profile from '../assets/Profile.jpeg';
 import axiosInstance from '../utils/AxiosInstance';
 import APIPath from '../api/APIPath';
 
@@ -9,35 +8,34 @@ import APIPath from '../api/APIPath';
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
   const [profile, setProfile] = useState(null);
   const [booking, setBooking] = useState([]);
-  const [showNotifications, setShowNotifications] = useState(false); 
+  const [showNotifications, setShowNotifications] = useState(false);
 
 
   const navigate = useNavigate();
 
-const fetchData = async () => {
-  try {
-    // ดึง profile, booking, users พร้อมกัน
-    const [profileRes, bookingRes] = await Promise.all([
-      axiosInstance.get(APIPath.GET_PROFILE),
-      axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
-    ]);
+  const fetchData = async () => {
+    try {
+      const [profileRes, bookingRes] = await Promise.all([
+        axiosInstance.get(APIPath.GET_PROFILE),
+        axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
+      ]);
 
-    // Profile
-    setProfile(profileRes?.data?.data);
+      // Profile
+      setProfile(profileRes?.data?.data);
 
-    // Booking
-    setBooking(bookingRes?.data?.data);
+      // Booking
+      setBooking(bookingRes?.data?.data);
 
-  } catch (error) {
-    console.log(error);
-  }
-};
-
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 
-useEffect(() => {
-  fetchData(); // fetch ครั้งแรก
-}, []);
+
+  useEffect(() => {
+    fetchData(); 
+  }, []);
 
 
 
@@ -72,10 +70,10 @@ useEffect(() => {
               className="border w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200"
               aria-label="Notifications"
               onClick={() => setShowNotifications(!showNotifications)}
-              
+
             >
               <Bell className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-600" />
-              {unreadCount  > 0 && (
+              {unreadCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                   {unreadCount}
                 </span>
@@ -84,7 +82,7 @@ useEffect(() => {
             {/* Notification Dropdown */}
             {showNotifications && (
               <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg overflow-hidden z-50">
-                { unreadCount === 0 ? (
+                {unreadCount === 0 ? (
                   <p className="p-4 text-gray-500 text-sm">ບໍ່ມີແຈ້ງເຕືອນໃໝ່</p>
                 ) : (
                   <>
@@ -106,19 +104,26 @@ useEffect(() => {
                 )}
               </div>
             )}
-
-
           </div>
 
           {/* Profile */}
           {profile && (
             <div onClick={handleProfileDetail} className="flex items-center gap-2 cursor-pointer">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-13 md:h-13 bg-red-500 rounded-full cursor-pointer hover:ring-2 hover:ring-red-200 transition-all duration-200 flex-shrink-0">
-                <img src={Profile} className="w-full h-full rounded-full object-cover" alt="" />
+              <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-13 md:h-13 bg-red-500 rounded-full cursor-pointer hover:ring-2 hover:ring-red-200 transition-all duration-200 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                {profile.profile ? (
+                  <img
+                    src={profile.profile}
+                    className="w-full h-full rounded-full object-cover"
+                    alt={profile.username || "profile"}
+                  />
+                ) : (
+                  <span className="text-white text-xs">ບໍ່ມີຮູບ</span>
+                )}
               </div>
               <div>{profile.username}</div>
             </div>
           )}
+
 
           {/* Mobile Menu Dots */}
           <button className="sm:hidden p-2 text-gray-600 hover:text-gray-800 transition-colors">

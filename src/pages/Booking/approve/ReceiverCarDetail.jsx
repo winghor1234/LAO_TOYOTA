@@ -6,25 +6,16 @@ import { useParams, useSearchParams } from "react-router-dom";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import PopupReject from "./PopupReject";
-// import { useNavigate } from "react-router-dom";
-// import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 
-// Main ReceiverCarDetail Component
 const ReceiverCarDetail = () => {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const timeId = searchParams.get("time");
   const bookingId = id;
-  // console.log(timeId);
-  // console.log(bookingId);
-  // console.log(id);
   const [data, setData] = useState([]);
   const [timeData, setTimeData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [rejectZone, setRejectZone] = useState(false);
-  // const navigate = useNavigate();
-
-
 
   const fetchBooking = async () => {
     try {
@@ -37,9 +28,6 @@ const ReceiverCarDetail = () => {
   }
 
   
-  
-  
-  
   const handleFetchTime = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_TIME(timeId));
@@ -49,9 +37,8 @@ const ReceiverCarDetail = () => {
       console.log(error);
     }
   }
-  console.log("data booking user id  :", data?.userId);
   const userId = data?.userId;
-  
+
   useEffect(() => {
     fetchBooking();
     handleFetchTime();
@@ -64,7 +51,6 @@ const ReceiverCarDetail = () => {
           {/* Back Button */}
           <BackButton />
           <hr className="border-gray-300 w-full mb-2 sm:mb-3" />
-
           {/* Title */}
           <h2 className="text-center text-base sm:text-lg lg:text-xl font-medium mb-4 sm:mb-5">
             ລາຍລະອຽດລົດຜູ້ຮັບ

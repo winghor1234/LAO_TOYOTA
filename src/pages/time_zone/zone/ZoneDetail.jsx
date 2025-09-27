@@ -7,14 +7,10 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 
 
-
-// Main RepairDetails Component
 const ZoneDetail = () => {
     const { id } = useParams();
     const [zone, setZone] = useState([]);
     const [showEditZone, setShowEditZone] = useState(false);
-
-
 
     const fetchData = async () => {
         try {
@@ -26,15 +22,6 @@ const ZoneDetail = () => {
         }
     }
 
-
-
-    //   const handleSubmit = (id) => {
-    //     setShowPopup(true);
-    //     setBookingId(id);
-
-    //     }
-
-
     useEffect(() => {
         fetchData();
     }, []);
@@ -45,14 +32,11 @@ const ZoneDetail = () => {
                 <div className="p-4 sm:p-6">
                     {/* Back Button */}
                     <BackButton />
-
                     <hr className="border-gray-300 w-full mb-4 sm:mb-6" />
-
                     {/* Title */}
                     <h2 className="text-center text-lg sm:text-xl lg:text-2xl font-medium mb-6 sm:mb-8">
                         ລາຍລະອຽດໂຊນ
                     </h2>
-
                     {/* Desktop/Tablet View */}
                     <div className="hidden md:block">
                         <div className="flex justify-center gap-10 text-sm lg:text-base font-medium text-gray-700 " >

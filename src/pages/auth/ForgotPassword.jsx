@@ -1,24 +1,17 @@
 import { Eye, EyeOff, Lock, Phone } from 'lucide-react';
-import { ForgotPasswordForm } from '../../component/schemaValidate.jsx/authValidate/ForgotPasswordValidate';
+import { ForgotPasswordForm } from '../../component/schemaValidate/authValidate/ForgotPasswordValidate';
 
 
 const ForgotPassword = () => {
-    const { showPassword, setShowPassword, loading, register, handleSubmit, errors, submitForm } = ForgotPasswordForm();
+    const { showPassword, setShowPassword, loading, register, handleSubmit, formState: { errors }, submitForm } = ForgotPasswordForm();
 
     return (
         <div className="bg-gradient-to-br from-red-300 to-white min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full bg-white rounded-lg space-y-8 shadow-lg p-8">
                 <div className="mx-auto h-20 w-20 flex items-center justify-center">
-                    <img
-                        src="/src/assets/logo.jpg"
-                        alt="Lao Toyota"
-                        className="h-16 w-auto rounded-full"
-                    />
+                    <img src="/src/assets/logo.jpg" alt="Lao Toyota" className="h-16 w-auto rounded-full" />
                 </div>
-                <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
-                    ປ່ຽນລະຫັດຜ່ານ
-                </h2>
-
+                <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">ປ່ຽນລະຫັດຜ່ານ</h2>
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit(submitForm)}>
                     <div className="space-y-4">
                         {/* Phone Number */}
@@ -39,8 +32,8 @@ const ForgotPassword = () => {
                                     />
                                 </div>
                             </div>
-                            <div className='h-7'>
-                                {errors.phoneNumber && <span className='text-red-500'>{errors.phoneNumber.message}</span>}
+                            <div className='h-6'>
+                                {errors.phoneNumber && <span className='text-red-500 text-sm'>{errors.phoneNumber.message}</span>}
                             </div>
                         </div>
 
@@ -73,8 +66,8 @@ const ForgotPassword = () => {
                                     )}
                                 </button>
                             </div>
-                            <div className='h-7'>
-                                {errors.newPassword && <span className='text-red-500'>{errors.newPassword.message}</span>}
+                            <div className='h-6'>
+                                {errors.newPassword && <span className='text-red-500 text-sm'>{errors.newPassword.message}</span>}
                             </div>
                         </div>
                     </div>

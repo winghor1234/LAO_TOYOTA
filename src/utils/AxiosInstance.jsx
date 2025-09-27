@@ -2,19 +2,15 @@
 import axios from "axios";
 import useToyotaStore from "../store/ToyotaStore";
 
-
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
-
+// ✅ Request interceptor (แค่แนบ token ถ้ามี)
 axiosInstance.interceptors.request.use(
-  async (config) => {
+  (config) => {
     const store = useToyotaStore.getState();
-
-
-    // เรียก refreshTokenIfNeeded → ถ้า token หมดอายุ มันจะ refresh ใหม่ให้
-    const token = await store.refreshTokenIfNeeded();
+    const token = store.token; // ดึง token ตรง ๆ
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -25,14 +21,14 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ✅ Response interceptor (เผื่อกรณี refresh fail → redirect login)
+// ✅ Response interceptor (ถ้า token หมดอายุ → redirect login)
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
       const store = useToyotaStore.getState();
-      store.removeToken();
-      window.location.href = "/login"; // redirect
+      store.removeToken(); // ล้าง token ออกจาก state/localStorage
+      window.location.href = "/login"; // redirect ไปหน้า login
     }
     return Promise.reject(error);
   }

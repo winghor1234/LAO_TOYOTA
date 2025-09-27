@@ -14,11 +14,11 @@ import axiosInstance from '../../../utils/AxiosInstance';
     password: z.string().min(6, " ຕ້ອງມີຢ່າງນ້ອຍ 6 ຕົວ"),
 });
 
-export const LoginForm = () => {
+export const useLoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: zodResolver(LoginSchema),
     });
 
@@ -33,17 +33,15 @@ export const LoginForm = () => {
             useToyotaStore.getState().setToken(token, refreshToken, tokenExpire); // save token ลง store
             SuccessAlert("ເຂົ້າສູ່ລະບົບສຳເລັດ", 1500, "success");
             navigate("/user/dashboard");
-            // reset fields หลัง submit
-            setValue("phoneNumber", "");
-            setValue("password", "");
+            reset();
         } catch (error) {
-            console.error("Login failed:", error);
             SuccessAlert("ມີບາຍຜິດພາດ!!!", 1500, "error");
+            console.error("Login failed:", error);
         } finally {
             setLoading(false);
         }
     };
 
-    return { showPassword, setShowPassword, loading, register, handleSubmit, errors, submitForm };
+    return { showPassword, setShowPassword, loading, register, handleSubmit, formState: { errors }, submitForm };
 }
 

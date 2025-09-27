@@ -30,19 +30,6 @@ const BookingSuccess = () => {
     }, []);
 
 
-    const repairData = {
-        receiptNumber: "12345678",
-        carModel: "Toyota Vios 2024",
-        mechanicName: "ທ. ບິນສຸວັນ ແສງທຳ",
-        date: "02 / 05 / 2025",
-        time: "10 : 30",
-        services: [
-            "ກວດເຊັກທົ່ວໄປ",
-            "ປ່ຽນນ້ຳມັນເຄື່ອງ"
-        ],
-        points: "+50 ຄະແນນ",
-        symptoms: "ເວລາມີສຽງດັງ, ເວລາເຂົ້າໂຄງມັກເບຣກຕິດ ແລະ ລົດມີການສ່າຍຄຸມທິດທາງຍາກ"
-    };
 
     return (
         <div className="min-h-screen bg-gray-50 p-2 sm:p-4 lg:p-6">
@@ -72,7 +59,7 @@ const BookingSuccess = () => {
                                 ນັດໝາຍສຳເລັດ
                             </h1>
                             <h3 className="text-base sm:text-lg font-medium text-gray-600">
-                                ເລກບິນ: {repairData.receiptNumber}
+                                ເລກບິນ: 125532525
                             </h3>
                         </div>
 
@@ -113,7 +100,7 @@ const BookingSuccess = () => {
                                     ອາການລົດເບື້ອງຕົ້ນ
                                 </h2>
                                 <p className="font-medium text-gray-700 text-sm sm:text-base leading-relaxed">
-                                    {repairData.symptoms}
+                                    change oil, rotate tires, brake inspection, fluid top-off
                                 </p>
                             </div>
                         </div>

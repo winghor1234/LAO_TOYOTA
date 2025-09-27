@@ -1,147 +1,83 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../../utils/AxiosInstance";
-import APIPath from "../../../api/APIPath";
 
-// PopupRepair Component
+import { useFixForm } from "../../../component/schemaValidate/fixValidate/PopupFixValidate";
 const PopupFix = ({ setShowPopup, bookingId, timeId }) => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    kmNext: "",
-    kmLast: "",
-    detailFix: "",
-    carFixPrice: "",
-    carPartPrice: "",
-    totalPrice: "",
-  });
-  const [fixes, setFixes] = useState([]);
-
-  // ดึงข้อมูล fix ทั้งหมด
-  const fetchFix = async () => {
-    try {
-      const res = await axiosInstance.get(APIPath.SELECT_ALL_FIX);
-      setFixes(res?.data?.data || []);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // อัปเดตค่าใน input
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // ส่งข้อมูลอัปเดต
-  const handleSubmit = async () => {
-    try {
-      // หา fix เดิมที่ตรงกับ bookingId
-      const fixToUpdate = fixes.find((fix) => fix.bookingId === bookingId);
-      if (!fixToUpdate) {
-        console.log("ไม่พบ fix ที่ตรงกับ bookingId นี้");
-        return;
-      }
-
-      // เตรียมข้อมูลส่งไป backend
-      const data = {
-        bookingId,
-        zoneId: fixToUpdate.zoneId, // ใช้ zoneId เดิม
-        kmNext: formData.kmNext,
-        kmLast: formData.kmLast,
-        detailFix: formData.detailFix,
-        fixCarPrice: formData.carFixPrice,
-        carPartPrice: formData.carPartPrice,
-        totalPrice: formData.totalPrice
-      };
-
-      // อัปเดต fix เดิม
-      await axiosInstance.put(APIPath.UPDATE_FIX_STATUS(fixToUpdate.fix_id), data);
-
-      // อัปเดตสถานะเวลา
-      await axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "true" });
-
-      await axiosInstance.put(APIPath.UPDATE_ZONE_STATUS(fixToUpdate.zoneId), { zoneStatus: "true" });
-
-      navigate(`/user/successDetail/${fixToUpdate.fix_id}`);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchFix();
-  }, []);
+  const { register, handleSubmit, errors, submitForm } = useFixForm({ bookingId, timeId });
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white flex flex-col gap-6 p-4 sm:p-6 rounded-2xl w-full max-w-[800px] max-h-[90vh] overflow-y-auto">
+      <form onSubmit={handleSubmit(submitForm)} className="bg-white flex flex-col gap-6 p-4 sm:p-6 rounded-2xl w-full max-w-[800px] max-h-[90vh] overflow-y-auto">
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center">ລາຍລະອຽດການສ້ອມແປງ</h2>
 
         <div className="space-y-4 sm:space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            <input
-              type="number"
-              name="kmNext"
-              value={formData.kmNext}
-              onChange={handleInputChange}
-              required
-              placeholder="ໄລຍະທາງກ່ອນ"
-              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-            />
-            <input
-              type="number"
-              name="kmLast"
-              value={formData.kmLast}
-              onChange={handleInputChange}
-              required
-              placeholder="ໄລຍະທາງລ້າສຸດ"
-              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-            />
-          </div>
+            <div className="flex flex-col">
+              <input
+                {...register("kmLast")}
+                placeholder="ໄລຍະທາງກ່ອນ"
+                className="w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+              />
+              <div className=" h-6">
+                {errors.kmLast && <p className="text-red-500 text-sm ">{errors.kmLast.message}</p>}
+              </div>
+            </div>
+            <div>
+              <input
+                {...register("kmNext")}
+                placeholder="ໄລຍະທາງລ້າສຸດ"
+                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+              />
+              <div className="h-6">
+                {errors.kmNext && <p className="text-red-500 text-sm">{errors.kmNext.message}</p>}
+              </div>
+            </div>          </div>
 
-          <textarea
-            name="detailFix"
-            value={formData.detailFix}
-            onChange={handleInputChange}
-            required
-            placeholder="ລາຍລະອຽດການສ້ອມແປງ"
-            rows={3}
-            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors resize-none"
-          />
+          <div className="flex flex-col">
+            <textarea
+              {...register("detailFix")}
+              placeholder="ລາຍລະອຽດການສ້ອມແປງ"
+              rows={3}
+              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors resize-none"
+            />
+            <div className="h-6" >
+              {errors.detailFix && <p className="text-red-500 text-sm">{errors.detailFix.message}</p>}
+            </div>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            <input
-              type="number"
-              name="carFixPrice"
-              value={formData.carFixPrice}
-              onChange={handleInputChange}
-              required
-              placeholder="ຄ່າແຮງງານ"
-              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-            />
-            <input
-              type="number"
-              name="carPartPrice"
-              value={formData.carPartPrice}
-              onChange={handleInputChange}
-              required
-              placeholder="ຄ່າອະໄຫຼ"
-              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-            />
+            <div className="flex flex-col">
+              <input
+                {...register("carFixPrice")}
+                placeholder="ຄ່າແຮງງານ"
+                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+              />
+              <div className="h-6">
+                {errors.carFixPrice && <p className="text-red-500 text-sm">{errors.carFixPrice.message}</p>}
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <input
+                {...register("carPartPrice")}
+                placeholder="ຄ່າອະໄຫຼ"
+                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+              />
+              <div className="h-6">
+                {errors.carPartPrice && <p className="text-red-500 text-sm">{errors.carPartPrice.message}</p>}
+
+              </div>
+            </div>
           </div>
 
-          <input
-            type="number"
-            name="totalPrice"
-            value={formData.totalPrice}
-            onChange={handleInputChange}
-            required
-            placeholder="ລາຄາລວມ"
-            rows={3}
-            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors resize-none"
-          />
+          <div className="flex flex-col">
+            <input
+              {...register("totalPrice")}
+              placeholder="ລາຄາລວມ"
+              rows={3}
+              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors resize-none"
+            />
+            <div className="h-6">
+              {errors.totalPrice && <p className="text-red-500 text-sm">{errors.totalPrice.message}</p>}
+
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 pt-4">
@@ -152,13 +88,13 @@ const PopupFix = ({ setShowPopup, bookingId, timeId }) => {
             ຍົກເລີກ
           </button>
           <button
-            onClick={handleSubmit}
+            type="submit"
             className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg w-full sm:w-32 h-12 cursor-pointer transition-colors text-sm sm:text-base"
           >
             ຕົກລົງ
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

@@ -77,36 +77,24 @@ const ZoneList = () => {
                 <ExportExcelButton data={exportData} fileName="ZoneData.xlsx" />
                 <ImportExcel
                     apiPath={APIPath.CREATE_ZONE}
-                    requiredFields={[ "ຊື່ໂຊນ", "ເວລາ"]}
+                    requiredFields={["ຊື່ໂຊນ", "ເວລາ"]}
                     transformData={(item) => ({
                         zoneName: item["ຊື່ໂຊນ"],
-                        timeFix:  item["ເວລາ"],
+                        timeFix: item["ເວລາ"],
                         zoneStatus: "ຫວ່າງ",
                     })}
-
                     onUploadSuccess={fetchZone}
                 />
-                <button
-                    onClick={() => setShowAddZone(true)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-medium text-sm sm:text-base w-full sm:w-auto"
-                >
+                <button onClick={() => setShowAddZone(true)} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-medium text-sm sm:text-base w-full sm:w-auto">
                     ເພີ່ມ
                 </button>
             </div>
-
             {/* Zone Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 lg:gap-6">
                 {filteredZone.map((item) => (
-                    <div
-                        key={item.zone_id}
-                        className="flex justify-center hover:shadow-xl transition-shadow"
-                    >
+                    <div key={item.zone_id} className="flex justify-center hover:shadow-xl transition-shadow">
                         {/* Zone Info */}
-                        <div
-                            onClick={() => navigate(`/user/zoneDetail/${item.zone_id}`)}
-                            className={`${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"
-                                } text-white w-full flex flex-col gap-2 px-4 py-2 rounded-l cursor-pointer shadow-2xl`}
-                        >
+                        <div onClick={() => navigate(`/user/zoneDetail/${item.zone_id}`)} className={`${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"} text-white w-full flex flex-col gap-2 px-4 py-2 rounded-l cursor-pointer shadow-2xl`}>
                             <div className="flex items-center justify-end gap-3 text-xl font-semibold">
                                 <MapPinned />
                                 {item.zoneName}
@@ -119,40 +107,21 @@ const ZoneList = () => {
                                 {item.zoneStatus ? "ຫວ່າງ" : "ເຕັມ"}
                             </div>
                         </div>
-
                         {/* Action Buttons */}
-                        <div
-                            className={`flex flex-col items-center justify-start py-2 gap-2 ${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"
-                                } text-white px-2 rounded-r`}
-                        >
-                            <Edit
-                                className="cursor-pointer w-5 h-5"
-                                onClick={() => {
-                                    setShowEditZone(true);
-                                    setZoneId(item.zone_id);
-                                }}
+                        <div className={`flex flex-col items-center justify-start py-2 gap-2 ${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"} text-white px-2 rounded-r`} >
+                            <Edit className="cursor-pointer w-5 h-5" onClick={() => {
+                                setShowEditZone(true);
+                                setZoneId(item.zone_id);
+                            }}
                             />
-                            <Trash
-                                className="cursor-pointer w-5 h-5"
-                                onClick={() => handleDelete(item.zone_id)}
-                            />
+                            <Trash className="cursor-pointer w-5 h-5" onClick={() => handleDelete(item.zone_id)} />
                         </div>
                     </div>
                 ))}
             </div>
-
             {/* Popups */}
-            <EditZone
-                show={showEditZone}
-                onClose={() => setShowEditZone(false)}
-                zoneId={zoneId}
-                fetchZone={fetchZone}
-            />
-            <AddZone
-                show={showAddZone}
-                onClose={() => setShowAddZone(false)}
-                fetchZone={fetchZone}
-            />
+            <EditZone show={showEditZone} onClose={() => setShowEditZone(false)} zoneId={zoneId} fetchZone={fetchZone} />
+            <AddZone show={showAddZone} onClose={() => setShowAddZone(false)} fetchZone={fetchZone} />
         </div>
     );
 };

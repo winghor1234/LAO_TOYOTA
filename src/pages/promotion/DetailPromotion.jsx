@@ -1,7 +1,6 @@
 import { FaTools } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-// import { getPromotionById } from "../../api/Promotion";
 import Spinner from "../../utils/Loading";
 import { BackButton } from "../../utils/BackButton";
 import axiosInstance from "../../utils/AxiosInstance";
@@ -12,6 +11,7 @@ const DetailPromotion = () => {
     const [promotionData, setPromotionData] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // Function Fetch data of promotion
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -26,20 +26,13 @@ const DetailPromotion = () => {
         fetchData();
     }, []);
 
+    // Loading Spinner
     if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-50">
-                <Spinner size="lg" text="ກຳລັງໂຫຼດຂໍ້ມູນ..." />
-            </div>
-        );
+        return (<div className="flex items-center justify-center min-h-screen bg-gray-50"><Spinner size="lg" text="ກຳລັງໂຫຼດຂໍ້ມູນ..." /> </div>);
     }
-
+    // No data found
     if (!promotionData) {
-        return (
-            <div className="flex items-center justify-center min-h-screen text-gray-500">
-                ບໍ່ພົບຂໍ້ມູນບໍລິການ
-            </div>
-        );
+        return (<div className="flex items-center justify-center min-h-screen text-gray-500">ບໍ່ພົບຂໍ້ມູນບໍລິການ</div>);
     }
 
     return (
@@ -48,11 +41,9 @@ const DetailPromotion = () => {
                 <div className="p-4 sm:p-6">
                     <BackButton />
                     <hr className="border-gray-200 my-4" />
-
                     <h2 className="text-center text-lg sm:text-xl font-semibold text-gray-800 mb-6">
                         ລາຍລະອຽດໂປຣໂມຊັ່ນ
                     </h2>
-
                     {/* Desktop / Tablet View */}
                     <div className="hidden md:block">
                         <div className="flex gap-6 items-center justify-around p-4 rounded-lg shadow-sm">
@@ -62,7 +53,6 @@ const DetailPromotion = () => {
                                 </div>
                                 <p className="text-base text-gray-500">ຂໍ້ມູນໂປຣໂມຊັ່ນ</p>
                             </div>
-
                             <div className="flex flex-col gap-2 text-left">
                                 <div>
                                     <p className="text-base text-gray-500">ຊື່ໂປຣໂມຊັ່ນ</p>
@@ -76,7 +66,6 @@ const DetailPromotion = () => {
                                 </div>
                             </div>
                         </div>
-
                         {promotionData.image && (
                             <div className="mt-6 flex justify-center">
                                 <img
@@ -87,7 +76,6 @@ const DetailPromotion = () => {
                             </div>
                         )}
                     </div>
-
                     {/* Mobile View */}
                     <div className="md:hidden space-y-4">
                         <div className="flex flex-col items-center gap-3">
@@ -96,7 +84,6 @@ const DetailPromotion = () => {
                             </div>
                             <p className="text-base text-gray-500">ຂໍ້ມູນໂປຣໂມຊັ່ນ</p>
                         </div>
-
                         <div className="bg-gray-50 p-4 rounded-md shadow-inner space-y-3">
                             <div>
                                 <span className="text-base text-gray-500 block">ຊື່ໂປຣໂມຊັ່ນ:</span>
@@ -111,7 +98,6 @@ const DetailPromotion = () => {
                                 </span>
                             </div>
                         </div>
-
                         {promotionData.image && (
                             <div className="flex justify-center">
                                 <img
