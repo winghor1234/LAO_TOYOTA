@@ -1,14 +1,15 @@
-import { Car } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../../assets/corrects.png";
 import { useEffect, useMemo, useState } from "react";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import BookingSearch from "../../../utils/BookingSearch";
-
+import logo from "../../../assets/corrects.png";
+import { useTranslation } from "react-i18next";
 
 const Success = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation("booking");
+
     const [bookings, setBookings] = useState([]);
     const [fixes, setFixes] = useState([]);
     const [exportData, setExportData] = useState([]);
@@ -19,8 +20,10 @@ const Success = () => {
                 axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
                 axiosInstance.get(APIPath.SELECT_ALL_FIX),
             ]);
+
             setBookings(bookingRes?.data?.data || []);
             setFixes(fixRes?.data?.data || []);
+
             setExportData(
                 bookingRes?.data?.data
                     ?.filter((booking) =>
@@ -29,38 +32,34 @@ const Success = () => {
                         )
                     )
                     ?.map((item) => ({
-                        ຊື່ລົດ: item?.car?.model,
-                        ຊື່ລູກຄ້າ: item?.user?.username,
-                        ເບີໂທລູກຄ້າ: item?.user?.phoneNumber,
-                        ປ້າຍທະບຽນ: item?.car?.plateNumber,
-                        ວັນທີ: item?.time?.date,
-                        ເວລາ: item?.time?.time,
+                        [t("car")]: item?.car?.model,
+                        [t("customerName")]: item?.user?.username,
+                        [t("phone")]: item?.user?.phoneNumber,
+                        [t("plate")]: item?.car?.plateNumber,
+                        [t("date")]: item?.time?.date,
+                        [t("time")]: item?.time?.time,
                     }))
             );
-
         } catch (error) {
             console.log(error);
         }
     };
 
     const fixDetail = (id) => {
-        const fixId = fixes.find((f) => f.bookingId === id )?.fix_id;
-        console.log("fix id:", fixId);
-        if(!fixId) return;
+        const fixId = fixes.find((f) => f.bookingId === id)?.fix_id;
+        if (!fixId) return;
         navigate(`/user/successDetail/${fixId}`);
     };
 
     const filteredBookings = useMemo(() => {
         return bookings.filter((booking) =>
-            fixes.some((f) =>f.bookingId === booking.booking_id && f.fixStatus === "success")
+            fixes.some((f) => f.bookingId === booking.booking_id && f.fixStatus === "success")
         );
     }, [bookings, fixes]);
 
     const handleSearch = async ({ searchText }) => {
         try {
-            const res = await axiosInstance.get(
-                `${APIPath.SEARCH_BOOKING}?search=${searchText}`
-            );
+            const res = await axiosInstance.get(`${APIPath.SEARCH_BOOKING}?search=${searchText}`);
             setBookings(res?.data?.data || []);
         } catch (error) {
             console.log(error);
@@ -73,17 +72,23 @@ const Success = () => {
 
     return (
         <div className="p-4">
-            <BookingSearch onSearch={handleSearch} exportData={exportData} setExportData={setExportData} fetchBooking={fetchData} />
+            <BookingSearch
+                onSearch={handleSearch}
+                exportData={exportData}
+                setExportData={setExportData}
+                fetchBooking={fetchData}
+            />
+
             <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
                 {/* Desktop/Tablet Header */}
                 <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
                     <div className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
-                        <div className="text-center">ຂໍ້ມູນຜູ້ນັດໝາຍ</div>
-                        <div className="text-center">ຊື່ລູກຄ້າ</div>
-                        <div className="text-center">ເບີໂທລູກຄ້າ</div>
-                        <div className="text-center">ປ້າຍທະບຽນ</div>
-                        <div className="text-center">ວັນທີ</div>
-                        <div className="text-center">ເວລາ</div>
+                        <div className="text-center">{t("booking")}</div>
+                        <div className="text-center">{t("customerName")}</div>
+                        <div className="text-center">{t("phone")}</div>
+                        <div className="text-center">{t("plate")}</div>
+                        <div className="text-center">{t("date")}</div>
+                        <div className="text-center">{t("time")}</div>
                     </div>
                 </div>
 
@@ -123,27 +128,25 @@ const Success = () => {
                                     <img src={logo} alt="success" className="h-8 w-8 object-contain" />
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="font-semibold text-base text-gray-900">
-                                        {item?.car?.model}
-                                    </h3>
+                                    <h3 className="font-semibold text-base text-gray-900">{item?.car?.model}</h3>
                                     <p className="text-gray-600 text-sm">{item?.user?.username}</p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 gap-2 text-sm">
                                 <div className="flex justify-between">
-                                    <span className="text-gray-500">ເບີໂທ:</span>
+                                    <span className="text-gray-500">{t("phone")}:</span>
                                     <span className="text-gray-900">{item?.user?.phoneNumber}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-500">ປ້າຍ:</span>
+                                    <span className="text-gray-500">{t("plate")}:</span>
                                     <span className="text-gray-900">{item?.car?.plateNumber}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-500">ວັນທີ:</span>
+                                    <span className="text-gray-500">{t("date")}:</span>
                                     <span className="text-gray-900">{item?.time?.date}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-500">ເວລາ:</span>
+                                    <span className="text-gray-500">{t("time")}:</span>
                                     <span className="text-gray-900">{item?.time?.time}</span>
                                 </div>
                             </div>

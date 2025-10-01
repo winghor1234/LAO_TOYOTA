@@ -11,8 +11,10 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import ExportExcelButton from "../../../utils/ExcelExportButton";
 import ImportExcel from "../../../utils/ImportExel";
+import { useTranslation } from "react-i18next";
 
 const ZoneList = () => {
+    const { t } = useTranslation("timeZone");
     const [showEditZone, setShowEditZone] = useState(false);
     const [showAddZone, setShowAddZone] = useState(false);
     const [zone, setZone] = useState([]);
@@ -30,9 +32,9 @@ const ZoneList = () => {
             setZone(data);
             setExportData(
                 data.map((item) => ({
-                    ຊື່ໂຊນ: item.zoneName,
-                    ເວລາ: item.timeFix,
-                    ສະຖານະ: item.zoneStatus ? "ຫວ່າງ" : "ເຕັມ",
+                    [t("zoneNameLabel")]: item.zoneName,
+                    [t("timeFixLabel")]: item.timeFix,
+                    [t("statusLabel")]: item.zoneStatus ? t("statusFree") : t("statusFull"),
                 }))
             );
         } catch (error) {
@@ -46,8 +48,8 @@ const ZoneList = () => {
 
     const handleDelete = async (id) => {
         const confirmDelete = await DeleteAlert(
-            "ວ່າຈະລົບຂໍ້ມູນໂຊນນີ້ບໍ່?",
-            "ລົບຂໍ້ມູນໂຊນສຳເລັດ"
+            t("deleteConfirm"),
+            t("deleteSuccess")
         );
         if (confirmDelete) {
             await axiosInstance.delete(APIPath.DELETE_ZONE(id));
@@ -68,7 +70,7 @@ const ZoneList = () => {
             <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 mb-6">
                 <SelectDate
                     onSearch={setSearch}
-                    placeholder="ຄົ້ນຫາໂຊນ..."
+                    placeholder={t("searchPlaceholder")}
                     onDateChange={({ startDate, endDate }) => {
                         setStartDate(startDate);
                         setEndDate(endDate);
@@ -77,48 +79,64 @@ const ZoneList = () => {
                 <ExportExcelButton data={exportData} fileName="ZoneData.xlsx" />
                 <ImportExcel
                     apiPath={APIPath.CREATE_ZONE}
-                    requiredFields={["ຊື່ໂຊນ", "ເວລາ"]}
+                    requiredFields={[t("zoneNameLabel"), t("timeFixLabel")]}
                     transformData={(item) => ({
-                        zoneName: item["ຊື່ໂຊນ"],
-                        timeFix: item["ເວລາ"],
-                        zoneStatus: "ຫວ່າງ",
+                        zoneName: item[t("zoneNameLabel")],
+                        timeFix: item[t("timeFixLabel")],
+                        zoneStatus: true,
                     })}
                     onUploadSuccess={fetchZone}
                 />
-                <button onClick={() => setShowAddZone(true)} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-medium text-sm sm:text-base w-full sm:w-auto">
-                    ເພີ່ມ
+                <button
+                    onClick={() => setShowAddZone(true)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-medium text-sm sm:text-base w-full sm:w-auto"
+                >
+                    {t("addButton")}
                 </button>
             </div>
+
             {/* Zone Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 lg:gap-6">
                 {filteredZone.map((item) => (
                     <div key={item.zone_id} className="flex justify-center hover:shadow-xl transition-shadow">
                         {/* Zone Info */}
-                        <div onClick={() => navigate(`/user/zoneDetail/${item.zone_id}`)} className={`${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"} text-white w-full flex flex-col gap-2 px-4 py-2 rounded-l cursor-pointer shadow-2xl`}>
+                        <div
+                            onClick={() => navigate(`/user/zoneDetail/${item.zone_id}`)}
+                            className={`${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"} text-white w-full flex flex-col gap-2 px-4 py-2 rounded-l cursor-pointer shadow-2xl`}
+                        >
                             <div className="flex items-center justify-end gap-3 text-xl font-semibold">
                                 <MapPinned />
                                 {item.zoneName}
                             </div>
                             <div className="flex items-center justify-center gap-2 text-sm">
                                 <Clock3 className="w-4 h-4" />
-                                {item.timeFix} ນາທີ
+                                {item.timeFix} {t("minuteLabel")}
                             </div>
                             <div className="mt-2 ml-5 flex justify-center font-semibold text-lg">
-                                {item.zoneStatus ? "ຫວ່າງ" : "ເຕັມ"}
+                                {item.zoneStatus ? t("statusFree") : t("statusFull")}
                             </div>
                         </div>
+
                         {/* Action Buttons */}
-                        <div className={`flex flex-col items-center justify-start py-2 gap-2 ${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"} text-white px-2 rounded-r`} >
-                            <Edit className="cursor-pointer w-5 h-5" onClick={() => {
-                                setShowEditZone(true);
-                                setZoneId(item.zone_id);
-                            }}
+                        <div
+                            className={`flex flex-col items-center justify-start py-2 gap-2 ${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"} text-white px-2 rounded-r`}
+                        >
+                            <Edit
+                                className="cursor-pointer w-5 h-5"
+                                onClick={() => {
+                                    setShowEditZone(true);
+                                    setZoneId(item.zone_id);
+                                }}
                             />
-                            <Trash className="cursor-pointer w-5 h-5" onClick={() => handleDelete(item.zone_id)} />
+                            <Trash
+                                className="cursor-pointer w-5 h-5"
+                                onClick={() => handleDelete(item.zone_id)}
+                            />
                         </div>
                     </div>
                 ))}
             </div>
+
             {/* Popups */}
             <EditZone show={showEditZone} onClose={() => setShowEditZone(false)} zoneId={zoneId} fetchZone={fetchZone} />
             <AddZone show={showAddZone} onClose={() => setShowAddZone(false)} fetchZone={fetchZone} />

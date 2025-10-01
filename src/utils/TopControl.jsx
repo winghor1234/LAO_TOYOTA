@@ -1,7 +1,10 @@
-import { CalendarDays, ChevronDown, Search } from "lucide-react"
+
 import SelectDate from "./SelectDate"
+import { useTranslation } from "react-i18next"
 
 export const TopControl = () => {
+    const { t } = useTranslation("util")
+
     return (
         <>
             {/* Top Controls */}
@@ -12,10 +15,10 @@ export const TopControl = () => {
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row  gap-3 sm:gap-4">
                     <button className="bg-red-600 hover:bg-red-700 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
-                        ຄົ້ນຫາ
+                        {t("search")}
                     </button>
                     <button className="bg-green-500 hover:bg-green-600 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
-                        Export
+                        {t("export")}
                     </button>
                 </div>
             </div>

@@ -5,13 +5,14 @@ import Spinner from "../../utils/Loading";
 import { BackButton } from "../../utils/BackButton";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
+import { useTranslation } from "react-i18next";
 
 const DetailPromotion = () => {
+    const { t } = useTranslation("promotion");
     const { id } = useParams();
     const [promotionData, setPromotionData] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Function Fetch data of promotion
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -24,15 +25,22 @@ const DetailPromotion = () => {
             }
         };
         fetchData();
-    }, []);
+    }, [id]);
 
-    // Loading Spinner
     if (loading) {
-        return (<div className="flex items-center justify-center min-h-screen bg-gray-50"><Spinner size="lg" text="ກຳລັງໂຫຼດຂໍ້ມູນ..." /> </div>);
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gray-50">
+                <Spinner size="lg" text={t("loading_data")} />
+            </div>
+        );
     }
-    // No data found
+
     if (!promotionData) {
-        return (<div className="flex items-center justify-center min-h-screen text-gray-500">ບໍ່ພົບຂໍ້ມູນບໍລິການ</div>);
+        return (
+            <div className="flex items-center justify-center min-h-screen text-gray-500">
+                {t("no_data")}
+            </div>
+        );
     }
 
     return (
@@ -42,8 +50,9 @@ const DetailPromotion = () => {
                     <BackButton />
                     <hr className="border-gray-200 my-4" />
                     <h2 className="text-center text-lg sm:text-xl font-semibold text-gray-800 mb-6">
-                        ລາຍລະອຽດໂປຣໂມຊັ່ນ
+                        {t("promotion_details")}
                     </h2>
+
                     {/* Desktop / Tablet View */}
                     <div className="hidden md:block">
                         <div className="flex gap-6 items-center justify-around p-4 rounded-lg shadow-sm">
@@ -51,17 +60,17 @@ const DetailPromotion = () => {
                                 <div className="bg-gray-100 w-14 h-14 flex items-center justify-center rounded-full shadow">
                                     <FaTools className="text-2xl text-gray-600" />
                                 </div>
-                                <p className="text-base text-gray-500">ຂໍ້ມູນໂປຣໂມຊັ່ນ</p>
+                                <p className="text-base text-gray-500">{t("promotion_details")}</p>
                             </div>
                             <div className="flex flex-col gap-2 text-left">
                                 <div>
-                                    <p className="text-base text-gray-500">ຊື່ໂປຣໂມຊັ່ນ</p>
+                                    <p className="text-base text-gray-500">{t("promotion_title")}</p>
                                     <p className="text-base text-gray-900 font-semibold">
                                         {promotionData.title}
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-base text-gray-500">ລາຍລະອຽດ</p>
+                                    <p className="text-base text-gray-500">{t("promotion_detail")}</p>
                                     <p className="text-base text-gray-800">{promotionData.detail}</p>
                                 </div>
                             </div>
@@ -76,26 +85,23 @@ const DetailPromotion = () => {
                             </div>
                         )}
                     </div>
+
                     {/* Mobile View */}
                     <div className="md:hidden space-y-4">
                         <div className="flex flex-col items-center gap-3">
                             <div className="bg-gray-100 w-12 h-12 flex items-center justify-center rounded-full shadow">
                                 <FaTools className="text-xl text-gray-600" />
                             </div>
-                            <p className="text-base text-gray-500">ຂໍ້ມູນໂປຣໂມຊັ່ນ</p>
+                            <p className="text-base text-gray-500">{t("promotion_details")}</p>
                         </div>
                         <div className="bg-gray-50 p-4 rounded-md shadow-inner space-y-3">
                             <div>
-                                <span className="text-base text-gray-500 block">ຊື່ໂປຣໂມຊັ່ນ:</span>
-                                <span className="text-base font-medium text-gray-900">
-                                    {promotionData.title}
-                                </span>
+                                <span className="text-base text-gray-500 block">{t("promotion_title")}:</span>
+                                <span className="text-base font-medium text-gray-900">{promotionData.title}</span>
                             </div>
                             <div>
-                                <span className="text-base text-gray-500 block">ລາຍລະອຽດ:</span>
-                                <span className="text-base font-medium text-gray-800">
-                                    {promotionData.detail}
-                                </span>
+                                <span className="text-base text-gray-500 block">{t("promotion_detail")}:</span>
+                                <span className="text-base font-medium text-gray-800">{promotionData.detail}</span>
                             </div>
                         </div>
                         {promotionData.image && (

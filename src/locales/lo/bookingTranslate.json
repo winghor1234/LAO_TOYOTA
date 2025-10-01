@@ -1,0 +1,136 @@
+{
+  "approve_status": "ລໍອະນຸມັດ",
+  "car_model": "ຊື່ລົດ",
+  "username": "ຊື່ລູກຄ້າ",
+  "phone": "ເບີໂທລູກຄ້າ",
+  "plate_number": "ປ້າຍທະບຽນ",
+  "date": "ວັນທີ",
+  "time": "ເວລາ",
+
+
+  "booking_success": "ນັດໝາຍສຳເລັດ",
+  "invoice_number": "ເລກບິນ",
+  "points_earned": "ທ່ານໄດ້ຮັບ +{{points}} ຄະແນນ",
+  "initial_symptoms": "ອາການລົດເບື້ອງຕົ້ນ",
+
+
+  "approve_booking_title": "ອານຸມັດການນັດໝາຍ",
+  "date_label": "ວັນທີ/ເດືອນ/ປີ",
+  "time_label": "ເວລາ",
+  "zone_label": "ໂຊນ",
+  "cancel_button": "ຍົກເລີກ",
+  "approve_button": "ຕົກລົງ",
+  "success_alert": "ອະນຸມັດສຳເລັດແລ້ວ",
+
+
+  "reject_booking_title": "ປະຕິເສດການນັດໝາຍ",
+  "date_label": "ວັນທີ/ເດືອນ/ປີ",
+  "time_label": "ເວລາ",
+  "zone_label": "ໂຊນ",
+  "cancel_button": "ຍົກເລີກ",
+  "reject_button": "ຕົກລົງ",
+  "success_alert": "ປະຕິເສດສຳເລັດແລ້ວ",
+
+
+  "receiver_car_detail": "ລາຍລະອຽດລົດຜູ້ຮັບ",
+  "customer_info": "ຂໍ້ມູນຜູ້ນັດໝາຍ",
+  "customer_name": "ຊື່ລູກຄ້າ",
+  "customer_phone": "ເບີໂທລູກຄ້າ",
+  "plate_number": "ປ້າຍທະບຽນລົດ",
+  "engine_number": "ເລກຈັກ",
+  "frame_number": "ເລກຖັງ",
+  "car_model": "ລຸ້ນລົດ",
+  "date": "ວັນທີ",
+  "time": "ເວລາ",
+  "zone": "ໂຊນ",
+  "approve": "ອະນຸມັດ",
+  "reject": "ປະຕິເສດ",
+  "approve_success": "ອະນຸມັດສຳເລັດແລ້ວ",
+  "reject_success": "ປະຕິເສດສຳເລັດແລ້ວ",
+
+
+  "cancelled_booking": "ການນັດໝາຍທີ່ຍົກເລີກ",
+  "car_model": "ຊື່ລົດ",
+  "customer_name": "ຊື່ລູກຄ້າ",
+  "customer_phone": "ເບີໂທລູກຄ້າ",
+  "plate_number": "ປ້າຍທະບຽນ",
+  "date": "ວັນທີ",
+  "time": "ເວລາ",
+  "cancelled": "ຍົກເລີກເເລ້ວ",
+
+
+
+  "fix_details": "ລາຍລະອຽດການສ້ອມແປງ",
+  "customer_info": "ຂໍ້ມູນລູກຄ້າ",
+  "car_info": "ຂໍ້ມູນລົດ",
+  "appointment_time": "ເວລານັດໝາຍ",
+  "customer_name": "ຊື່ລູກຄ້າ",
+  "customer_phone": "ເບີໂທລູກຄ້າ",
+  "plate_number": "ປ້າຍທະບຽນ",
+  "engine_number": "ເລກຈັກ",
+  "frame_number": "ເລກຖັງ",
+  "car_model": "ລຸ້ນລົດ",
+  "date": "ວັນທີ",
+  "time": "ເວລາ",
+  "complete_fix": "ສຳເລັດການສ້ອມແປງ",
+
+
+
+  "appointment_info": "ຂໍ້ມູນຜູ້ນັດໝາຍ",
+  "customer_name": "ຊື່ລູກຄ້າ",
+  "customer_phone": "ເບີໂທລູກຄ້າ",
+  "plate_number": "ປ້າຍທະບຽນ",
+  "date": "ວັນທີ",
+  "time": "ເວລາ",
+  "approved": "ອະນຸມັດແລ້ວ",
+
+
+
+  "title": "ລາຍລະອຽດການສ້ອມແປງ",
+  "kmLast": "ໄລຍະທາງກ່ອນ",
+  "kmNext": "ໄລຍະທາງລ້າສຸດ",
+  "detailFix": "ລາຍລະອຽດການສ້ອມແປງ",
+  "carFixPrice": "ຄ່າແຮງງານ",
+  "carPartPrice": "ຄ່າອະໄຫຼ",
+  "totalPrice": "ລາຄາລວມ",
+  "cancel": "ຍົກເລີກ",
+  "submit": "ຕົກລົງ",
+
+
+
+  "booking": "ຂໍ້ມູນການນັດໝາຍ",
+  "customerName": "ຊື່ລູກຄ້າ",
+  "phone": "ເບີໂທລູກຄ້າ",
+  "plate": "ປ້າຍທະບຽນ",
+  "date": "ວັນທີ",
+  "time": "ເວລາ",
+  "car": "ຊື່ລົດ",
+
+
+
+  "back": "ກັບໄປຫນ້າກ່ອນ",
+  "title": "ລາຍລະອຽດການສ້ອມແປງ",
+  "bookingInfo": "ຂໍ້ມູນຜູ້ນັດໝາຍ",
+  "customerName": "ຊື່ລູກຄ້າ",
+  "phone": "ເບີໂທລູກຄ້າ",
+  "plateNumber": "ປ້າຍທະບຽນລົດ",
+  "frameNumber": "ເລກຈັກ",
+  "engineNumber": "ເລກຖັງ",
+  "carModel": "ລຸ້ນລົດ",
+  "date": "ວັນທີ",
+  "time": "ເວລາ",
+  "zone": "ໂຊນ",
+  "kmLast": "ໄລຍະທາງກ່ອນ",
+  "kmNext": "ໄລຍະທາງລ້າສຸດ",
+  "detailFix": "ລາຍລະອຽດການສ້ອມແປງ",
+  "fixCarPrice": "ຄ່າແຮງງານ",
+  "carPartPrice": "ຄ່າອະໄຫຼ",
+  "totalPrice": "ລາຄາລວມທັງຫມົດ",
+
+
+
+  "pending": "ລໍອະນຸມັດ",
+  "fixing": "ກຳລັງສ້ອມແປງ",
+  "success": "ສຳເລັດ",
+  "cancel": "ຍົກເລີກ"
+}

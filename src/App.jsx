@@ -1,60 +1,34 @@
-// import { ToastContainer } from 'react-toastify';
-// import Router from './route/Router';
-// import { useEffect } from 'react';
-// import useToyotaStore from './store/ToyotaStore';
-
-// const App = () => {
-//   useEffect(() => {
-//     const checkAndRefreshToken = async () => {
-//       const newToken = await useToyotaStore.getState().refreshTokenIfNeeded();
-
-//       // ถ้า refresh ไม่สำเร็จ token จะถูกลบอัตโนมัติ
-//       if (!newToken) {
-//         console.log("Token หมดอายุและไม่สามารถ refresh ได้");
-//       } else {
-//         console.log("Token refreshed:", newToken);
-//       }
-//     };
-
-//     checkAndRefreshToken();
-//   }, []);
-
-//   return (
-//     <div>
-//       <ToastContainer />
-//       <Router />
-//     </div>
-//   );
-// };
-
-// export default App;
-
-import { ToastContainer } from 'react-toastify'
-import Router from './route/Router'
-import { useEffect } from 'react';
-import useToyotaStore from './store/ToyotaStore';
-
+import { ToastContainer } from "react-toastify";
+import Router from "./route/Router";
+import { useEffect } from "react";
+import useToyotaStore from "./store/ToyotaStore";
+import i18n, { setLanguage } from "./i18n";
 
 const App = () => {
   useEffect(() => {
-    const checkTokenValidate = () => {
-      const tokenExpire = useToyotaStore.getState().getTokenExpire();
-      const now = Date.now();
+    // ตรวจสอบ token
+    const tokenExpire = useToyotaStore.getState().getTokenExpire();
+    if (tokenExpire && Date.now() > tokenExpire) {
+      useToyotaStore.getState().removeToken();
+    }
 
-      if (tokenExpire && now > tokenExpire) {
-        useToyotaStore.getState().removeToken();
-      }
-    };
-
-    checkTokenValidate();
+    // ตั้งค่าภาษาเริ่มต้นจาก localStorage
+    const savedLang = localStorage.getItem("appLang");
+    if (savedLang) i18n.changeLanguage(savedLang);
   }, []);
 
   return (
     <div>
-      <ToastContainer/>
-      <Router/>
-    </div>
-  )
-}
+      <ToastContainer />
+      <Router />
 
-export default App
+      {/* ปุ่มเปลี่ยนภาษา */}
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <button onClick={() => setLanguage("lo")}>ພາສາລາວ</button>
+        <button onClick={() => setLanguage("en")}>English</button>
+      </div>
+    </div>
+  );
+};
+
+export default App;

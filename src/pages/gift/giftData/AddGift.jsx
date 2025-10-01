@@ -1,10 +1,13 @@
 import { Wrench, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import Spinner from "../../../utils/Loading";
 import { useAddGiftForm } from "../../../component/schemaValidate/giftValidate.js/AddGiftValidate";
 
 const AddGift = ({ show, onClose, handleFetch }) => {
-  const { register, handleSubmit, formState: { errors }, submitForm, loading, imageFile , setValue} = useAddGiftForm({ onClose, handleFetch });
+  const { t } = useTranslation("gift");
+  const { register, handleSubmit, formState: { errors }, submitForm, loading, imageFile, setValue } = useAddGiftForm({ onClose, handleFetch });
+
   if (!show) return null;
 
   return (
@@ -15,7 +18,7 @@ const AddGift = ({ show, onClose, handleFetch }) => {
       />
 
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl bg-white rounded-2xl shadow-lg p-4 sm:p-6 text-sm transition-all">
-        <h2 className="text-lg sm:text-xl font-bold text-center mb-4">ເພີ່ມຂໍ້ມູນລາງວັນ</h2>
+        <h2 className="text-lg sm:text-xl font-bold text-center mb-4">{t("add_gift")}</h2>
 
         <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
           {/* Inputs */}
@@ -23,22 +26,18 @@ const AddGift = ({ show, onClose, handleFetch }) => {
             <div className="flex flex-col">
               <input
                 {...register("name")}
-                placeholder="ຊື່ລັງວັນ"
+                placeholder={t("gift_name")}
                 className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
               />
-              <div className="h-6">
-                {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
-              </div>
+              <div className="h-6">{errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}</div>
             </div>
             <div className="flex flex-col">
               <input
                 {...register("point")}
-                placeholder="ຄະແນນ"
+                placeholder={t("point")}
                 className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
               />
-              <div className="h-6">
-                {errors.point && <p className="text-red-500 text-sm">{errors.point.message}</p>}
-              </div>
+              <div className="h-6">{errors.point && <p className="text-red-500 text-sm">{errors.point.message}</p>}</div>
             </div>
           </div>
 
@@ -61,12 +60,10 @@ const AddGift = ({ show, onClose, handleFetch }) => {
               </div>
             ) : (
               <div className="h-56 w-72 mb-2 flex items-center justify-center shadow-2xl">
-                <h1 className="text-gray-500 font-extrabold text-2xl">ບໍ່ມີຮູບພາບ</h1>
+                <h1 className="text-gray-500 font-extrabold text-2xl">{t("no_image")}</h1>
               </div>
             )}
-            <div className="h-8 flex items-center">
-              {errors.image && <p className="text-red-500">{errors.image.message}</p>}
-            </div>
+            <div className="h-8 flex items-center">{errors.image && <p className="text-red-500">{errors.image.message}</p>}</div>
           </div>
 
           {/* File upload */}
@@ -85,20 +82,20 @@ const AddGift = ({ show, onClose, handleFetch }) => {
             <button
               type="button"
               onClick={() => {
-                SuccessAlert("ຍົກເລີກການເພີ່ມຂໍ້ມູນ");
+                SuccessAlert(t("cancel_add_alert"));
                 onClose();
               }}
               className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg w-full sm:w-28 h-10 cursor-pointer transition-colors text-sm"
               disabled={loading}
             >
-              ຍົກເລີກ
+              {t("cancel")}
             </button>
             <button
               type="submit"
               className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg w-full sm:w-28 h-10 cursor-pointer transition-colors text-sm flex items-center justify-center gap-2"
               disabled={loading}
             >
-              {loading ? <Spinner size="5" color="white" /> : "ຕົກລົງ"}
+              {loading ? <Spinner size="5" color="white" /> : t("submit")}
             </button>
           </div>
         </form>

@@ -1,8 +1,10 @@
 import { Eye, EyeOff, Lock, Phone } from 'lucide-react';
 import { useLoginForm } from '../../component/schemaValidate/authValidate/LoginValidate';
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
     const { showPassword, setShowPassword, loading, register, handleSubmit, formState: { errors }, submitForm } = useLoginForm();
+    const { t } = useTranslation("auth"); // ✅ ใช้ i18n
 
     return (
         <div className="bg-gradient-to-br from-red-300 to-white min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -12,18 +14,19 @@ const Login = () => {
                         <img src="/src/assets/logo.jpg" alt="Lao Toyota" className="h-16 w-auto rounded " />
                     </div>
                     <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
-                        ເຂົ້າສູ່ລະບົບ
+                        {t("login_title")}
                     </h2>
-                    <p className="mt-2 text-center text-sm text-gray-600">
-                        ກະລຸນາເຂົ້າສູ່ລະບົບດ້ວຍບັນຊີຂອງທ່ານ
-                    </p>
+                    {/* <p className="mt-2 text-center text-sm text-gray-600">
+                        {t("login_subtitle")}
+                    </p> */}
                 </div>
+
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit(submitForm)}>
                     <div className="space-y-4">
                         {/* Phone Input */}
                         <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                                ໂທລະສັບ
+                            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                                {t("phone")}
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -33,7 +36,7 @@ const Login = () => {
                                     {...register('phoneNumber')}
                                     type="number"
                                     className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
-                                    placeholder="ເບີໂທລະສັບ..."
+                                    placeholder={t("phone_placeholder")}
                                 />
                             </div>
                             <div className='mt-1 h-7'>
@@ -44,7 +47,7 @@ const Login = () => {
                         {/* Password Input */}
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                                ລະຫັດຜ່ານ
+                                {t("password")}
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -56,7 +59,7 @@ const Login = () => {
                                         {...register('password')}
                                         type={showPassword ? 'text' : 'password'}
                                         className='w-full outline-none border-none '
-                                        placeholder="ລະຫັດຜ່ານ..."
+                                        placeholder={t("password_placeholder")}
                                     />
                                 </div>
                                 <button
@@ -81,10 +84,11 @@ const Login = () => {
                     <div className="flex items-center justify-end">
                         <div className="text-sm">
                             <a href="/forgot-password" className="font-medium text-red-600 hover:text-red-500">
-                                ລືມລະຫັດຜ່ານ ?
+                                {t("forgot_password")}
                             </a>
                         </div>
                     </div>
+
                     {/* Submit Button */}
                     <div>
                         <button
@@ -101,10 +105,10 @@ const Login = () => {
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    ກຳລັງເຂົ້າສູ່ລະບົບ...
+                                    {t("logging_in")}
                                 </div>
                             ) : (
-                                'ເຂົ້າສູ່ລະບົບ'
+                                t("login_button")
                             )}
                         </button>
                     </div>
@@ -112,9 +116,9 @@ const Login = () => {
                     {/* Sign up link */}
                     <div className="text-center">
                         <span className="text-sm text-gray-600">
-                            ຍັງບໍ່ມີບັນຊີ?{' '}
+                            {t("no_account")}{" "}
                             <a href="/register" className="font-medium text-red-600 hover:text-red-500">
-                                ລົງທະບຽນທີ່ນີ້
+                                {t("register_here")}
                             </a>
                         </span>
                     </div>

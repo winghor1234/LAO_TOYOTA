@@ -3,6 +3,7 @@ import * as XLSX from "xlsx";
 import axiosInstance from "./AxiosInstance";
 import { SuccessAlert } from "./handleAlert/SuccessAlert";
 import Spinner from "./Loading";
+import { useTranslation } from "react-i18next";
 
 
 /**
@@ -11,14 +12,10 @@ import Spinner from "./Loading";
  * @param {string} apiPath - endpoint สำหรับ POST
  * @param {string[]} requiredFields - ฟิลด์ที่ต้องมีใน Excel
  */
-const ImportExcel = ({
-  onUploadSuccess,
-  transformData,
-  apiPath,
-  requiredFields = [],
-}) => {
+const ImportExcel = ({onUploadSuccess,transformData,apiPath,requiredFields = [],}) => {
   const fileInputRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation("util");
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -47,7 +44,7 @@ const ImportExcel = ({
         await axiosInstance.post(apiPath, formData);
       }
 
-      SuccessAlert("ອັບໂຫຼດຂໍ້ມູນຈາກ Excel ສຳເລັດ");
+      SuccessAlert(t("import_success"), 1500, "success");
       onUploadSuccess?.();
       fileInputRef.current.value = null;
     } catch (error) {
@@ -74,7 +71,7 @@ const ImportExcel = ({
         {loading ? (
           <Spinner size="5" color="white" />
         ) : (
-          <span className="whitespace-nowrap">Import Excel</span>
+          <span className="whitespace-nowrap">{t("import")}</span>
         )}
       </button>
     </div>

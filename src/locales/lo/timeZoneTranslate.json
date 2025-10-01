@@ -1,0 +1,84 @@
+{
+  "title": "ເພີ່ມຂໍ້ມູນລາງວັນ",
+  "time": "ເວລາ",
+  "date": "ວັນທີ/ເດືອນ/ປີ",
+  "selectZone": "ເລືອກໂຊນ",
+  "noZone": "ບໍ່ມີໂຊນ",
+  "cancel": "ຍົກເລີກ",
+  "submit": "ຕົກລົງ",
+  "cancelMessage": "ຍົກເລີກການເພີ່ມຂໍ້ມູນ",
+
+
+
+ "title": "ແກ້ໄຂ້ຂໍ້ມູນເວລາ",
+  "time": "ເວລາ",
+  "date": "ວັນທີ/ເດືອນ/ປີ",
+  "selectZone": "ເລືອກໂຊນ",
+  "noZone": "ບໍ່ມີໂຊນ",
+  "cancel": "ຍົກເລີກ",
+  "submit": "ຕົກລົງ",
+  "cancelMessage": "ຍົກເລີກການແກ້ໄຂ",
+
+
+
+  "title": "ລາຍລະອຽດເວລາ",
+  "dateLabel": "ວັນທີ/ເດືອນ/ປີ",
+  "timeLabel": "ເວລາ",
+  "zoneLabel": "ໂຊນ",
+  "editButton": "ແກ້ໄຂ",
+
+
+
+  "searchPlaceholder": "ຄົ້ນຫາເວລາ...",
+  "addButton": "ເພີ່ມ",
+  "deleteConfirm": "ວ່າຈະລົບຂໍ້ມູນລາງວັນນີ້ບໍ່?",
+  "deleteSuccess": "ລົບຂໍ້ມູນສຳເລັດ",
+  "statusFree": "ຫວ່າງ",
+  "statusFull": "ເຕັມ",
+
+
+
+
+
+  "addZoneTitle": "Add Zone",
+  "zoneName": "Zone Name",
+  "timeFix": "Repair Time",
+  "cancelButton": "Cancel",
+  "cancelMessage": "Cancelled adding",
+  "submitButton": "Submit",
+
+
+
+ "editZoneTitle": "ແກ້ໄຂ້ຂໍ້ມູນໂຊນ",
+  "zoneName": "ຊື່ໂຊນ",
+  "timeFix": "ເວລາສ້ອມແປງ",
+  "cancelButton": "ຍົກເລີກ",
+  "cancelMessage": "ຍົກເລີກການແກ້ໄຂ",
+  "submitButton": "ຕົກລົງ",
+
+
+
+  "zoneDetailTitle": "ລາຍລະອຽດໂຊນ",
+  "zoneNameLabel": "ໂຊນ :",
+  "timeFixLabel": "ເວລາສ້ອມແປງ :",
+  "editButton": "ແກ້ໄຂ",
+
+
+
+
+  "zoneNameLabel": "ຊື່ໂຊນ",
+  "timeFixLabel": "ເວລາ",
+  "statusLabel": "ສະຖານະ",
+  "statusFree": "ຫວ່າງ",
+  "statusFull": "ເຕັມ",
+  "searchPlaceholder": "ຄົ້ນຫາໂຊນ...",
+  "addButton": "ເພີ່ມ",
+  "deleteConfirm": "ວ່າຈະລົບຂໍ້ມູນໂຊນນີ້ບໍ່?",
+  "deleteSuccess": "ລົບຂໍ້ມູນໂຊນສຳເລັດ",
+  "minuteLabel": "ນາທີ",
+
+
+  "timeLabel": "ເວລາ",
+  "zoneLabel": "ໂຊນ"
+
+}

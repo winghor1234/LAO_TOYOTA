@@ -1,0 +1,19 @@
+{
+  "dashboard": "Dashboard",
+  "no_notifications": "No new notifications",
+  "booked_by": "Booked by",
+  "car": "Car",
+  "no_image": "No image",
+
+
+
+  "appointment": "Appointment",
+  "time_zone": "Time/Zone",
+  "promotion": "Promotion",
+  "reward": "Rewards",
+  "car_info": "Car",
+  "customer_info": "Customer ",
+  "service": "Service",
+  "report": "Report",
+  "logout": "Logout"
+}

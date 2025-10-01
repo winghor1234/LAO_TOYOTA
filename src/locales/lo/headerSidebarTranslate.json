@@ -1,0 +1,19 @@
+{
+  "dashboard": "ແຜງຄວບຄຸມ",
+  "no_notifications": "ບໍ່ມີແຈ້ງເຕືອນໃໝ່",
+  "booked_by": "ຈອງໂດຍ",
+  "car": "ລົດ",
+  "no_image": "ບໍ່ມີຮູບ",
+
+
+
+  "appointment": "ນັດໝາຍ",
+  "time_zone": "ຈັດການໂຊນ/ເວລາ",
+  "promotion": "ໂປຣໂມຊັ່ນ",
+  "reward": "ລາງວັນ",
+  "car_info": "ຂໍ້ມູນລົດ",
+  "customer_info": "ຂໍ້ມູນລູກຄ້າ",
+  "service": "ບໍລິການ",
+  "report": "ລາຍງານ",
+  "logout": "ອອກຈາກລະບົບ"
+}

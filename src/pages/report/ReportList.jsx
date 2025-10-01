@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, BarChart, Bar, CartesianGrid, Legend } from "recharts";
+import { useTranslation } from "react-i18next";
 
 const ReportList = () => {
+  const { t } = useTranslation("report");
+
   const [users, setUsers] = useState([]);
   const [booking, setBooking] = useState([]);
   const [fix, setFix] = useState([]);
@@ -29,7 +32,6 @@ const ReportList = () => {
     fetchReportData();
   }, []);
 
-  // mock data ເພື່ອສະແດງລາຍງານຕາມເດືອນ
   const bookingByMonth = [
     { month: "Jan", total: 20 },
     { month: "Feb", total: 15 },
@@ -50,31 +52,31 @@ const ReportList = () => {
 
   return (
     <div className="p-4 bg-gray-50 min-h-screen">
-      <h1 className="text-xl md:text-2xl font-bold mb-4">ລາຍງານລະບົບ</h1>
+      <h1 className="text-xl md:text-2xl font-bold mb-4">{t("report_title")}</h1>
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-white shadow-md rounded-lg p-4 text-center">
-          <p className="text-gray-600 text-sm">ຜູ້ໃຊ້</p>
+          <p className="text-gray-600 text-sm">{t("users")}</p>
           <h2 className="text-xl font-bold">{users.length}</h2>
         </div>
         <div className="bg-white shadow-md rounded-lg p-4 text-center">
-          <p className="text-gray-600 text-sm">ການນັດໝາຍ</p>
+          <p className="text-gray-600 text-sm">{t("booking")}</p>
           <h2 className="text-xl font-bold">{booking.length}</h2>
         </div>
         <div className="bg-white shadow-md rounded-lg p-4 text-center">
-          <p className="text-gray-600 text-sm">ບໍລິການສ້ອມແປງ</p>
+          <p className="text-gray-600 text-sm">{t("fix_service")}</p>
           <h2 className="text-xl font-bold">{fix.length}</h2>
         </div>
         <div className="bg-white shadow-md rounded-lg p-4 text-center">
-          <p className="text-gray-600 text-sm">ຂໍ້ມູນລົດ</p>
+          <p className="text-gray-600 text-sm">{t("cars")}</p>
           <h2 className="text-xl font-bold">{car.length}</h2>
         </div>
       </div>
 
       {/* Booking Report */}
       <div className="bg-white rounded-lg shadow-lg p-4 mb-6">
-        <h2 className="text-lg font-medium mb-2">ລາຍງານການນັດໝາຍຕາມເດືອນ</h2>
+        <h2 className="text-lg font-medium mb-2">{t("booking_by_month")}</h2>
         <div className="w-full h-64">
           <ResponsiveContainer>
             <BarChart data={bookingByMonth}>
@@ -92,8 +94,8 @@ const ReportList = () => {
       {/* Revenue Report */}
       <div className="bg-white rounded-lg shadow-lg p-4">
         <div className="flex justify-between items-center mb-2">
-          <h2 className="text-lg font-medium">ລາຍງານລາຍຮັບການສ້ອມແປງ</h2>
-          <button className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm">Export</button>
+          <h2 className="text-lg font-medium">{t("fix_revenue")}</h2>
+          <button className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm">{t("export")}</button>
         </div>
         <div className="w-full h-64">
           <ResponsiveContainer>

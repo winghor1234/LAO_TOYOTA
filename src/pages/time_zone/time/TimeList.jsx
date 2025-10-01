@@ -11,8 +11,10 @@ import ExportExcelButton from "../../../utils/ExcelExportButton";
 import ImportExcel from "../../../utils/ImportExel";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
+import { useTranslation } from "react-i18next";
 
 const TimeList = () => {
+    const { t } = useTranslation("timeZone"); // ใช้ namespace timeList
     const [showAddTime, setShowAddTime] = useState(false);
     const [showEditTime, setShowEditTime] = useState(false);
     const [time, setTime] = useState([]);
@@ -27,15 +29,14 @@ const TimeList = () => {
         try {
             const res = await axiosInstance.get(APIPath.SELECT_ALL_TIME);
             const data = res?.data?.data || [];
-            // console.log("Fetched time :", data);
             setTime(data);
 
             // อัปเดต exportData ทุกครั้งเมื่อ fetch
             setExportData(
                 data.map((item) => ({
-                    ເວລາ: item.time,
-                    ວັນທີ: item.date,
-                    ສະຖານະ: item.timeStatus ? "ຫວ່າງ" : "ເຕັມ",
+                    time: item.time,
+                    date: item.date,
+                    status: item.timeStatus ? t("statusFree") : t("statusFull"),
                 }))
             );
         } catch (error) {
@@ -48,7 +49,10 @@ const TimeList = () => {
     }, []);
 
     const handleDelete = async (id) => {
-        const confirmDelete = await DeleteAlert("ວ່າຈະລົບຂໍ້ມູນລາງວັນນີ້ບໍ່?", "ລົບຂໍ້ມູນລາງວັນສຳເລັດ");
+        const confirmDelete = await DeleteAlert(
+            t("deleteConfirm"),
+            t("deleteSuccess")
+        );
         if (confirmDelete) {
             await axiosInstance.delete(APIPath.DELETE_TIME(id));
             fetchTime();
@@ -66,14 +70,24 @@ const TimeList = () => {
         <div>
             {/* Top Controls */}
             <div className="flex flex-col sm:flex-row lg:flex-row lg:items-center gap-4 lg:gap-6 mb-6">
-                <SelectDate onSearch={setSearch} placeholder="ຄົ້ນຫາເວລາ..." onDateChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }} />
+                <SelectDate
+                    onSearch={setSearch}
+                    placeholder={t("searchPlaceholder")}
+                    onDateChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }}
+                />
                 {/* Export Excel */}
                 <ExportExcelButton data={exportData} fileName="TimeData.xlsx" />
                 {/* Import Excel */}
-                <ImportExcel fetchData={fetchTime} addToExport={(newData) => setExportData((prev) => [...prev, newData])} />
+                <ImportExcel
+                    fetchData={fetchTime}
+                    addToExport={(newData) => setExportData((prev) => [
+                        ...prev,
+                        { ...newData, status: t("statusFree") },
+                    ])}
+                />
                 <div onClick={() => setShowAddTime(true)} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
-                        ເພີ່ມ
+                        {t("addButton")}
                     </button>
                 </div>
             </div>
@@ -84,7 +98,8 @@ const TimeList = () => {
                     <div key={item.time_id} className="flex justify-center hover:shadow-xl">
                         <div
                             onClick={() => navigate(`/user/timeDetail/${item.time_id}`)}
-                            className={`${item.timeStatus ? "bg-green-600 text-white" : "bg-[#E52020] text-white"} text-white cursor-pointer w-full px-4 py-2 rounded-lcursor-pointer shadow-2xl`}>
+                            className={`${item.timeStatus ? "bg-green-600 text-white" : "bg-[#E52020] text-white"} text-white cursor-pointer w-full px-4 py-2 rounded-l shadow-2xl`}
+                        >
                             <div className="ml-4 flex items-center justify-start gap-3 text-md">
                                 <TimerIcon />
                                 {item.time}
@@ -93,20 +108,16 @@ const TimeList = () => {
                                 <Calendar />
                                 {item.date}
                             </div>
-                            <div className="mt-2 ml-4 flex items-center justify-start gap-3 text-2xl font-semibold">
+                            <div className="mt-2 ml-4 flex items-center justify-start gap-3 text-xl font-semibold">
                                 <MapPinned />
                                 {item?.zone?.zoneName}
                             </div>
                             <div className="mt-2 ml-4 flex items-center justify-start font-semibold">
-                                <p className="text-2xl">{item.timeStatus ? "ຫວ່າງ" : "ເຕັມ"}</p>
+                                <p className="text-xl">{item.timeStatus ? t("statusFree") : t("statusFull")}</p>
                             </div>
                         </div>
                         <div className={`flex flex-col items-center justify-start py-2 gap-2 ${item.timeStatus ? "bg-green-600 text-white" : "bg-[#E52020] text-white"} px-2 rounded-r cursor-pointer`}>
-                            <Edit className="text-white h-5 w-5 cursor-pointer" onClick={() => {
-                                setShowEditTime(true);
-                                setTimeId(item.time_id);
-                            }}
-                            />
+                            <Edit className="text-white h-5 w-5 cursor-pointer" onClick={() => { setShowEditTime(true); setTimeId(item.time_id); }} />
                             <Trash className="text-white h-5 w-5 cursor-pointer" onClick={() => handleDelete(item.time_id)} />
                         </div>
                     </div>
@@ -115,7 +126,7 @@ const TimeList = () => {
 
             {/* Popups */}
             <EditTime show={showEditTime} onClose={() => setShowEditTime(false)} timeId={timeId} fetchTime={fetchTime} />
-            <AddTime show={showAddTime} onClose={() => setShowAddTime(false)} fetchTime={fetchTime} addToExport={(newData) => setExportData((prev) => [...prev, { ...newData, status: "ຫວ່າງ" },])} />
+            <AddTime show={showAddTime} onClose={() => setShowAddTime(false)} fetchTime={fetchTime} addToExport={(newData) => setExportData((prev) => [...prev, { ...newData, status: t("statusFree") }])} />
         </div>
     );
 };

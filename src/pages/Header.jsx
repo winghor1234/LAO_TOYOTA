@@ -1,16 +1,16 @@
 import { Bell, Menu } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
 import axiosInstance from '../utils/AxiosInstance';
 import APIPath from '../api/APIPath';
-
 
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
   const [profile, setProfile] = useState(null);
   const [booking, setBooking] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
 
-
+  const { t } = useTranslation("headerSidebar");
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -19,25 +19,16 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
         axiosInstance.get(APIPath.GET_PROFILE),
         axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
       ]);
-
-      // Profile
       setProfile(profileRes?.data?.data);
-
-      // Booking
       setBooking(bookingRes?.data?.data);
-
     } catch (error) {
       console.log(error);
     }
   };
 
-
-
   useEffect(() => {
-    fetchData(); 
+    fetchData();
   }, []);
-
-
 
   const handleProfileDetail = () => {
     navigate("/user/profile");
@@ -58,7 +49,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
             <Menu className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 cursor-pointer hover:scale-110 transition-transform duration-200" />
           </button>
           <h1 className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-gray-800 truncate">
-            Dashboard
+            {t("dashboard")}
           </h1>
         </div>
 
@@ -70,7 +61,6 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
               className="border w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200"
               aria-label="Notifications"
               onClick={() => setShowNotifications(!showNotifications)}
-
             >
               <Bell className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-600" />
               {unreadCount > 0 && (
@@ -83,7 +73,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
             {showNotifications && (
               <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg overflow-hidden z-50">
                 {unreadCount === 0 ? (
-                  <p className="p-4 text-gray-500 text-sm">ບໍ່ມີແຈ້ງເຕືອນໃໝ່</p>
+                  <p className="p-4 text-gray-500 text-sm">{t("no_notifications")}</p>
                 ) : (
                   <>
                     {booking
@@ -97,7 +87,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
                             setShowNotifications(false);
                           }}
                         >
-                          ຈອງໂດຍ : {note?.user?.username} - ລົດ: {note?.car?.model}
+                          {t("booked_by")} : {note?.user?.username} - {t("car")} : {note?.car?.model}
                         </div>
                       ))}
                   </>
@@ -117,22 +107,12 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
                     alt={profile.username || "profile"}
                   />
                 ) : (
-                  <span className="text-white text-xs">ບໍ່ມີຮູບ</span>
+                  <span className="text-white text-xs">{t("no_image")}</span>
                 )}
               </div>
               <div>{profile.username}</div>
             </div>
           )}
-
-
-          {/* Mobile Menu Dots */}
-          <button className="sm:hidden p-2 text-gray-600 hover:text-gray-800 transition-colors">
-            <div className="flex flex-col gap-1">
-              <div className="w-1 h-1 bg-current rounded-full"></div>
-              <div className="w-1 h-1 bg-current rounded-full"></div>
-              <div className="w-1 h-1 bg-current rounded-full"></div>
-            </div>
-          </button>
         </div>
       </div>
     </header>

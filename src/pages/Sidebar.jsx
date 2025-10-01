@@ -1,46 +1,53 @@
 import { useNavigate } from "react-router-dom";
-import {Home,Users,Gift,Car,Settings,Clock,X,LogOutIcon} from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
-import logo from '../assets/logo.jpg'
+import { Home, Users, Gift, Car, Settings, Clock, X, LogOutIcon } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import logo from "../assets/logo.jpg";
 import useToyotaStore from "../store/ToyotaStore";
 import { LiaGiftsSolid } from "react-icons/lia";
 import { FaPeopleArrows } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
-
-
+import { useTranslation } from "react-i18next";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation("headerSidebar");
+
   const removeToken = useToyotaStore.getState().removeToken;
 
   const currentPath = location.pathname;
-  const isBookingPath = currentPath.startsWith('/user/booking') || currentPath.startsWith('/user/receiverCarDetail') || currentPath.startsWith('/user/fixDetail')  || currentPath.startsWith('/user/cancelDetail') || currentPath.startsWith('/user/successDetail');
-  const isGiftPath = currentPath.startsWith('/user/gift');
-  const isServicePath = currentPath.startsWith('/user/servicing') || currentPath.startsWith('/user/service-detail/');
-  const isDashboardPath = currentPath.startsWith('/user/dashboard');
-  const isPromotionPath = currentPath.startsWith('/user/promotion');
-  const isCar = currentPath.startsWith('/user/car');
-  const isTimePath = currentPath.startsWith('/user/time-zone');
-  const isUserPath = currentPath.startsWith('/user/user');
-  const isReportPath = currentPath.startsWith('/user/report');
-
-
+  const isBookingPath =
+    currentPath.startsWith("/user/booking") ||
+    currentPath.startsWith("/user/receiverCarDetail") ||
+    currentPath.startsWith("/user/fixDetail") ||
+    currentPath.startsWith("/user/cancelDetail") ||
+    currentPath.startsWith("/user/successDetail");
+  const isGiftPath = currentPath.startsWith("/user/gift");
+  const isServicePath =
+    currentPath.startsWith("/user/servicing") ||
+    currentPath.startsWith("/user/service-detail/");
+  const isDashboardPath = currentPath.startsWith("/user/dashboard");
+  const isPromotionPath = currentPath.startsWith("/user/promotion");
+  const isCar = currentPath.startsWith("/user/car");
+  const isTimePath = currentPath.startsWith("/user/time-zone");
+  const isUserPath = currentPath.startsWith("/user/user");
+  const isReportPath = currentPath.startsWith("/user/report");
 
   const handleLogout = () => {
     removeToken();
     navigate("/login");
   };
+
   const SideBarItems = [
-    { icon: <Home className='w-5 h-5' />, label: 'Dashboard', path: '/user/dashboard', isActive: isDashboardPath },
-    { icon: <FaPeopleArrows className='w-5 h-5' />, label: 'ນັດໝາຍ', path: '/user/booking', isActive: isBookingPath },
-    { icon: <Clock className='w-5 h-5' />, label: 'ຈັດການໂຊນ/ເວລາ', path: '/user/time-zone', isActive: isTimePath },
-    { icon: <Gift className='w-5 h-5' />, label: 'ໂປຣໂມຊັ່ນ', path: '/user/promotion', isActive: isPromotionPath },
-    { icon: <LiaGiftsSolid className='w-5 h-5' />, label: 'ລາງວັນ', path: '/user/gift', isActive: isGiftPath },
-    { icon: <Car className='w-5 h-5' />, label: 'ຂໍ້ມູນລົດ', path: '/user/car', isActive: isCar },
-    { icon: <Users className='w-5 h-5' />, label: 'ຂໍ້ມູນລູກຄ້າ', path: '/user/user', isActive: isUserPath },
-    { icon: <Settings className='w-5 h-5' />, label: 'ບໍລິການ', path: '/user/servicing', isActive: isServicePath },
-    { icon: <TbReportAnalytics className='w-5 h-5' />, label: 'ລາຍງານ', path: '/user/report', isActive: isReportPath },
+    { icon: <Home className="w-5 h-5" />, label: t("dashboard"), path: "/user/dashboard", isActive: isDashboardPath },
+    { icon: <FaPeopleArrows className="w-5 h-5" />, label: t("appointment"), path: "/user/booking", isActive: isBookingPath },
+    { icon: <Clock className="w-5 h-5" />, label: t("time_zone"), path: "/user/time-zone", isActive: isTimePath },
+    { icon: <Gift className="w-5 h-5" />, label: t("promotion"), path: "/user/promotion", isActive: isPromotionPath },
+    { icon: <LiaGiftsSolid className="w-5 h-5" />, label: t("reward"), path: "/user/gift", isActive: isGiftPath },
+    { icon: <Car className="w-5 h-5" />, label: t("car_info"), path: "/user/car", isActive: isCar },
+    { icon: <Users className="w-5 h-5" />, label: t("customer_info"), path: "/user/user", isActive: isUserPath },
+    { icon: <Settings className="w-5 h-5" />, label: t("service"), path: "/user/servicing", isActive: isServicePath },
+    { icon: <TbReportAnalytics className="w-5 h-5" />, label: t("report"), path: "/user/report", isActive: isReportPath },
   ];
 
   return (
@@ -52,15 +59,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         />
       )}
 
-      <div className={`
+      <div
+        className={`
         fixed flex flex-col items-center lg:relative lg:translate-x-0 transition-transform duration-300 ease-in-out z-50
         w-[243px] bg-[#E52020] text-white h-full
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+      `}
+      >
         {/* Logo */}
         <div className=" p-4 lg:p-6 flex items-center justify-center">
           <div className="flex items-center gap-3">
-            <img src={logo} alt="toyotaIcon" className='w-[126px] h-[126px] object-cover rounded-full' />
+            <img src={logo} alt="toyotaIcon" className="w-[126px] h-[126px] object-cover rounded-full" />
           </div>
           <button
             className="lg:hidden text-white absolute top-0 right-0 cursor-pointer hover:text-gray-300"
@@ -76,7 +85,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             <Link
               key={index}
               to={item.path}
-              className={`w-[193px] h-[40px] flex items-center gap-3 px-3 lg:px-4 py-3 mb-2 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-white hover:text-[#E52020] ${item.isActive ? 'bg-white text-[#E52020]' : 'bg-[#E52020] text-white'}`}
+              className={`w-[193px] h-[40px] flex items-center gap-3 px-3 lg:px-4 py-3 mb-2 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-white hover:text-[#E52020] ${item.isActive ? "bg-white text-[#E52020]" : "bg-[#E52020] text-white"
+                }`}
               onClick={() => setSidebarOpen(false)}
             >
               {item.icon}
@@ -84,13 +94,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             </Link>
           ))}
 
-          {/* ปุ่มออกจากระบบ */}
+          {/* Logout Button */}
           <button
             onClick={handleLogout}
             className="w-[193px] h-[40px] flex items-center gap-3 px-3 lg:px-4 py-3 mb-2 rounded-lg cursor-pointer transition-colors duration-200 bg-[#E52020] text-white hover:bg-white hover:text-[#E52020]"
           >
             <LogOutIcon className="w-5 h-5" />
-            <span className="text-sm lg:text-base">ອອກຈາກລະບົບ</span>
+            <span className="text-sm lg:text-base">{t("logout")}</span>
           </button>
         </nav>
       </div>

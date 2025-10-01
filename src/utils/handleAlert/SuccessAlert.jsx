@@ -3,8 +3,6 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// ต้องใส่ <ToastContainer /> ใน App.jsx หรือ Layout.jsx ครั้งเดียว
-// <ToastContainer position="top-center" autoClose={1500} />
 
 /**
  * Show success toast

@@ -1,10 +1,11 @@
 import { saveAs } from "file-saver";
+import { useTranslation } from "react-i18next";
 import * as XLSX from "xlsx";
 
 const ExportExcelButton = ({ data, fileName = "ExportData.xlsx" }) => {
+  const { t } =useTranslation("util")
   const handleExport = () => {
     if (!data || data.length === 0) {
-      alert("ບໍ່ມີຂໍ້ມູນເພີ່ມກ່ອນ export");
       return;
     }
 
@@ -44,7 +45,7 @@ const ExportExcelButton = ({ data, fileName = "ExportData.xlsx" }) => {
       onClick={handleExport}
       className="border text-black px-2 mt-1 sm:px-3 lg:px-4 py-2 sm:py-2.5 lg:py-3 rounded-lg hover:bg-gray-100 text-xs sm:text-sm lg:text-base transition-colors cursor-pointer shadow-4xl w-full sm:w-auto min-w-[100px] sm:min-w-[120px] lg:min-w-auto"
     >
-      <span className="whitespace-nowrap">Export Excel</span>
+      <span className="whitespace-nowrap">{t("export")}</span>
     </button>
   );
 };
