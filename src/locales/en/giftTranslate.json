@@ -7,33 +7,17 @@
   "submit": "Submit",
   "upload_image": "Upload Image",
   "cancel_add_alert": "Cancelled adding data",
-
-
-
   "edit_gift": "Edit Gift",
-  "gift_name": "Gift Name",
-  "point": "Point",
-  "no_image": "No Image",
-  "cancel_add_alert": "Cancelled adding gift",
   "cancel_edit_alert": "Cancelled editing gift",
-  "cancel": "Cancel",
-  "submit": "Submit",
-
-
-
   "search_placeholder": "Search gift...",
   "add_reward_button": "Add",
   "serial": "No.",
   "customer_name": "Customer Name",
   "image": "Image",
-  "gift_name": "Gift Name",
   "amount": "Amount",
-  "point": "Point",
   "actions": "Actions",
-  "no_image": "No Image",
   "delete_confirm_title": "Are you sure to delete this gift?",
   "delete_success_title": "Gift deleted successfully",
   "gift_data": "Gift",
   "gift_history": "History"
-
 }

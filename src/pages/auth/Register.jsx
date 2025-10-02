@@ -19,7 +19,7 @@ const Register = () => {
                     <div className="space-y-4">
                         {/* Username */}
                         <div className='flex flex-col'>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">{t("username")}</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">{t("username_label")}</label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <User className="h-5 w-5 text-gray-400" />
@@ -79,21 +79,21 @@ const Register = () => {
 
                         {/* Province */}
                         <div className='flex flex-col'>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">{t("province")}</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">{t("province_label")}</label>
                             <input {...register("province")} className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm" placeholder={t("province_placeholder")} />
                             <div className='h-6'>{errors.province && <p className="text-red-500 text-sm">{errors.province.message}</p>}</div>
                         </div>
 
                         {/* District */}
                         <div className='flex flex-col'>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">{t("district")}</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">{t("district_label")}</label>
                             <input {...register("district")} className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm" placeholder={t("district_placeholder")} />
                             <div className='h-6'>{errors.district && <p className="text-red-500 text-sm">{errors.district.message}</p>}</div>
                         </div>
 
                         {/* Village */}
                         <div className='flex flex-col'>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">{t("village")}</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">{t("village_label")}</label>
                             <input {...register("village")} className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm" placeholder={t("village_placeholder")} />
                             <div className='h-6'>{errors.village && <p className="text-red-500 text-sm">{errors.village.message}</p>}</div>
                         </div>

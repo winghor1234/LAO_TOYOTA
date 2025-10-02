@@ -8,8 +8,8 @@ import APIPath from '../../../api/APIPath';
 import { SuccessAlert } from '../../../utils/handleAlert/SuccessAlert';
 
 const ChangePasswordSchema = z.object({
-    oldPassword: z.string().min(8, " ຕ້ອງມີຢ່າງນ້ອຍ 8 ຕົວ"),
-    newPassword: z.string().min(8, " ຕ້ອງມີຢ່າງນ້ອຍ 8 ຕົວ"),
+    oldPassword: z.string().min(6, " ຕ້ອງມີຢ່າງນ້ອຍ 6 ຕົວ"),
+    newPassword: z.string().min(6, " ຕ້ອງມີຢ່າງນ້ອຍ 6 ຕົວ"),
 });
 
 

@@ -1,83 +1,38 @@
 {
-  "add_title": "Add Time Entry",
+  "add_time_title": "Add Time ",
   "time": "Time",
-  "date": "Date",
   "selectZone": "Select Zone",
   "noZone": "No Zone",
   "cancel": "Cancel",
   "submit": "Submit",
-  "add_cancelMessage": "Add time entry canceled",
-
-
-
-  "edit_title": "Edit Time Entry",
-  "time": "Time",
-  "date": "Date",
-  "selectZone": "Select Zone",
-  "noZone": "No Zone",
-  "cancel": "Cancel",
-  "submit": "Submit",
-  "edit_cancelMessage": "Edit time entry canceled",
-
-
-
-  "title": "Time Details",
+  "addTimeCancelMessage": "Add time canceled",
+  "edit_time_title": "Edit Time ",
+  "editTimeCancelMessage": "Edit time canceled",
+  "detail_time_title": "Time Details",
   "dateLabel": "Date",
   "timeLabel": "Time",
   "zoneLabel": "Zone",
-  "editButton": "Edit",
-
-
-
-  "searchPlaceholder": "Search time...",
+  "timeSearchPlaceholder": "Search time...",
   "addButton": "Add",
-  "deleteConfirm": "Do you want to delete this time?",
-  "deleteSuccess": "Time deleted successfully",
+  "timeDeleteConfirm": "Do you want to delete this time?",
+  "timeDeleteSuccess": "Time deleted successfully",
   "statusFree": "Empty",
   "statusFull": "Full",
-
-
-
-
   "addZoneTitle": "Add Zone",
   "zoneName": "Zone Name",
-  "timeFix": "Repair Time",
+  "timeFix": "Fix Time",
   "cancelButton": "Cancel",
-  "cancelMessage": "Cancelled adding",
+  "addZoneCancelMessage": "Cancelled adding zone",
   "submitButton": "Submit",
-
-
-
   "editZoneTitle": "Edit Zone",
-  "zoneName": "Zone Name",
-  "timeFix": "Repair Time",
-  "cancelButton": "Cancel",
-  "cancelMessage": "Cancelled editing",
-  "submitButton": "Submit",
-
-
-
+  "editZoneCancelMessage": "Cancelled editing zone",
   "zoneDetailTitle": "Zone Details",
-  "zoneNameLabel": "Zone:",
-  "timeFixLabel": "Repair Time:",
   "editButton": "Edit",
-
-
-
   "zoneNameLabel": "Zone Name",
-  "timeFixLabel": "Repair Time",
+  "timeFixLabel": "Fix Time",
   "statusLabel": "Status",
-  "statusFree": "Empty",
-  "statusFull": "Full",
-  "searchPlaceholder": "Search Zone...",
-  "addButton": "Add",
-  "deleteConfirm": "Are you sure you want to delete this zone?",
-  "deleteSuccess": "Zone deleted successfully",
-  "minuteLabel": "minutes",
-
-
-  "timeLabel": "Time",
-  "zoneLabel": "Zone"
-
-
+  "zoneSearchPlaceholder": "Search Zone...",
+  "zoneDeleteConfirm": "Are you sure you want to delete this zone?",
+  "zoneDeleteSuccess": "Zone deleted successfully",
+  "minuteLabel": "minutes"
 }

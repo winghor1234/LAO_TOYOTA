@@ -50,7 +50,7 @@ const DetailPromotion = () => {
                     <BackButton />
                     <hr className="border-gray-200 my-4" />
                     <h2 className="text-center text-lg sm:text-xl font-semibold text-gray-800 mb-6">
-                        {t("promotion_details")}
+                        {t("promotion_detail")}
                     </h2>
 
                     {/* Desktop / Tablet View */}
@@ -60,7 +60,7 @@ const DetailPromotion = () => {
                                 <div className="bg-gray-100 w-14 h-14 flex items-center justify-center rounded-full shadow">
                                     <FaTools className="text-2xl text-gray-600" />
                                 </div>
-                                <p className="text-base text-gray-500">{t("promotion_details")}</p>
+                                <p className="text-base text-gray-500">{t("promotion_detail")}</p>
                             </div>
                             <div className="flex flex-col gap-2 text-left">
                                 <div>
@@ -92,7 +92,7 @@ const DetailPromotion = () => {
                             <div className="bg-gray-100 w-12 h-12 flex items-center justify-center rounded-full shadow">
                                 <FaTools className="text-xl text-gray-600" />
                             </div>
-                            <p className="text-base text-gray-500">{t("promotion_details")}</p>
+                            <p className="text-base text-gray-500">{t("promotion_detail")}</p>
                         </div>
                         <div className="bg-gray-50 p-4 rounded-md shadow-inner space-y-3">
                             <div>

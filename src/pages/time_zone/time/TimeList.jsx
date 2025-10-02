@@ -50,8 +50,8 @@ const TimeList = () => {
 
     const handleDelete = async (id) => {
         const confirmDelete = await DeleteAlert(
-            t("deleteConfirm"),
-            t("deleteSuccess")
+            t("timeDeleteConfirm"),
+            t("timeDeleteSuccess")
         );
         if (confirmDelete) {
             await axiosInstance.delete(APIPath.DELETE_TIME(id));
@@ -72,7 +72,7 @@ const TimeList = () => {
             <div className="flex flex-col sm:flex-row lg:flex-row lg:items-center gap-4 lg:gap-6 mb-6">
                 <SelectDate
                     onSearch={setSearch}
-                    placeholder={t("searchPlaceholder")}
+                    placeholder={t("timeSearchPlaceholder")}
                     onDateChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }}
                 />
                 {/* Export Excel */}

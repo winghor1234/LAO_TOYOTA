@@ -14,13 +14,13 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
             <div className="fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity" onClick={onClose} />
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl bg-white rounded-2xl shadow-lg p-4 sm:p-6 text-sm transition-all">
                 <h2 className="text-lg sm:text-xl font-bold text-center mb-4">
-                    {t("edit_title")}
+                    {t("edit_time_title")}
                 </h2>
                 <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
                     <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                         <input
                             type="text"
-                            placeholder={t("time")}
+                            placeholder={t("time_label")}
                             {...register("time")}
                             className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
                         />
@@ -28,7 +28,7 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
 
                         <input
                             type="date"
-                            placeholder={t("date")}
+                            placeholder={t("dateLabel")}
                             {...register("date")}
                             className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
                         />
@@ -49,7 +49,7 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
                     <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-3">
                         <button
                             type="button"
-                            onClick={() => { SuccessAlert(t("edit_cancelMessage")); onClose(); }}
+                            onClick={() => { SuccessAlert(t("editTimeCancelMessage")); onClose(); }}
                             className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg w-full sm:w-28 h-10 cursor-pointer transition-colors text-sm"
                             disabled={loading}
                         >

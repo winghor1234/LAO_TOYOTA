@@ -16,9 +16,6 @@
   "cancel": "ຍົກເລີກ",
   "submit": "ຕົກລົງ",
   "cancelSuccess": "ຍົກເລີກການເພີ່ມລູກຄ້າສຳເລັດ",
-
-
-
   "username_placeholder": "ຊື່ຜູ້ໃຊ້...",
   "phone": "ເບີໂທ",
   "phone_placeholder": "ເບີໂທ...",
@@ -29,9 +26,6 @@
   "email_placeholder": "ອີເມວ...",
   "cancel_message": "ຍົກເລີກການແກ້ໄຂຂໍ້ມູນລູກຄ້າ",
   "confirm": "ຕົກລົງ",
-
-
-
   "search_user": "ຄົ້ນຫາຜູ້ໃຊ້...",
   "add_user": "ເພີ່ມຜູ້ໃຊ້",
   "table": {

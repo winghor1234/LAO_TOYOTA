@@ -6,27 +6,9 @@
   "cancel_add": "ຍົກເລີກການເພີ່ມ",
   "cancel": "ຍົກເລີກ",
   "submit": "ຕົກລົງ",
-
-
-
-  "promotion_details": "ລາຍລະອຽດໂປຣໂມຊັ່ນ",
-  "promotion_title": "ຊື່ໂປຣໂມຊັ່ນ",
-  "promotion_detail": "ລາຍລະອຽດ",
-  "no_data": "ບໍ່ພົບຂໍ້ມູນບໍລິການ",
   "loading_data": "ກຳລັງໂຫຼດຂໍ້ມູນ...",
-
-
-
   "edit_promotion": "ແກ້ໄຂໂປຣໂມຊັ່ນ",
-  "promotion_title": "ຊື່ໂປຣໂມຊັ່ນ",
-  "promotion_detail": "ລາຍລະອຽດ",
-  "no_image": "ບໍ່ມີຮູບພາບ",
-  "cancel": "ຍົກເລີກ",
-  "submit": "ຕົກລົງ",
   "cancel_edit_alert": "ຍົກເລີກການແກ້ໄຂຂໍ້ມູນ",
-
-
-
   "add": "ເພີ່ມ",
   "no_data": "ບໍ່ພົບຂໍ້ມູນ",
   "delete_confirm": "ທ່ານຕ້ອງການລົບຂໍໍ້ມູນນີ້ບໍ?",

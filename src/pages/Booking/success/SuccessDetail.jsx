@@ -88,11 +88,11 @@ const SuccessDetail = () => {
             <p className="text-gray-800 font-medium text-sm">{booking?.car?.model}</p>
           </div>
           <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("date")}</p>
+            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("date_label")}</p>
             <p className="text-gray-800 font-medium text-sm">{booking?.time?.date}</p>
           </div>
           <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("time")}</p>
+            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("time_label")}</p>
             <p className="text-gray-800 font-medium text-sm">{booking?.time?.time}</p>
           </div>
           <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">

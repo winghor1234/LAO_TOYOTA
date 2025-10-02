@@ -99,11 +99,11 @@ const ReceiverCarDetail = () => {
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-6 py-2 text-center font-medium text-gray-700 mb-4 lg:mb-0">
                 <div className="space-y-1">
-                  <p className="font-medium text-gray-500 text-xs lg:text-sm">{t("date")}</p>
+                  <p className="font-medium text-gray-500 text-xs lg:text-sm">{t("date_label")}</p>
                   <p className="text-gray-900">{data?.time?.date}</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="font-medium text-gray-500 text-xs lg:text-sm">{t("time")}</p>
+                  <p className="font-medium text-gray-500 text-xs lg:text-sm">{t("time_label")}</p>
                   <p className="text-gray-900">{data?.time?.time}</p>
                 </div>
                 <div className="space-y-1">

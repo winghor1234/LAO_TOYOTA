@@ -48,8 +48,8 @@ const ZoneList = () => {
 
     const handleDelete = async (id) => {
         const confirmDelete = await DeleteAlert(
-            t("deleteConfirm"),
-            t("deleteSuccess")
+            t("zoneDeleteConfirm"),
+            t("ZoneDeleteSuccess")
         );
         if (confirmDelete) {
             await axiosInstance.delete(APIPath.DELETE_ZONE(id));
@@ -70,7 +70,7 @@ const ZoneList = () => {
             <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 mb-6">
                 <SelectDate
                     onSearch={setSearch}
-                    placeholder={t("searchPlaceholder")}
+                    placeholder={t("zoneSearchPlaceholder")}
                     onDateChange={({ startDate, endDate }) => {
                         setStartDate(startDate);
                         setEndDate(endDate);

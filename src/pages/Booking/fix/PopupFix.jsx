@@ -13,7 +13,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId }) => {
         className="bg-white flex flex-col gap-6 p-4 sm:p-6 rounded-2xl w-full max-w-[800px] max-h-[90vh] overflow-y-auto"
       >
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center">
-          {t("title")}
+          {t("fix_title")}
         </h2>
 
         <div className="space-y-4 sm:space-y-6">

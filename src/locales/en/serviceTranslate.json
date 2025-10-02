@@ -6,31 +6,15 @@
   "cancel_add_service": "Cancelled adding service",
   "cancel": "Cancel",
   "submit": "Submit",
-
-
-
   "loading_service": "Loading service data...",
   "service_not_found": "Service not found",
   "back": "Back",
   "service_detail": "Service Details",
   "service_info": "Service Info",
-  "service_name": "Service Name",
-  "service_description": "Description",
   "name": "Name",
   "description": "Description",
-
-
-
   "edit_service": "Edit Service",
-  "service_name": "Service Name",
-  "description": "Description",
-  "no_image": "No Image",
   "cancel_edit": "Edit canceled",
-  "cancel": "Cancel",
-  "submit": "Submit",
-
-
-
   "search_placeholder": "Search service...",
   "reset": "Reset",
   "add": "Add",
@@ -43,12 +27,8 @@
     "detail": "Detail",
     "action": "Action"
   },
-
-
-
-    "buttons": {
+  "buttons": {
     "service_info": "Service Info",
     "history": "History"
   }
-
 }

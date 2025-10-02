@@ -36,8 +36,8 @@ const Success = () => {
                         [t("customerName")]: item?.user?.username,
                         [t("phone")]: item?.user?.phoneNumber,
                         [t("plate")]: item?.car?.plateNumber,
-                        [t("date")]: item?.time?.date,
-                        [t("time")]: item?.time?.time,
+                        [t("date_label")]: item?.time?.date,
+                        [t("time_label")]: item?.time?.time,
                     }))
             );
         } catch (error) {
@@ -87,8 +87,8 @@ const Success = () => {
                         <div className="text-center">{t("customerName")}</div>
                         <div className="text-center">{t("phone")}</div>
                         <div className="text-center">{t("plate")}</div>
-                        <div className="text-center">{t("date")}</div>
-                        <div className="text-center">{t("time")}</div>
+                        <div className="text-center">{t("date_label")}</div>
+                        <div className="text-center">{t("time_label")}</div>
                     </div>
                 </div>
 
@@ -142,11 +142,11 @@ const Success = () => {
                                     <span className="text-gray-900">{item?.car?.plateNumber}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-500">{t("date")}:</span>
+                                    <span className="text-gray-500">{t("date_label")}:</span>
                                     <span className="text-gray-900">{item?.time?.date}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-500">{t("time")}:</span>
+                                    <span className="text-gray-500">{t("time_label")}:</span>
                                     <span className="text-gray-900">{item?.time?.time}</span>
                                 </div>
                             </div>

@@ -17,7 +17,7 @@ const PopupReject = ({ setRejectZone, bookingId, timeId, fetchBooking }) => {
       await axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "true" });
 
       navigate("/user/booking");
-      SuccessAlert(t("success_alert"));
+      SuccessAlert(t("reject_alert"));
       fetchBooking();
     } catch (error) {
       console.log(error);

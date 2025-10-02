@@ -16,9 +16,6 @@
   "cancel": "Cancel",
   "submit": "Submit",
   "cancelSuccess": "Cancel add user successfully",
-
-
-
   "username_placeholder": "Enter username...",
   "phone": "Phone number",
   "phone_placeholder": "Enter phone number...",
@@ -29,9 +26,6 @@
   "email_placeholder": "Enter email...",
   "cancel_message": "Canceled editing customer information",
   "confirm": "Confirm",
-
-
-
   "search_user": "Search user...",
   "add_user": "Add User",
   "table": {

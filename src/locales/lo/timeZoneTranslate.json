@@ -1,84 +1,38 @@
 {
-  "title": "ເພີ່ມຂໍ້ມູນລາງວັນ",
+  "add_time_title": "ເພີ່ມຂໍ້ມູນເວລາ",
   "time": "ເວລາ",
   "date": "ວັນທີ/ເດືອນ/ປີ",
   "selectZone": "ເລືອກໂຊນ",
   "noZone": "ບໍ່ມີໂຊນ",
   "cancel": "ຍົກເລີກ",
   "submit": "ຕົກລົງ",
-  "cancelMessage": "ຍົກເລີກການເພີ່ມຂໍ້ມູນ",
-
-
-
- "title": "ແກ້ໄຂ້ຂໍ້ມູນເວລາ",
-  "time": "ເວລາ",
-  "date": "ວັນທີ/ເດືອນ/ປີ",
-  "selectZone": "ເລືອກໂຊນ",
-  "noZone": "ບໍ່ມີໂຊນ",
-  "cancel": "ຍົກເລີກ",
-  "submit": "ຕົກລົງ",
-  "cancelMessage": "ຍົກເລີກການແກ້ໄຂ",
-
-
-
-  "title": "ລາຍລະອຽດເວລາ",
+  "addTimeCancelMessage": "ຍົກເລີກການເພີ່ມຂໍ້ມູນເວລາ",
+  "edit_time_title": "ແກ້ໄຂ້ຂໍ້ມູນເວລາ",
+  "editTimeCancelMessage": "ຍົກເລີກການແກ້ໄຂຂໍ້ມູນເວລາ",
+  "detail_title": "ລາຍລະອຽດເວລາ",
   "dateLabel": "ວັນທີ/ເດືອນ/ປີ",
   "timeLabel": "ເວລາ",
   "zoneLabel": "ໂຊນ",
   "editButton": "ແກ້ໄຂ",
-
-
-
-  "searchPlaceholder": "ຄົ້ນຫາເວລາ...",
+  "timeSearchPlaceholder": "ຄົ້ນຫາເວລາ...",
   "addButton": "ເພີ່ມ",
-  "deleteConfirm": "ວ່າຈະລົບຂໍ້ມູນລາງວັນນີ້ບໍ່?",
-  "deleteSuccess": "ລົບຂໍ້ມູນສຳເລັດ",
+  "timeDeleteConfirm": "ວ່າຈະລົບຂໍ້ມູນເວລານີ້ບໍ່?",
+  "timeDeleteSuccess": "ລົບຂໍ້ມູນເວລາສຳເລັດ",
   "statusFree": "ຫວ່າງ",
   "statusFull": "ເຕັມ",
-
-
-
-
-
-  "addZoneTitle": "Add Zone",
-  "zoneName": "Zone Name",
-  "timeFix": "Repair Time",
-  "cancelButton": "Cancel",
-  "cancelMessage": "Cancelled adding",
-  "submitButton": "Submit",
-
-
-
- "editZoneTitle": "ແກ້ໄຂ້ຂໍ້ມູນໂຊນ",
+  "addZoneTitle": "ເພີ່ມໂຊນ",
+  "editZoneTitle": "ແກ້ໄຂ້ຂໍ້ມູນໂຊນ",
   "zoneName": "ຊື່ໂຊນ",
   "timeFix": "ເວລາສ້ອມແປງ",
   "cancelButton": "ຍົກເລີກ",
-  "cancelMessage": "ຍົກເລີກການແກ້ໄຂ",
+  "editZoneCancelMessage": "ຍົກເລີກການແກ້ໄຂຂໍ້ມູນໂຊນ",
   "submitButton": "ຕົກລົງ",
-
-
-
   "zoneDetailTitle": "ລາຍລະອຽດໂຊນ",
-  "zoneNameLabel": "ໂຊນ :",
   "timeFixLabel": "ເວລາສ້ອມແປງ :",
-  "editButton": "ແກ້ໄຂ",
-
-
-
-
   "zoneNameLabel": "ຊື່ໂຊນ",
-  "timeFixLabel": "ເວລາ",
   "statusLabel": "ສະຖານະ",
-  "statusFree": "ຫວ່າງ",
-  "statusFull": "ເຕັມ",
-  "searchPlaceholder": "ຄົ້ນຫາໂຊນ...",
-  "addButton": "ເພີ່ມ",
-  "deleteConfirm": "ວ່າຈະລົບຂໍ້ມູນໂຊນນີ້ບໍ່?",
-  "deleteSuccess": "ລົບຂໍ້ມູນໂຊນສຳເລັດ",
-  "minuteLabel": "ນາທີ",
-
-
-  "timeLabel": "ເວລາ",
-  "zoneLabel": "ໂຊນ"
-
+  "zoneSearchPlaceholder": "ຄົ້ນຫາໂຊນ...",
+  "zoneDeleteConfirm": "ວ່າຈະລົບຂໍ້ມູນໂຊນນີ້ບໍ່?",
+  "zoneDeleteSuccess": "ລົບຂໍ້ມູນໂຊນສຳເລັດ",
+  "minuteLabel": "ນາທີ"
 }

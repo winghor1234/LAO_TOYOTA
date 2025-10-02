@@ -3,34 +3,20 @@
   "login_button": "ເຂົ້າສູ່ລະບົບ",
   "login_loading": "ກຳລັງເຂົ້າສູ່ລະບົບ...",
   "phone": "ໂທລະສັບ",
-  "phone_placeholder": "ເບີໂທລະສັບ",
   "password": "ລະຫັດຜ່ານ",
   "password_placeholder": "ລະຫັດຜ່ານ",
   "forgot_password": "ລືມລະຫັດຜ່ານ?",
   "register_link": "ຍັງບໍ່ມີບັນຊີ? ລົງທະບຽນທີ່ນີ້",
-
-
-  
   "register_title": "ລົງທະບຽນ",
   "register_button": "ລົງທະບຽນ",
   "register_loading": "ກຳລັງລົງທະບຽນ...",
   "username": "ຊື່ຜູ້ໃຊ້",
   "username_placeholder": "ປ້ອນຊື່ຜູ້ໃຊ້",
-  "province": "ແຂວງ",
-  "province_placeholder": "ແຂວງ",
-  "district": "ເມືອງ",
-  "district_placeholder": "ເມືອງ",
-  "village": "ບ້ານ",
-  "village_placeholder": "ບ້ານ",
-  "already_have_account": "ມີບັນຊີແລ້ວ?",
   "login_here": "ເຂົ້າສູ່ລະບົບ",
   "no_account": "ບໍ່ມີບັນຊີ?",
   "register_here": "ລົງທະບຽນທີ່ນີ້",
-
-
   "update_profile_title": "ແກ້ໄຂໂປຣໄຟຣ",
   "username_label": "ຊື່",
-  "username_placeholder": "ຊື່...",
   "email_label": "ອີເມວ",
   "email_placeholder": "ອີເມວ...",
   "province_label": "ແຂວງ",
@@ -45,21 +31,12 @@
   "updating_profile": "ກຳລັງອັບເດດໂປຣໄຟຣ...",
   "update_profile_button": "ອັບເດດໂປຣໄຟຣ",
   "change_password_link": "ປ່ຽນລະຫັດຜ່ານ",
-
-
- "change_password_title": "ປ່ຽນລະຫັດຜ່ານ",
   "old_password_placeholder": "ລະຫັດເກົ່າ",
-  "new_password_placeholder": "ລະຫັດໃໝ່",
-  "change_password_button": "ປ່ຽນລະຫັດຜ່ານ",
-  "changing_password": "ກຳລັງປ່ຽນ...",
-
   "change_password_title": "ປ່ຽນລະຫັດຜ່ານ",
-  "phone": "ໂທລະສັບ",
   "phone_placeholder": "ໃສ່ໝາຍເລກໂທລະສັບຂອງທ່ານ",
   "new_password_placeholder": "ໃສ່ລະຫັດໃໝ່",
-  "changing_password": "ກຳລັງປ່ຽນລະຫັດ...",
+  "changing_password": "ກຳລັງປ່ຽນລະຫັດຜ່ານ...",
   "change_password_button": "ປ່ຽນລະຫັດຜ່ານ",
   "already_have_account": "ມີບັນຊີແລ້ວ?",
-  "login_here": "ເຂົ້າສູ່ລະບົບ"
-
+  "more_than_6_characters": "ກະລຸນາປ້ອນຢ່າງນ້ອຍ 6 ຕົວ"
 }

@@ -204,7 +204,7 @@ const Dashboard = () => {
                                     <span className="text-gray-900">{item?.time?.date}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-500">{t("time")}:</span>
+                                    <span className="text-gray-500">{t("time_label")}:</span>
                                     <span className="text-gray-900">{item?.time?.time}</span>
                                 </div>
                             </div>

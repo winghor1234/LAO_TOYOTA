@@ -34,8 +34,8 @@ const FixList = () => {
             [t("customer_name")]: item?.user?.username,
             [t("customer_phone")]: item?.user?.phoneNumber,
             [t("plate_number")]: item?.car?.plateNumber,
-            [t("date")]: item?.time?.date,
-            [t("time")]: item?.time?.time,
+            [t("date_label")]: item?.time?.date,
+            [t("time_label")]: item?.time?.time,
           }))
       );
     } catch (error) {
@@ -86,8 +86,8 @@ const FixList = () => {
             <div className="text-center">{t("customer_name")}</div>
             <div className="text-center">{t("customer_phone")}</div>
             <div className="text-center">{t("plate_number")}</div>
-            <div className="text-center">{t("date")}</div>
-            <div className="text-center">{t("time")}</div>
+            <div className="text-center">{t("date_label")}</div>
+            <div className="text-center">{t("time_label")}</div>
           </div>
         </div>
 
@@ -142,11 +142,11 @@ const FixList = () => {
                   <span className="text-gray-900">{item?.car?.plateNumber}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-500">{t("date")}:</span>
+                  <span className="text-gray-500">{t("date_label")}:</span>
                   <span className="text-gray-900">{item?.time?.date}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-500">{t("time")}:</span>
+                  <span className="text-gray-500">{t("time_label")}:</span>
                   <span className="text-gray-900">{item?.time?.time}</span>
                 </div>
               </div>

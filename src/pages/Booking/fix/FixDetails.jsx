@@ -81,11 +81,11 @@ const FixDetails = () => {
                 <p className="text-gray-900">{fixData?.car?.model}</p>
               </div>
               <div className="space-y-3">
-                <p className="font-medium text-gray-500 text-sm lg:text-lg">{t("date")}</p>
+                <p className="font-medium text-gray-500 text-sm lg:text-lg">{t("date_label")}</p>
                 <p className="text-gray-900">{fixData?.time?.date}</p>
               </div>
               <div className="space-y-3">
-                <p className="font-medium text-gray-500 text-sm lg:text-lg">{t("time")}</p>
+                <p className="font-medium text-gray-500 text-sm lg:text-lg">{t("time_label")}</p>
                 <p className="text-gray-900">{fixData?.time?.time}</p>
               </div>
             </div>
@@ -151,11 +151,11 @@ const FixDetails = () => {
                 <h3 className="font-semibold text-gray-700 mb-3">{t("appointment_time")}</h3>
                 <div className="grid grid-cols-1 gap-3">
                   <div className="flex justify-between">
-                    <span className="text-gray-500">{t("date")}:</span>
+                    <span className="text-gray-500">{t("date_label")}:</span>
                     <span className="font-medium">{fixData?.time?.date}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">{t("time")}:</span>
+                    <span className="text-gray-500">{t("time_label")}:</span>
                     <span className="font-medium">{fixData?.time?.time}</span>
                   </div>
                 </div>
