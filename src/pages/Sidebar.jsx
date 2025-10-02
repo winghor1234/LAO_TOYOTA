@@ -35,7 +35,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   const handleLogout = () => {
     removeToken();
-    navigate("/login");
+    navigate("/");
   };
 
   const SideBarItems = [

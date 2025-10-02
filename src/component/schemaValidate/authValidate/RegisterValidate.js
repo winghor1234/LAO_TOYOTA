@@ -1,4 +1,4 @@
-// src/hooks/useRegisterForm.js
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -7,33 +7,35 @@ import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { z } from "zod";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
+import { useTranslation } from "react-i18next";
 
-// Zod schema สำหรับ register
-export const registerSchema = z.object({
-  username: z.string().min(2, { message: "ຊື່ຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ" }).max(30),
-  phoneNumber: z.string().min(8, { message: "ເບີຕ້ອງມີຢ່າງນ້ອຍ 8 ຕົວ" }),
-  password: z.string().min(6, { message: "ລະຫັດຜ່ານຕ້ອງມີຢ່າງນ້ອຍ 6 ຕົວ" }).max(20),
-  province: z.string().min(2, { message: "ແຂວງຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ" }),
-  district: z.string().min(2, { message: "ເມືອງຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ" }),
-  village: z.string().min(2, { message: "ບ້ານຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ" }),
+
+export const registerSchema = (t) => z.object({
+  username: z.string().min(2, { message: t("min_length_2") }).max(30),
+  phoneNumber: z.string().min(8, { message: t("phone_min_length") }),
+  password: z.string().min(6, { message: t("min_length") }).max(20),
+  province: z.string().min(2, { message: t("min_length_2") }),
+  district: z.string().min(2, { message: t("min_length_2") }),
+  village: z.string().min(2, { message: t("min_length_2") }),
 });
 
 export const useRegisterForm = () => {
+  const { t } = useTranslation("auth");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors }, reset } = useForm({resolver: zodResolver(registerSchema),});
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({resolver: zodResolver(registerSchema(t)),});
 
   const submitForm = async (data) => {
     setLoading(true);
     try {
       await axiosInstance.post(APIPath.REGISTER, data)
-      SuccessAlert("ລົງທະບຽນສຳເລັດ", 1500, "success");
+      SuccessAlert(t("register_success"), 1500, "success");
       navigate("/login");
       reset();
     } catch (error) {
+      SuccessAlert(t("error"), 1500, "warning");
       console.error("Register failed:", error);
-      SuccessAlert("ມີບາຍຜິດພາດ!!!", 1500, "error");
     } finally {
       setLoading(false);
     }

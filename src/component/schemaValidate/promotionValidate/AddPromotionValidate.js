@@ -5,19 +5,20 @@ import { z } from "zod";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import axios from "axios";
 import APIPath from "../../../api/APIPath";
+import { useTranslation } from "react-i18next";
 
 // Zod schema
- const promoSchema = z.object({
-  title: z.string().min(2, { message: "ຊື່ໂປຣໂມຊັ່ນຕ້ອງຢ່າງນ້ອຍ 2 ຕົວ" }),
-  detail: z.string().min(5, { message: "ລາຍລະອຽດຕ້ອງຢ່າງນ້ອຍ 5 ຕົວ" }),
+ const promoSchema = (t) => z.object({
+  title: z.string().min(2, { message: t("min_length_2") }),
+  detail: z.string().min(5, { message: t("min_length_2") }),
   image: z.any().optional()
 });
 
 export const useAddPromotionForm = ({onClose, handleFetchPromotion}) => {
   const [loading, setLoading] = useState(false);
-
+  const { t } = useTranslation("auth");
   const form = useForm({
-    resolver: zodResolver(promoSchema)
+    resolver: zodResolver(promoSchema(t))
   });
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = form;
@@ -35,15 +36,15 @@ export const useAddPromotionForm = ({onClose, handleFetchPromotion}) => {
     try {
       await axios.post(APIPath.CREATE_PROMOTION, dataForm);
       handleFetchPromotion();
-      SuccessAlert("ເພີ່ມຂໍ້ມູນສໍາເລັດ");
+      SuccessAlert(t("add_success"));
       onClose();
       // reset fields
       setValue("title", "");
       setValue("detail", "");
       setValue("image", null);
     } catch (error) {
+      SuccessAlert(t("add_failed"), 1500, "warning");
       console.error("create promotion failed:", error);
-      SuccessAlert("ການເພີ່ມຂໍ້ມູນລົ້ມເຫຼວ", 1500, "warning");
     } finally {
       setLoading(false);
     }

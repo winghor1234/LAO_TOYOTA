@@ -6,18 +6,20 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 
 
-const EditServiceSchema = z.object({
-    serviceName: z.string().min(1, "ກະລຸນາປ້ອນຊື່ບໍລິການ"),
-    description: z.string().min(1, "ກະລຸນາປ້ອນລາຍລະອຽດບໍລິການ"),
+const EditServiceSchema = (t) => z.object({
+    serviceName: z.string().min(1, t("min_length_1")),
+    description: z.string().min(1, t("min_length_1")),
     image: z.any().optional(),
 });
 
 
 export const useServiceEditForm = ({ serviceId, onClose, handleFetch }) => {
-    const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm({ resolver: zodResolver(EditServiceSchema) });
+    const { t } = useTranslation("auth");
+    const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm({ resolver: zodResolver(EditServiceSchema(t)) });
     const imageFile = watch("image");
     const [loading, setLoading] = useState(false);
 
@@ -50,13 +52,13 @@ export const useServiceEditForm = ({ serviceId, onClose, handleFetch }) => {
 
         try {
             await axiosInstance.put(APIPath.UPDATE_SERVICE(serviceId), dataForm);
-            SuccessAlert("ແກ້ໄຂຂໍ້ມູນສຳເລັດ");
+            SuccessAlert(t("update_success"));
             handleFetch();
             reset();
             onClose();
         } catch (error) {
+            SuccessAlert(t("update_failed"), 1500, "warning");
             console.error("Update service failed:", error.response?.data || error.message);
-            SuccessAlert("ການແກ້ໄຂຂໍ້ມູນລົ້ມເຫຼວ", 1500, "warning");
         } finally {
             setLoading(false);
         }

@@ -7,19 +7,21 @@ import { useState } from 'react';
 import APIPath from '../../../api/APIPath';
 import useToyotaStore from '../../../store/ToyotaStore';
 import axiosInstance from '../../../utils/AxiosInstance';
+import { useTranslation } from 'react-i18next';
 
 
- const LoginSchema = z.object({
-    phoneNumber: z.string().min(8, " ຕ້ອງມີຢ່າງນ້ອຍ 8 ຕົວ"),
-    password: z.string().min(6, " ຕ້ອງມີຢ່າງນ້ອຍ 6 ຕົວ"),
+ const LoginSchema = (t) =>z.object({
+    phoneNumber: z.string().min(8, t("phone_min_length")),
+    password: z.string().min(6, t("password_min_length")),
 });
 
 export const useLoginForm = () => {
+    const { t } = useTranslation("auth");
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
-        resolver: zodResolver(LoginSchema),
+        resolver: zodResolver(LoginSchema(t)),
     });
 
     const submitForm = async (data) => {
@@ -31,11 +33,11 @@ export const useLoginForm = () => {
             const refreshToken = res?.data?.data?.refreshToken;
             const tokenExpire = Date.now() + 60 * 60 * 1000; // 1 ชั่วโมง = 3600000 ms
             useToyotaStore.getState().setToken(token, refreshToken, tokenExpire); // save token ลง store
-            SuccessAlert("ເຂົ້າສູ່ລະບົບສຳເລັດ", 1500, "success");
+            SuccessAlert(t("login_success"), 1500, "success");
             navigate("/user/dashboard");
             reset();
         } catch (error) {
-            SuccessAlert("ມີບາຍຜິດພາດ!!!", 1500, "error");
+            SuccessAlert(t("error"), 1500, "warning");
             console.error("Login failed:", error);
         } finally {
             setLoading(false);

@@ -5,16 +5,18 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 
-const EditZoneSchema = z.object({
-    zoneName: z.string().min(1, "ກະລຸນາໃສ່ຊື່ໂຊນ"),
-    timeFix: z.string().min(1, "ກະລຸນາໃສ່ເວລາສ້ອມແປງ"),
+const EditZoneSchema = (t) => z.object({
+    zoneName: z.string().min(1, t("min_length_1")),
+    timeFix: z.string().min(1, t("min_length_1")),
 });
 
 
 export const useEditZoneForm = ({ zoneId, fetchZone, onClose }) => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: zodResolver(EditZoneSchema), });
+    const { t } = useTranslation("auth");
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: zodResolver(EditZoneSchema(t)), });
     const [loading, setLoading] = useState(false);
     const handleFetchZone = async () => {
         if (!zoneId) return;
@@ -39,11 +41,12 @@ export const useEditZoneForm = ({ zoneId, fetchZone, onClose }) => {
         try {
             await axiosInstance.put(APIPath.UPDATE_ZONE(zoneId), data);
             // console.log("Update gift successful:", res.data);
-            SuccessAlert("ແກ້ໄຂຂໍ້ມູນໂຊນສຳເລັດ");
+            SuccessAlert(t("update_success"));
             fetchZone();
             onClose();
             reset();
         } catch (error) {
+            SuccessAlert(t("update_failed"), 1500, "warning");
             console.error("Update zone failed:", error.response?.data || error.message);
         } finally {
             setLoading(false);

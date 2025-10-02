@@ -5,20 +5,22 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 
 
-const schema = z.object({
-    username: z.string().min(2, "ຊື່ຕ້ອງຢ່າງນ້ອຍ 2 ຕົວອັກສອນ"),
-    phoneNumber: z.string().min(8, "ເບີໂທຕ້ອງຢ່າງນ້ອຍ 8 ຕົວ").regex(/^\d+$/, "ເບີໂທຕ້ອງເປັນຕົວເລກ"),
-    village: z.string().min(2, "ກະລຸນາປ້ອນບ້ານ ຕ້ອງຢ່າງນ້ອຍ 2 ຕົວອັກສອນ"),
-    district: z.string().min(2, "ກະລຸນາປ້ອນເມືອງ ຕ້ອງຢ່າງນ້ອຍ 2 ຕົວອັກສອນ"),
-    province: z.string().min(2, "ກະລຸນາປ້ອນແຂວງ ຕ້ອງຢ່າງນ້ອຍ 2 ຕົວອັກສອນ"),
-    email: z.string().email("ອີເມວບໍ່ຖືກຕ້ອง").optional().or(z.literal("")),
+const schema = (t) => z.object({
+    username: z.string().min(1, t("min_length_1")),
+    phoneNumber: z.string().min(8, t("phone_min_length")).regex(/^\d+$/, "ເບີໂທຕ້ອງເປັນຕົວເລກ"),
+    village: z.string().min(2, t("min_length_1")),
+    district: z.string().min(2, t("min_length_1")),
+    province: z.string().min(2, t("min_length_1")),
+    email: z.string().email(t("email_invalid")).optional().or(z.literal("")),
 });
 
 export const useEditUserForm = ({ customerId, handleFetch, onClose }) => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: zodResolver(schema), });
+    const { t } = useTranslation('auth');
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: zodResolver(schema(t)), });
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -48,12 +50,12 @@ export const useEditUserForm = ({ customerId, handleFetch, onClose }) => {
             };
 
             await axiosInstance.put(APIPath.UPDATE_CUSTOMER(customerId), payload);
-            SuccessAlert("ແກ້ໄຂຂໍ້ມູນລູກຄ້າສຳເລັດ");
+            SuccessAlert(t("update_success"));
             handleFetch();
             onClose();
         } catch (error) {
+            SuccessAlert(t("update_failed"), 1500, "error");
             console.error("Error updating user:", error);
-            SuccessAlert("ມີບາງຢ່າງຜິດພາດ!!!", 1500, "error");
         }
     };
 

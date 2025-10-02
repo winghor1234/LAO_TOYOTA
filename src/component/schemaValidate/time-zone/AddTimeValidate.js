@@ -5,15 +5,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import APIPath from "../../../api/APIPath";
 import axiosInstance from "../../../utils/AxiosInstance";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
+import { useTranslation } from "react-i18next";
 
-const AddTimeSchema = z.object({
-  time: z.string().min(1, "ກະລຸນາໃສ່ເວລາ"),
-  date: z.string().min(1, "ກະລຸນາໃສ່ວັນທີ"),
-  zoneId: z.string().min(1, "ກະລຸນາເລືອກໂຊນ"),
+const AddTimeSchema = (t) => z.object({
+  time: z.string().min(1, t("min_length_1")),
+  date: z.string().min(1, t("min_length_1")),
+  zoneId: z.string().min(1, t("min_length_1")),
 });
 
 export const useAddTimeForm = ({  onClose, fetchTime, addToExport }) => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: zodResolver(AddTimeSchema), });
+    const { t } = useTranslation("auth");
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: zodResolver(AddTimeSchema(t)), });
     const [loading, setLoading] = useState(false);
     const [zones, setZones] = useState([]);
 
@@ -33,7 +35,7 @@ export const useAddTimeForm = ({  onClose, fetchTime, addToExport }) => {
         setLoading(true);
         try {
             await axiosInstance.post(APIPath.CREATE_TIME, data);
-            SuccessAlert("ເພີ່ມຂໍ້ມູນລາງວັນສໍາເລັດ");
+            SuccessAlert(t("add_success"));
             fetchTime();
             if (addToExport) {
                 addToExport({ ...data, status: "ຫວ່າງ" });
@@ -41,6 +43,7 @@ export const useAddTimeForm = ({  onClose, fetchTime, addToExport }) => {
             reset();
             onClose();
         } catch (error) {
+            SuccessAlert(t("add_failed"), 1500, "warning");
             console.error("Error adding time:", error);
         } finally {
             setLoading(false);

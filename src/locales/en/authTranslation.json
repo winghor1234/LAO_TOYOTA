@@ -36,5 +36,21 @@
   "changing_password": "Changing password...",
   "change_password_button": "Change Password",
   "already_have_account": "Already have an account?",
-  "login_here": "Login here"
+  "login_here": "Login here",
+
+  "change_password_success": "Password changed successfully",
+  "error": "Something went wrong!!!",
+  "password_min_length": "Must be at least 6 characters",
+  "min_length_2": "Must be at least 2 characters",
+  "min_length_1": "Must be at least 1 characters",
+  "phone_min_length": "Phone number must be at least 8 characters",
+  "login_success": "Login successfully",
+  "register_success": "Register successfully",
+  "email_invalid": "Email is invalid",
+  "update_success": "Update successfully",
+  "add_success": "Add successfully",
+  "add_failed": "Add failed",
+  "update_failed": "Update failed"
+
+
 }

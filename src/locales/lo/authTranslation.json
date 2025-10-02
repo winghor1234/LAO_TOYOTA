@@ -38,5 +38,19 @@
   "changing_password": "ກຳລັງປ່ຽນລະຫັດຜ່ານ...",
   "change_password_button": "ປ່ຽນລະຫັດຜ່ານ",
   "already_have_account": "ມີບັນຊີແລ້ວ?",
-  "more_than_6_characters": "ກະລຸນາປ້ອນຢ່າງນ້ອຍ 6 ຕົວ"
+
+  "change_password_success": "ປ່ຽນລະຫັດຜ່ານສຳເລັດ",
+  "error": "ມີບາຍຜິດພາດ!!!",
+  "min_length": "ຕ້ອງມີຢ່າງນ້ອຍ 6 ຕົວ",
+  "phone_min_length": "ເບີໂທລະສັບຕ້ອງມີຢ່າງນ້ອຍ 8 ຕົວ",
+  "password_min_length": "ລະຫັດຜ່ານຕ້ອງມີຢ່າງນ້ອຍ 6 ຕົວ",
+  "min_length_2": "ຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ",
+  "login_success": "ເຂົ້າສູ່ລະບົບສຳເລັດ",
+  "register_success": "ລົງທະບຽນສຳເລັດ",
+  "email_invalid": "ອີເມວບໍ່ຖືກຕ້ອງ",
+  "update_success": "ແກ້ໄຂສຳເລັດ",
+  "add_success": "ເພີ່ມສຳເລັດ",
+  "add_failed": "ເພີ່ມບໍ່ສຳເລັດ",
+  "update_failed": "ແກ້ໄຂບໍ່ສຳເລັດ"
+  
 }

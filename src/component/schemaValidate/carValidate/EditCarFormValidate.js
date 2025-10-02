@@ -5,20 +5,24 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
+import { useTranslation } from "react-i18next";
 
-const editCarSchema = z.object({
-    userId: z.string().min(1, "ກະລຸນາເລືອກລູກຄ້າ"),
-    model: z.string().min(1, "ກະລຸນາປ້ອນຊື່ລົດ"),
-    engineNumber: z.string().min(5, "ກະລຸນາປ້ອນເລກຈັກ"),
-    frameNumber: z.string().min(5, "ກະລຸນາປ້ອນເລກຖັງ"),
-    plateNumber: z.string().min(4, "ກະລຸນາປ້ອນປ້າຍທະບຽນ"),
-    province: z.string().min(2, "ກະລຸນາປ້ອນແຂວງ"),
+
+
+const editCarSchema = (t) =>z.object({
+    userId: z.string().min(2, t("min_length_2")),
+    model: z.string().min(2, t("min_length_2")),
+    engineNumber: z.string().min(2, t("min_length_2")),
+    frameNumber: z.string().min(2, t("min_length_2")),
+    plateNumber: z.string().min(2, t("min_length_2")),
+    province: z.string().min(2, t("min_length_2")),
 });
 
 export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
+    const { t } = useTranslation("auth");
     const [users, setUsers] = useState([]);
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({
-        resolver: zodResolver(editCarSchema)
+        resolver: zodResolver(editCarSchema(t))
     });
 
 
@@ -55,9 +59,10 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
         try {
             await axiosInstance.put(APIPath.UPDATE_CAR(carId), data);
             handleFetchCar();
-            SuccessAlert("ແກ້ໄຂຂໍ້ມູນລົດສຳເລັດ");
+            SuccessAlert(t("update_success"));
             onClose();
         } catch (error) {
+            SuccessAlert(t("update_failed"), 1500, "warning");
             console.error("Error updating car:", error);
         }
     };

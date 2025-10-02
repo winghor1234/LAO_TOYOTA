@@ -35,26 +35,34 @@ import ReportList from "../pages/report/ReportList";
 import FixList from "../pages/Booking/fix/FixList";
 import FixDetails from "../pages/Booking/fix/FixDetails";
 import BookingSuccess from "../pages/Booking/approve/BookingSuccess";
+import Auth from "../pages/auth/Auth";
 
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <PublicRoute><Login /></PublicRoute>,
+    element: <PublicRoute><Auth /></PublicRoute>,
+    children: [
+      {
+        index: true,
+        element: <PublicRoute><Login /></PublicRoute>,
+      },
+      {
+        path: "/register",
+        element: <PublicRoute><Register /></PublicRoute>
+      },
+      {
+        path: "/forgot-password",
+        element: <PublicRoute><ForgotPassword /></PublicRoute>,
+      },
+    ]
   },
-  {
-    path: "/login",
-    element: <PublicRoute><Login /></PublicRoute>,
-  },
-  {
-    path: "/register",
-    element: <PublicRoute><Register /></PublicRoute>
-  },
-  {
-    path: "/forgot-password",
-    element: <PublicRoute><ForgotPassword /></PublicRoute>,
-  },
+  // {
+  //   path: "/login",
+  //   element: <PublicRoute><Login /></PublicRoute>,
+  // },
+
   {
     path: "/user",
     element: <ProtectedRoute><Layout /></ProtectedRoute>,
@@ -65,15 +73,15 @@ const router = createBrowserRouter([
       },
       {
         path: "booking",
-        element: <Booking/>,
+        element: <Booking />,
         children: [
           {
             index: true,
-            element: <Approve/>
+            element: <Approve />
           },
           {
             path: "fix",
-            element: <FixList/>
+            element: <FixList />
           },
           {
             path: "cancel",
@@ -92,11 +100,11 @@ const router = createBrowserRouter([
       },
       {
         path: "fixDetail/:id",
-        element: <FixDetails/>
+        element: <FixDetails />
       },
       {
         path: "bookingSuccess/:id",
-        element: <BookingSuccess/>
+        element: <BookingSuccess />
       },
       {
         path: "successDetail/:id",
@@ -104,7 +112,7 @@ const router = createBrowserRouter([
       },
       {
         path: "car",
-        element: <CarList/>
+        element: <CarList />
       },
       {
         path: "gift",
@@ -112,7 +120,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <GiftList/>,
+            element: <GiftList />,
           },
           {
             path: "gift-history",
@@ -126,7 +134,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <ServiceList/>
+            element: <ServiceList />
           },
           {
             path: "service-history",
@@ -140,25 +148,25 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <TimeList/>
+            element: <TimeList />
           },
           {
             path: "zone",
-            element: <ZoneList/>
+            element: <ZoneList />
           }
         ]
       },
       {
         path: "user",
-        element: <User/>
+        element: <User />
       },
       {
         path: "promotion",
-        element: <PromotionList/>,
+        element: <PromotionList />,
       },
       {
         path: "report",
-        element: <ReportList/>
+        element: <ReportList />
       },
       {
         path: "profile",
@@ -178,11 +186,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'timeDetail/:id',
-        element: <TimeDetail/>
+        element: <TimeDetail />
       },
       {
         path: 'zoneDetail/:id',
-        element: <ZoneDetail/>
+        element: <ZoneDetail />
       },
 
 
@@ -197,7 +205,7 @@ const router = createBrowserRouter([
 const Router = () => {
   return (
     <div>
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     </div>
   )
 }

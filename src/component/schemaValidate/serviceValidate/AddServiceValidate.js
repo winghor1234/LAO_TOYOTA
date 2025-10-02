@@ -5,19 +5,22 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
+import { useTranslation } from "react-i18next";
+
 
 
 
 // Schema Validation
-const serviceSchema = z.object({
-  nameService: z.string().min(1, "ກະລຸນາປ້ອນຊື່ບໍລິການ"),
-  description: z.string().min(1, "ກະລຸນາປ້ອນລາຍລະອຽດບໍລິການ"),
+const serviceSchema = (t) => z.object({
+  nameService: z.string().min(1, t("min_length_1")),
+  description: z.string().min(1, t("min_length_1")),
   image: z.any().optional(),
 });
 
 
 export const useAddServiceForm = ({ onClose, handleFetch }) => {
-    const { register, handleSubmit, setValue, watch, formState: { errors }, } = useForm({ resolver: zodResolver(serviceSchema), });
+    const { t } = useTranslation("auth");
+    const { register, handleSubmit, setValue, watch, formState: { errors }, } = useForm({ resolver: zodResolver(serviceSchema(t)), });
     const [loading, setLoading] = useState(false);
     // watch image
     const imageFile = watch("image");
@@ -32,7 +35,7 @@ export const useAddServiceForm = ({ onClose, handleFetch }) => {
 
             await axiosInstance.post(APIPath.CREATE_SERVICE, dataForm);
 
-            SuccessAlert("ເພີ່ມຂໍ້ມູນສໍາເລັດ");
+            SuccessAlert(t("add_success"));
             handleFetch();
             onClose();
 
@@ -41,8 +44,8 @@ export const useAddServiceForm = ({ onClose, handleFetch }) => {
             setValue("description", "");
             setValue("image", null);
         } catch (error) {
+            SuccessAlert(t("add_failed"), 1500, "warning");
             console.error("create service failed:", error);
-            SuccessAlert("ການເພີ່ມຂໍ້ມູນລົ້ມເຫຼວ", 1500, "warning");
         } finally {
             setLoading(false);
         }

@@ -6,24 +6,27 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../../../utils/AxiosInstance';
 import APIPath from '../../../api/APIPath';
 import { SuccessAlert } from '../../../utils/handleAlert/SuccessAlert';
+import { useTranslation } from 'react-i18next';
 
 
-const ProfileUpdateSchema = z.object({
-    username: z.string().min(2, " ຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ"),
-    email: z.string().email("ອີເມວບໍ່ຖືກຕ້ອງ"),
-    province: z.string().min(4, " ຕ້ອງມີຢ່າງນ້ອຍ 4 ຕົວ"),
-    district: z.string().min(2, " ຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ"),
-    village: z.string().min(2, " ຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ"),
+
+const ProfileUpdateSchema = (t) => z.object({
+    username: z.string().min(2, t("min_length_2")),
+    email: z.string().email(t("email_invalid")),
+    province: z.string().min(2, t("min_length_2")),
+    district: z.string().min(2, t("min_length_2")),
+    village: z.string().min(2, t("min_length_2")),
     image: z.any().optional(),
     removeImage: z.boolean().optional(),
 });
 
 
 export const ProfileUpdateForm = () => {
+    const { t } = useTranslation("auth");
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [preview, setPreview] = useState(null);
-    const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({ resolver: zodResolver(ProfileUpdateSchema) });
+    const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({ resolver: zodResolver(ProfileUpdateSchema(t)) });
     const imageFile = watch("image");
 
     const fetchProfile = async () => {
@@ -60,10 +63,10 @@ export const ProfileUpdateForm = () => {
                 formData.append("removeImage", "true");
             }
             await axiosInstance.put(APIPath.UPDATE_PROFILE, formData);
-            SuccessAlert("ແກ້ໄຂໂປຣໄຟຣສຳເລັດ", 1500, "success");
+            SuccessAlert(t("update_success"), 1500, "success");
             navigate("/user/dashboard");
         } catch (error) {
-            SuccessAlert("ມີບາຍຜິດພາດ!!!", 1500, "error");
+            SuccessAlert(t("error"), 1500, "warning");
             console.error("Update failed:", error);
         } finally {
             setLoading(false);

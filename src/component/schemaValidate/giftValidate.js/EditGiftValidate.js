@@ -5,17 +5,17 @@ import { z } from "zod";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
+import { useTranslation } from "react-i18next";
 
-const editGiftSchema = z.object({
-  name: z.string().min(1, "ກະລຸນາປ້ອນຊື່ລາງວັນ"),
-  point: z.coerce.number().min(1, "ກະລຸນາປ້ອນຄະເເນນ"),
+const editGiftSchema = (t) => z.object({
+  name: z.string().min(1, t("min_length_1")),
+  point: z.coerce.number().min(1, t("min_length_1")),
   image: z.any().optional(),
 });
 
 export const useEditForm = ({ onClose, handleFetch, giftId }) => {
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm({
-    resolver: zodResolver(editGiftSchema),
-  });
+  const { t } = useTranslation("auth");
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm({ resolver: zodResolver(editGiftSchema(t)), });
 
   const [loading, setLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState(null); // ใช้สำหรับแสดงรูป (string หรือ File)
@@ -52,23 +52,15 @@ export const useEditForm = ({ onClose, handleFetch, giftId }) => {
       });
 
       handleFetch();
-      SuccessAlert("ແກ້ໄຂຂໍ້ມູນສຳເລັດ");
+      SuccessAlert(t("update_success"));
       onClose();
     } catch (error) {
+      SuccessAlert(t("update_failed"), 1500, "warning");
       console.error("Update gift failed:", error.response?.data || error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  return {
-    register,
-    handleSubmit,
-    errors,
-    setValue,
-    loading,
-    submitForm,
-    previewImage,
-    setPreviewImage,
-  };
+  return { register, handleSubmit, errors, setValue, loading, submitForm, previewImage, setPreviewImage,};
 };

@@ -6,17 +6,20 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { formatDate } from "../../../utils/FormatDate";
+import { useTranslation } from "react-i18next";
 
 
 
-const EditTimeSchema = z.object({
-    time: z.string().min(1, "ກະລຸນາໃສ່ເວລາ"),
-    date: z.string().min(1, "ກະລຸນາໃສ່ວັນທີ"),
-    zoneId: z.string().min(1, "ກະລຸນາເລືອກໂຊນ"),
+
+const EditTimeSchema = (t) => z.object({
+    time: z.string().min(1, t("min_length_1")),
+    date: z.string().min(1, t("min_length_1")),
+    zoneId: z.string().min(1, t("min_length_1")),
 });
 
 export const useEditTimeForm = ({ timeId, fetchTime, onClose }) => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: zodResolver(EditTimeSchema), });
+    const { t } = useTranslation("auth");
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: zodResolver(EditTimeSchema(t)), });
     const [loading, setLoading] = useState(false);
     const [zones, setZones] = useState([]);
 
@@ -59,11 +62,12 @@ export const useEditTimeForm = ({ timeId, fetchTime, onClose }) => {
         setLoading(true);
         try {
             await axiosInstance.put(APIPath.UPDATE_TIME(timeId), data);
-            SuccessAlert("ແກ້ໄຂຂໍ້ມູນເວລາສຳເລັດ");
+            SuccessAlert(t("update_success"));
             fetchTime();
             onClose();
             reset();
         } catch (error) {
+            SuccessAlert(t("update_failed"), 1500, "warning");
             console.error("Update time failed:", error.response?.data || error.message);
         } finally {
             setLoading(false);

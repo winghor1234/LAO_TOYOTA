@@ -5,19 +5,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 
 
-export const promotionSchema = z.object({
-    title: z.string().min(2, { message: "ຊື່ໂປຣໂມຊັ່ນຕ້ອງຢ່າງນ້ອຍ 2 ຕົວ" }),
-    detail: z.string().min(2, { message: "ລາຍລະອຽດຕ້ອງຢ່າງນ້ອຍ 2 ຕົວ" }),
+export const promotionSchema = (t) => z.object({
+    title: z.string().min(2, { message: t("min_length_2") }),
+    detail: z.string().min(2, { message: t("min_length_2") }),
     image: z.any().optional()
 });
 
 
 export const useEditPromotionForm = ({ onClose, promotionId, handleFetchPromotion }) => {
+    const { t } = useTranslation("auth");
     const [loading, setLoading] = useState(false);
-    const { register, handleSubmit, setValue, reset, watch, formState: { errors } } = useForm({ resolver: zodResolver(promotionSchema) });
+    const { register, handleSubmit, setValue, reset, watch, formState: { errors } } = useForm({ resolver: zodResolver(promotionSchema(t)) });
     const imageFile = watch("image");
 
     useEffect(() => {
@@ -53,11 +55,11 @@ export const useEditPromotionForm = ({ onClose, promotionId, handleFetchPromotio
         try {
             await axiosInstance.put(APIPath.UPDATE_PROMOTION(promotionId), formData);
             handleFetchPromotion();
-            SuccessAlert("ແກ້ໄຂຂໍ້ມູນສໍາເລັດ");
+            SuccessAlert(t("update_success"));
             onClose();
         } catch (error) {
+            SuccessAlert(t("update_failed"), 1500, "warning");
             console.error("Update promotion failed:", error.response?.data || error.message);
-            SuccessAlert("ການແກ້ໄຂຂໍ້ມູນລົ້ມເຫຼວ", 1500, "warning");
         } finally {
             setLoading(false);
         }

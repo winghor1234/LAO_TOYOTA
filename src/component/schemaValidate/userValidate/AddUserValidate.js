@@ -5,31 +5,33 @@ import { useState } from "react";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
+import { useTranslation } from "react-i18next";
 
 
-const UserSchema = z.object({
-  username: z.string().min(2, { message: "ຊື່ຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ" }).max(30),
-  phoneNumber: z.string().min(8, { message: "ເບີຕ້ອງມີຢ່າງນ້ອຍ 8 ຕົວ" }),
-  password: z.string().min(6, { message: "ລະຫັດຜ່ານຕ້ອງມີຢ່າງນ້ອຍ 6 ຕົວ" }).max(20),
-  province: z.string().min(2, { message: "ແຂວງຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ" }),
-  district: z.string().min(2, { message: "ເມືອງຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ" }),
-  village: z.string().min(2, { message: "ບ້ານຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ" }),
+const UserSchema = (t) => z.object({
+  username: z.string().min(1, { message: t("min_length_1") }).max(30),
+  phoneNumber: z.string().min(8, { message: t("phone_min_length") }),
+  password: z.string().min(6, { message: t("min_length") }).max(20),
+  province: z.string().min(1, { message: t("min_length_1") }),
+  district: z.string().min(1, { message: t("min_length_1") }),
+  village: z.string().min(1, { message: t("min_length_1") }),
 });
 
 export const useAddUserForm = ({ handleFetch, onClose }) => {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({ resolver: zodResolver(UserSchema) });
+    const { t } = useTranslation('auth');
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({ resolver: zodResolver(UserSchema(t)) });
     const [loading, setLoading] = useState(false);
     const submitForm = async (data) => {
         setLoading(true);
         try {
             await axiosInstance.post(APIPath.REGISTER, data)
-            SuccessAlert("ເພີ່ມລູກຄ້າສຳເລັດ");
+            SuccessAlert(t("add_success"));
             handleFetch();
             onClose();
             reset();
         } catch (error) {
+            SuccessAlert(t("add_failed"), 1500, "error");
             console.error("Add User failed:", error);
-            SuccessAlert("ມີບາຍຜິດພາດ!!!", 1500, "error");
         } finally {
             setLoading(false);
         }

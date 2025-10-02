@@ -2,7 +2,7 @@ import { ToastContainer } from "react-toastify";
 import Router from "./route/Router";
 import { useEffect } from "react";
 import useToyotaStore from "./store/ToyotaStore";
-import i18n, { setLanguage } from "./i18n";
+import i18n from "./i18n";
 
 const App = () => {
   useEffect(() => {
@@ -21,12 +21,6 @@ const App = () => {
     <div>
       <ToastContainer />
       <Router />
-
-      {/* ปุ่มเปลี่ยนภาษา */}
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <button onClick={() => setLanguage("lo")}>ພາສາລາວ</button>
-        <button onClick={() => setLanguage("en")}>English</button>
-      </div>
     </div>
   );
 };

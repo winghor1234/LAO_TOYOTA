@@ -5,29 +5,24 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import APIPath from "../../../api/APIPath";
 import axiosInstance from "../../../utils/AxiosInstance";
+import { useTranslation } from "react-i18next";
+import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 
-const fixSchema = z.object({
-  kmNext: z.coerce.number().min(1, "ກະລຸນາປ້ອນໄລຍະທາງກ່ອນຕ້ອງຫຼາຍກວ່າ 0"),
-  kmLast: z.coerce.number().min(1, "ກະລຸນາປ້ອນໄລຍະທາງລ້າສຸດຕ້ອງຫຼາຍກວ່າ 0"),
-  detailFix: z.string().min(1, "ກະລຸນາປ້ອນລາຍລະອຽດການສ້ອມແປງ"),
-  carFixPrice: z.coerce.number().min(1, "ກະລຸນາປ້ອນຄ່າແຮງງານ"),
-  carPartPrice: z.coerce.number().min(1, "ກະລຸນາປ້ອນຄ່າອະໄຫ່"),
-  totalPrice: z.coerce.number().min(1, "ກະລຸນາປ້ອນລາຄາລວມ"),
+const fixSchema = (t) => z.object({
+  kmNext: z.coerce.number().min(1, t("min_length_1")),
+  kmLast: z.coerce.number().min(1, t("min_length_1")),
+  detailFix: z.string().min(2, t("min_length_2")),
+  carFixPrice: z.coerce.number().min(1, t("min_length_1")),
+  carPartPrice: z.coerce.number().min(1, t("min_length_1")),
+  totalPrice: z.coerce.number().min(1, t("min_length_1")),
 });
 
 export const useFixForm = ({ bookingId, timeId }) => {
+    const { t } = useTranslation("auth");
     const [fixes, setFixes] = useState([]);
     const navigate = useNavigate();
-    // const [formData, setFormData] = useState({
-        //     kmNext: "",
-        //     kmLast: "",
-        //     detailFix: "",
-        //     carFixPrice: "",
-        //     carPartPrice: "",
-        //     totalPrice: "",
-        // });
         
-        const { register, handleSubmit, formState: { errors }, } = useForm({ resolver: zodResolver(fixSchema), });
+        const { register, handleSubmit, formState: { errors }, } = useForm({ resolver: zodResolver(fixSchema(t)), });
     const fetchFix = async () => {
         try {
             const res = await axiosInstance.get(APIPath.SELECT_ALL_FIX);

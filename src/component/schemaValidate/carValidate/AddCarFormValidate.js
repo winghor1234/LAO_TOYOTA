@@ -5,20 +5,22 @@ import { z } from 'zod';
 import axiosInstance from '../../../utils/AxiosInstance';
 import APIPath from '../../../api/APIPath';
 import { SuccessAlert } from '../../../utils/handleAlert/SuccessAlert';
+import { useTranslation } from 'react-i18next';
 
 
-const addCarSchema = z.object({
-  userId: z.string().min(1, 'ກະລຸນາເລືອກລູກຄ້າ'),
-  model: z.string().min(1, 'ກະລຸນາປ້ອນຊື່ລົດ'),
-  engineNumber: z.string().min(1, 'ກະລຸນາປ້ອນເລກຈັກ'),
-  frameNumber: z.string().min(1, 'ກະລຸນາປ້ອນເລກຖັງ'),
-  plateNumber: z.string().min(1, 'ກະລຸນາປ້ອນປ້າຍທະບຽນ'),
-  province: z.string().min(1, 'ກະລຸນາປ້ອນແຂວງ'),
+const addCarSchema = (t) => z.object({
+  userId: z.string().min(2, t("min_length_2")),
+  model: z.string().min(2, t("min_length_2")),
+  engineNumber: z.string().min(2, t("min_length_2")),
+  frameNumber: z.string().min(2, t("min_length_2")),
+  plateNumber: z.string().min(2, t("min_length_2")),
+  province: z.string().min(2, t("min_length_2")),
 });
 
 export const useAddCarForm = ({handleFetchCar, onClose}) => {
+    const { t } = useTranslation("auth");
     const [users, setUsers] = useState([]);
-    const { register,handleSubmit,formState: { errors },reset,} = useForm({resolver: zodResolver(addCarSchema),});
+    const { register,handleSubmit,formState: { errors },reset,} = useForm({resolver: zodResolver(addCarSchema(t)),});
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -37,9 +39,10 @@ export const useAddCarForm = ({handleFetchCar, onClose}) => {
             await axiosInstance.post(APIPath.CREATE_CAR, data);
             handleFetchCar();
             onClose();
-            SuccessAlert('ເພີ່ມຂໍ້ມູນລົດສຳເລັດ');
+            SuccessAlert(t("add_success"));
             reset();
         } catch (error) {
+            SuccessAlert(t("add_failed"), 1500, "warning");
             console.error('Error adding car:', error);
         }
     };
