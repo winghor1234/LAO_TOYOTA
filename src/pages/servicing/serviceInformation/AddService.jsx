@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 const AddService = ({ show, onClose, handleFetch }) => {
   const { t } = useTranslation("service");
-  const { register, handleSubmit, formState: { errors }, imageFile, submitForm, loading, setValue } = useAddServiceForm({ handleFetch });
+  const { register, handleSubmit, formState: { errors }, imageFile, submitForm, loading, setValue } = useAddServiceForm({ handleFetch, onClose });
 
   if (!show) return null;
 

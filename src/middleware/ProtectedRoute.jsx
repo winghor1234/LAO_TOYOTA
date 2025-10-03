@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (!token) {
     removeToken(); // ถ้า token หมดอายุ ลบออก
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return children;

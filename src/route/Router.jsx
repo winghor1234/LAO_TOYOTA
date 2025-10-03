@@ -58,10 +58,6 @@ const router = createBrowserRouter([
       },
     ]
   },
-  // {
-  //   path: "/login",
-  //   element: <PublicRoute><Login /></PublicRoute>,
-  // },
 
   {
     path: "/user",

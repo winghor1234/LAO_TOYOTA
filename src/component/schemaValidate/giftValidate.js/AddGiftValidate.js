@@ -39,7 +39,7 @@ export const useAddGiftForm = ({ onClose, handleFetch, giftId }) => {
             dataForm.append("name", data.name);
             dataForm.append("point", data.point);
             if (data.image && data.image[0] instanceof File) {
-                dataForm.append("image", data.image[0]);
+                dataForm.append("files", data.image[0]);
             }
             await axiosInstance.post(APIPath.CREATE_GIFT, dataForm);
             handleFetch();

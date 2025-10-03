@@ -14,7 +14,7 @@ const EditService = ({ show, onClose, serviceId, handleFetch }) => {
     loading,
     setValue,
     imageFile,
-  } = useServiceEditForm({ serviceId, handleFetch });
+  } = useServiceEditForm({ serviceId, handleFetch, onClose });
 
   if (!show) return null;
 

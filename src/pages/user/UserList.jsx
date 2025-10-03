@@ -107,7 +107,7 @@ const UserList = () => {
             <div className="text-center">{item.district}</div>
             <div className="text-center">{item.province}</div>
             <div className="text-center">{item.phoneNumber}</div>
-            <div className="text-center">
+            <div className="wrap-anywhere text-center">
               {item.email ? (
                 <a
                   href={`mailto:${item.email}`}

@@ -28,7 +28,7 @@ axiosInstance.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       const store = useToyotaStore.getState();
       store.removeToken(); // ล้าง token ออกจาก state/localStorage
-      window.location.href = "/login"; // redirect ไปหน้า login
+      window.location.href = "/"; // redirect ไปหน้า login
     }
     return Promise.reject(error);
   }

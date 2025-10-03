@@ -34,11 +34,9 @@ export const useAddServiceForm = ({ onClose, handleFetch }) => {
             if (data.image instanceof File) dataForm.append("files", data.image);
 
             await axiosInstance.post(APIPath.CREATE_SERVICE, dataForm);
-
             SuccessAlert(t("add_success"));
             handleFetch();
             onClose();
-
             // Reset form
             setValue("nameService", "");
             setValue("description", "");

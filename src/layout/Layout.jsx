@@ -16,7 +16,7 @@ const Layout = () => {
 
   useEffect(() => {
     if (!token) {
-      navigate("/login", { replace: true });
+      navigate("/", { replace: true });
     }
   }, [token, navigate]);
 
