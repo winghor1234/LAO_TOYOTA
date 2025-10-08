@@ -1,54 +1,72 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, BarChart, Bar, CartesianGrid, Legend } from "recharts";
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, BarChart, Bar, CartesianGrid, Legend, ReferenceLine } from "recharts";
 import { useTranslation } from "react-i18next";
+import { getBookingByMonth } from "../../utils/bookingCount";
+import { getIncomes } from "../../utils/Income";
+import { FormatNumber } from "../../utils/FormatNumber";
+
 
 const ReportList = () => {
   const { t } = useTranslation("report");
-
   const [users, setUsers] = useState([]);
   const [booking, setBooking] = useState([]);
   const [fix, setFix] = useState([]);
   const [car, setCar] = useState([]);
+  const [totalIncomes, setTotalIncomes] = useState(0);
+  const [monthlyIncomes, setMonthlyIncomes] = useState([]);
+  const [bookingByMonth, setBookingByMonth] = useState([]);
+  const [totalBookings, setTotalBookings] = useState(0);
 
-  const fetchReportData = () => {
-    Promise.all([
-      axiosInstance.get(APIPath.SELECT_ALL_USER),
-      axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
-      axiosInstance.get(APIPath.SELECT_ALL_FIX),
-      axiosInstance.get(APIPath.SELECT_ALL_CAR),
-    ])
-      .then(([userRes, bookingRes, fixRes, carRes]) => {
-        setUsers(userRes?.data?.data || []);
-        setBooking(bookingRes?.data?.data || []);
-        setFix(fixRes?.data?.data || []);
-        setCar(carRes?.data?.data || []);
-      })
-      .catch((err) => console.log(err));
+
+  const fetchReportData = async () => {
+    try {
+      const [userRes, bookingRes, fixRes, carRes] = await Promise.all([
+        axiosInstance.get(APIPath.SELECT_ALL_USER),
+        axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
+        axiosInstance.get(APIPath.SELECT_ALL_FIX),
+        axiosInstance.get(APIPath.SELECT_ALL_CAR),
+      ]);
+      const { monthlyData, totalPrice } = await getIncomes();
+      const { monthlyBooking, totalBooking } = await getBookingByMonth();
+
+      setUsers(userRes?.data?.data || []);
+      setBooking(bookingRes?.data?.data || []);
+      setFix(fixRes?.data?.data || []);
+      setCar(carRes?.data?.data || []);
+      setMonthlyIncomes(monthlyData);
+      setTotalIncomes(totalPrice);
+      setBookingByMonth(monthlyBooking);
+      setTotalBookings(totalBooking);
+
+    } catch (error) {
+      console.error("❌ Fetch Report Data Error:", error);
+    }
   };
+
 
   useEffect(() => {
     fetchReportData();
   }, []);
 
-  const bookingByMonth = [
-    { month: "Jan", total: 20 },
-    { month: "Feb", total: 15 },
-    { month: "Mar", total: 30 },
-    { month: "Apr", total: 25 },
-    { month: "May", total: 40 },
-    { month: "Jun", total: 35 },
-  ];
+  // const bookingByMonth = [
+  //   { month: "Jan", total: 20 },
+  //   { month: "Feb", total: 15 },
+  //   { month: "Mar", total: 30 },
+  //   { month: "Apr", total: 25 },
+  //   { month: "May", total: 40 },
+  //   { month: "Jun", total: 35 },
+  // ];
 
-  const fixRevenue = [
-    { month: "Jan", revenue: 1000 },
-    { month: "Feb", revenue: 1800 },
-    { month: "Mar", revenue: 1200 },
-    { month: "Apr", revenue: 2200 },
-    { month: "May", revenue: 2600 },
-    { month: "Jun", revenue: 1500 },
-  ];
+  // const fixRevenue = [
+  //   { month: "Jan", revenue: 1000 },
+  //   { month: "Feb", revenue: 1800 },
+  //   { month: "Mar", revenue: 1200 },
+  //   { month: "Apr", revenue: 2200 },
+  //   { month: "May", revenue: 2600 },
+  //   { month: "Jun", revenue: 1500 },
+  // ];
 
   return (
     <div className="p-4 bg-gray-50 min-h-screen">
@@ -89,6 +107,9 @@ const ReportList = () => {
             </BarChart>
           </ResponsiveContainer>
         </div>
+        <div className="mt-2 text-right text-green-500 font-semibold">
+          {t("booking_count")} : {totalBookings.toLocaleString()} {t("times_count")}
+        </div>
       </div>
 
       {/* Revenue Report */}
@@ -99,19 +120,28 @@ const ReportList = () => {
         </div>
         <div className="w-full h-64">
           <ResponsiveContainer>
-            <AreaChart data={fixRevenue}>
+            <AreaChart data={monthlyIncomes}>
               <defs>
                 <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#E52020" stopOpacity={0.4} />
                   <stop offset="95%" stopColor="#E52020" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Area type="monotone" dataKey="revenue" stroke="#E52020" strokeWidth={2} fill="url(#colorRev)" />
+              <XAxis dataKey="name" />
+              <YAxis tickFormatter={FormatNumber} /> 
+              <Tooltip formatter={(value) => FormatNumber(value)} /> 
+              <Area
+                type="monotone"
+                dataKey="value"
+                stroke="#E52020"
+                strokeWidth={2}
+                fill="url(#colorRev)"
+              />
             </AreaChart>
           </ResponsiveContainer>
+        </div>
+        <div className="mt-2 text-right text-green-500 font-semibold">
+          {t("total_income")} : {FormatNumber(totalIncomes)} {t("currency")}
         </div>
       </div>
     </div>

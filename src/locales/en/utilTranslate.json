@@ -10,5 +10,17 @@
     "date_end_placeholder": "Date End...",
     "export": "Export",
     "import": "Import",
-    "import_success": "Import data successfully"
+    "import_success": "Import data successfully",
+    "Jan": "January",
+    "Feb": "February",
+    "Mar": "March",
+    "Apr": "April",
+    "May": "May",
+    "Jun": "June",
+    "Jul": "July",
+    "Aug": "August",
+    "Sep": "September",
+    "Oct": "October",
+    "Nov": "November",
+    "Dec": "December"
 }

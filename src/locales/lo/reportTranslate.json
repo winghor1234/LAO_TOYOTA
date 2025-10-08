@@ -6,5 +6,9 @@
   "cars": "ຂໍ້ມູນລົດ",
   "booking_by_month": "ລາຍງານການນັດໝາຍຕາມເດືອນ",
   "fix_revenue": "ລາຍງານລາຍຮັບການສ້ອມແປງ",
-  "export": "ດາວໂຫລດ"
+  "export": "ດາວໂຫລດ",
+  "total_income": "ລາຍຮັບທັງຫມົດ",
+  "currency": "ກີບ",
+  "booking_count": "ການນັດໝາຍທັງຫມົດ",
+  "times_count": "ຄັ້ງ"
 }

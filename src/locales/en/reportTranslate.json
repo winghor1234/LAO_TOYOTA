@@ -6,5 +6,10 @@
   "cars": "Cars",
   "booking_by_month": "Monthly Booking Report",
   "fix_revenue": "Repair Revenue Report",
-  "export": "Export"
+  "export": "Export",
+  "total_income": "Total Income",
+  "currency": "KIP",
+  "booking_count": "Total bookings",
+  "times_count": "Times"
+  
 }

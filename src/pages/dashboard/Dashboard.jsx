@@ -8,25 +8,28 @@ import { HiOutlineWrenchScrewdriver } from "react-icons/hi2";
 import { LiaGiftsSolid } from "react-icons/lia";
 import { GrUserAdmin } from "react-icons/gr";
 import { FaChartLine } from "react-icons/fa";
-
 import { PieChart, Pie, Cell, ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
 import { useTranslation } from "react-i18next";
+import { calculatePercentIncrease, countUsersByMonth, getIncomes } from "../../utils/Income";
+import { FormatNumber } from "../../utils/FormatNumber";
 
-const dataCircle = [
-    { name: "Complete", value: 40 },
-    { name: "Remaining", value: 100 }
-];
+
+
+// const dataCircle = [
+//     { name: "Complete", value: 40 },
+//     { name: "Remaining", value: 100 }
+// ];
 const COLORS = ["#E52020", "#F0F0F0"];
 
-const dataLine = [
-    { name: "Jan", value: 50 }, { name: "Feb", value: 400 }, { name: "Mar", value: 300 },
-    { name: "Apr", value: 200 }, { name: "May", value: 100 }, { name: "Jun", value: 250 },
-    { name: "Jul", value: 50 }, { name: "Aug", value: 400 }, { name: "Sep", value: 500 },
-    { name: "Oct", value: 300 }, { name: "Nov", value: 400 }, { name: "Dec", value: 500 }
-];
+// const dataLine = [
+//     { name: "Jan", value: 50 }, { name: "Feb", value: 900 }, { name: "Mar", value: 300 },
+//     { name: "Apr", value: 200 }, { name: "May", value: 100 }, { name: "Jun", value: 250 },
+//     { name: "Jul", value: 50 }, { name: "Aug", value: 400 }, { name: "Sep", value: 500 },
+//     { name: "Oct", value: 300 }, { name: "Nov", value: 400 }, { name: "Dec", value: 500 }
+// ];
 
 const Dashboard = () => {
-    const { t } = useTranslation("dashboard"); // i18n
+    const { t } = useTranslation("dashboard");
     const navigate = useNavigate();
 
     const [users, setUsers] = useState([]);
@@ -37,13 +40,16 @@ const Dashboard = () => {
     const [gift, setGift] = useState([]);
     const [time, setTime] = useState([]);
     const [zone, setZone] = useState([]);
+    const [totalIncomes, setTotalIncomes] = useState(0);
+    const [monthlyIncomes, setMonthlyIncomes] = useState([]);
+    const [percentUserIncrease, setPercentUserIncrease] = useState(0);
+
+
+    // const [monthlyData, setMonthlyData] = useState([]);
 
     const fetchData = async () => {
         try {
-            const [
-                userRes, promoRes, bookingRes, fixRes,
-                carRes, giftRes, timeRes, zoneRes
-            ] = await Promise.all([
+            const [userRes, promoRes, bookingRes, fixRes, carRes, giftRes, timeRes, zoneRes] = await Promise.all([
                 axiosInstance.get(APIPath.SELECT_ALL_USER),
                 axiosInstance.get(APIPath.SELECT_ALL_PROMOTION),
                 axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
@@ -53,6 +59,7 @@ const Dashboard = () => {
                 axiosInstance.get(APIPath.SELECT_ALL_TIME),
                 axiosInstance.get(APIPath.SELECT_ALL_ZONE),
             ]);
+            const { monthlyData, totalPrice } = await getIncomes();
 
             setUsers(userRes?.data?.data || []);
             setPromotions(promoRes?.data?.data || []);
@@ -62,10 +69,17 @@ const Dashboard = () => {
             setGift(giftRes?.data?.data || []);
             setTime(timeRes?.data?.data || []);
             setZone(zoneRes?.data?.data || []);
+            setMonthlyIncomes(monthlyData);
+            setTotalIncomes(totalPrice);
+
+            const { thisMonthCount, lastMonthCount } = countUsersByMonth(users);
+            const percent = calculatePercentIncrease(thisMonthCount, lastMonthCount);
+            setPercentUserIncrease(percent);
         } catch (error) {
             console.error("Fetch Dashboard Data Error:", error);
         }
     };
+
 
     const handleApprove = (bookingId, timeId) => {
         navigate(`/user/receiverCarDetail/${bookingId}?time=${timeId}`);
@@ -74,6 +88,13 @@ const Dashboard = () => {
     useEffect(() => {
         fetchData();
     }, []);
+
+
+    // PieChart data
+    const dataCircle = [
+        { name: "Increase", value: percentUserIncrease },
+        { name: "Rest", value: 100 - percentUserIncrease }
+    ];
 
     const dashboardItems = [
         { title: t("customer_info"), path: "/user/user", value: users.length, icon: <Users className="w-10 h-10 text-red-600" /> },
@@ -116,13 +137,13 @@ const Dashboard = () => {
                                         <Cell key={idx} fill={COLORS[idx]} />
                                     ))}
                                 </Pie>
-                                <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={20} fontWeight="bold" fill="black">
-                                    {dataCircle[0].value}%
+                                <text  x="50%"  y="50%"  textAnchor="middle"  dominantBaseline="middle"  fontWeight="bold"  fill="black" >
+                                    {Math.round(percentUserIncrease)}%
                                 </text>
                             </PieChart>
                         </ResponsiveContainer>
                     </div>
-                    <p className="text-xs text-red-600 mt-2 text-center">{t("monthly_user", { count: users.length })}</p>
+                    <p className="text-xs text-red-600 mt-2 text-center">{t("monthly_user", { count: users.length })} {percentUserIncrease}%</p>
                 </div>
 
                 {/* Area Chart */}
@@ -133,19 +154,22 @@ const Dashboard = () => {
                     </div>
                     <div className="w-full h-64">
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={dataLine} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                            <AreaChart data={monthlyIncomes} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                                 <defs>
                                     <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#E52020" stopOpacity={0.4} />
                                         <stop offset="95%" stopColor="#E52020" stopOpacity={0} />
                                     </linearGradient>
                                 </defs>
-                                <XAxis dataKey="name" tick={{ fontSize: 10 }} />
-                                <YAxis domain={[0, 500]} tick={{ fontSize: 10 }} />
-                                <Tooltip contentStyle={{ backgroundColor: '#fff', border: '1px solid #E52020', borderRadius: 8, fontSize: 12 }} />
+                                <XAxis dataKey="name" />
+                                <YAxis tickFormatter={FormatNumber} domain={[0, 500]} />
+                                <Tooltip formatter={(value) => FormatNumber(value)} contentStyle={{ backgroundColor: '#fff', border: '1px solid #E52020', borderRadius: 8, fontSize: 12 }} />
                                 <Area type="monotone" dataKey="value" stroke="#E52020" fill="url(#colorValue)" strokeWidth={2} />
                             </AreaChart>
                         </ResponsiveContainer>
+                    </div>
+                    <div className="mt-2 text-right text-green-500 font-semibold">
+                        {t("total_income")} : {FormatNumber(totalIncomes)} {t("currency")}
                     </div>
                 </div>
             </div>

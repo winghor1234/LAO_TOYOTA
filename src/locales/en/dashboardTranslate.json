@@ -17,5 +17,7 @@
   "phone": "Phone",
   "plate": "Plate",
   "date": "Date",
-  "time": "Time"
+  "time": "Time",
+  "total_income": "Total Income",
+  "currency": "KIP"
 }
