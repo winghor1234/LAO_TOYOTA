@@ -34,7 +34,6 @@ export const useEditForm = ({ onClose, handleFetch, giftId }) => {
     handleFetchGiftId();
   }, [giftId]);
 
-  // ✅ ส่งข้อมูลแก้ไข
   const submitForm = async (data) => {
     setLoading(true);
     try {

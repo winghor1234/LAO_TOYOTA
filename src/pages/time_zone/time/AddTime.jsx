@@ -25,11 +25,13 @@ const AddTime = ({ show, onClose, fetchTime, addToExport }) => {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <input
               type="text"
-              placeholder={t("time_label")}
+              placeholder={t("timeLabel")}
               {...register("time")}
               className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
             />
-            {errors.time && <p className="text-red-500 text-sm">{errors.time.message}</p>}
+            <div className="h-6">
+              {errors.time && <p className="text-red-500 text-sm">{errors.time.message}</p>}
+            </div>
 
             <input
               type="date"
@@ -37,8 +39,10 @@ const AddTime = ({ show, onClose, fetchTime, addToExport }) => {
               {...register("date")}
               className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
             />
-            {errors.date && <p className="text-red-500 text-sm">{errors.date.message}</p>}
 
+            <div className="h-6">
+              {errors.date && <p className="text-red-500 text-sm">{errors.date.message}</p>}
+            </div>
             <select
               {...register("zoneId")}
               className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
@@ -48,7 +52,9 @@ const AddTime = ({ show, onClose, fetchTime, addToExport }) => {
                 <option key={zone.zone_id} value={zone.zone_id}>{zone.zoneName}</option>
               )) : <option value="">{t("noZone")}</option>}
             </select>
-            {errors.zoneId && <p className="text-red-500 text-sm">{errors.zoneId.message}</p>}
+            <div className="h-6">
+              {errors.zoneId && <p className="text-red-500 text-sm">{errors.zoneId.message}</p>}
+            </div>
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-3">

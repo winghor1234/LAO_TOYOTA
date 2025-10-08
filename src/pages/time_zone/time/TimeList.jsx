@@ -30,13 +30,13 @@ const TimeList = () => {
             const res = await axiosInstance.get(APIPath.SELECT_ALL_TIME);
             const data = res?.data?.data || [];
             setTime(data);
-
             // อัปเดต exportData ทุกครั้งเมื่อ fetch
             setExportData(
                 data.map((item) => ({
-                    time: item.time,
-                    date: item.date,
-                    status: item.timeStatus ? t("statusFree") : t("statusFull"),
+                    ເວລາ: item.time,
+                    ວັນທີເດືອນປີ: item.date,
+                    ຊື່ໂຊນ: item?.zone?.zoneName,
+                    ສະຖານະ: item.timeStatus ? "ຫວ່າງ" : "ເຕັມ",
                 }))
             );
         } catch (error) {
@@ -79,11 +79,13 @@ const TimeList = () => {
                 <ExportExcelButton data={exportData} fileName="TimeData.xlsx" />
                 {/* Import Excel */}
                 <ImportExcel
-                    fetchData={fetchTime}
-                    addToExport={(newData) => setExportData((prev) => [
-                        ...prev,
-                        { ...newData, status: t("statusFree") },
-                    ])}
+                    apiPath={APIPath.CREATE_TIME}
+                    requiredFields={["ເວລາ", "ວັນທີເດືອນປີ"]}
+                    transformData={(item) => ({
+                        time: item["ເວລາ"],
+                        date: item["ວັນທີເດືອນປີ"],
+                    })}
+                    onUploadSuccess={fetchTime}
                 />
                 <div onClick={() => setShowAddTime(true)} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
@@ -91,14 +93,13 @@ const TimeList = () => {
                     </button>
                 </div>
             </div>
-
             {/* Time Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 overflow-y-auto lg:items-center gap-2 lg:gap-4 mb-6">
                 {filteredTime.map((item) => (
                     <div key={item.time_id} className="flex justify-center hover:shadow-xl">
                         <div
                             onClick={() => navigate(`/user/timeDetail/${item.time_id}`)}
-                            className={`${item.timeStatus ? "bg-green-600 text-white" : "bg-[#E52020] text-white"} text-white cursor-pointer w-full px-4 py-2 rounded-l shadow-2xl`}
+                            className={`${item.timeStatus? item.zoneId === null? "bg-yellow-500 text-white": "bg-green-600 text-white": "bg-[#E52020] text-white"} text-white cursor-pointer w-full px-4 py-2 rounded-l shadow-2xl`}
                         >
                             <div className="ml-4 flex items-center justify-start gap-3 text-md">
                                 <TimerIcon />
@@ -116,14 +117,13 @@ const TimeList = () => {
                                 <p className="text-xl">{item.timeStatus ? t("statusFree") : t("statusFull")}</p>
                             </div>
                         </div>
-                        <div className={`flex flex-col items-center justify-start py-2 gap-2 ${item.timeStatus ? "bg-green-600 text-white" : "bg-[#E52020] text-white"} px-2 rounded-r cursor-pointer`}>
+                        <div className={`flex flex-col items-center justify-start py-2 gap-2 ${item.timeStatus? item.zoneId === null? "bg-yellow-500 text-white": "bg-green-600 text-white": "bg-[#E52020] text-white"} px-2 rounded-r cursor-pointer`}>
                             <Edit className="text-white h-5 w-5 cursor-pointer" onClick={() => { setShowEditTime(true); setTimeId(item.time_id); }} />
                             <Trash className="text-white h-5 w-5 cursor-pointer" onClick={() => handleDelete(item.time_id)} />
                         </div>
                     </div>
                 ))}
             </div>
-
             {/* Popups */}
             <EditTime show={showEditTime} onClose={() => setShowEditTime(false)} timeId={timeId} fetchTime={fetchTime} />
             <AddTime show={showAddTime} onClose={() => setShowAddTime(false)} fetchTime={fetchTime} addToExport={(newData) => setExportData((prev) => [...prev, { ...newData, status: t("statusFree") }])} />

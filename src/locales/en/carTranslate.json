@@ -11,6 +11,7 @@
   "engine_placeholder": "Engine number...",
   "frame": "Frame Number",
   "frame_placeholder": "Frame number...",
+  "userId": "Customer Code",
   "province": "Province",
   "province_placeholder": "Province...",
   "search_placeholder": "Search car by plate number...",
@@ -52,5 +53,6 @@
   "no_image": "No Image",
   "cancel_add_alert": "Cancelled adding car",
   "cancel": "Cancel",
-  "submit": "Submit"
+  "submit": "Submit",
+  "fix_success": "Fix car successfully"
 }

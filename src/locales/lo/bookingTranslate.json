@@ -58,5 +58,7 @@
   "fixCarPrice": "ຄ່າແຮງງານ",
   "pending": "ລໍອະນຸມັດ",
   "fixing": "ກຳລັງສ້ອມແປງ",
-  "success": "ສຳເລັດ"
+  "success": "ສຳເລັດ",
+  "fix_title": "ສ້ອມແປງລົດ"
+  
 }

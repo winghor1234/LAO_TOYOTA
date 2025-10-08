@@ -45,12 +45,14 @@
   "phone_min_length": "ເບີໂທລະສັບຕ້ອງມີຢ່າງນ້ອຍ 8 ຕົວ",
   "password_min_length": "ລະຫັດຜ່ານຕ້ອງມີຢ່າງນ້ອຍ 6 ຕົວ",
   "min_length_2": "ຕ້ອງມີຢ່າງນ້ອຍ 2 ຕົວ",
+  "min_length_1": "ຕ້ອງມີຢ່າງນ້ອຍ 1 ຕົວ",
   "login_success": "ເຂົ້າສູ່ລະບົບສຳເລັດ",
   "register_success": "ລົງທະບຽນສຳເລັດ",
   "email_invalid": "ອີເມວບໍ່ຖືກຕ້ອງ",
   "update_success": "ແກ້ໄຂສຳເລັດ",
   "add_success": "ເພີ່ມສຳເລັດ",
   "add_failed": "ເພີ່ມບໍ່ສຳເລັດ",
+  "fix_success": "ສ້ອມແປງສຳເລັດ",
   "update_failed": "ແກ້ໄຂບໍ່ສຳເລັດ"
   
 }

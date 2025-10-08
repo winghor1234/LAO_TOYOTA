@@ -18,32 +18,45 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
                 </h2>
                 <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
                     <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                        <input
-                            type="text"
-                            placeholder={t("time_label")}
-                            {...register("time")}
-                            className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-                        />
-                        {errors.time && <p className="text-red-500 text-sm">{errors.time.message}</p>}
+                        <div className="w-full">
+                            <input
+                                type="text"
+                                placeholder={t("timeLabel")}
+                                {...register("time")}
+                                className="w-full py-2 sm:py-3.5 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                            />
+                            <div className="h-6">
+                                {errors.time && <p className="text-red-500 text-sm">{errors.time.message}</p>}
+                            </div>
 
-                        <input
-                            type="date"
-                            placeholder={t("dateLabel")}
-                            {...register("date")}
-                            className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-                        />
-                        {errors.date && <p className="text-red-500 text-sm">{errors.date.message}</p>}
+                        </div>
+                        <div className="w-full ">
+                            <input
+                                type="date"
+                                placeholder={t("dateLabel")}
+                                {...register("date")}
+                                className=" w-full py-2 sm:py-3.5 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                            />
+                            <div className="h-6">
+                                {errors.date && <p className="text-red-500 text-sm">{errors.date.message}</p>}
+                            </div>
+                        </div>
 
-                        <select
-                            {...register("zoneId")}
-                            className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-                        >
-                            <option value="" disabled>{t("selectZone")}</option>
-                            {zones.length > 0 ? zones.map(zone => (
-                                <option key={zone.zone_id} value={zone.zone_id}>{zone.zoneName}</option>
-                            )) : <option value="">{t("noZone")}</option>}
-                        </select>
-                        {errors.zoneId && <p className="text-red-500 text-sm">{errors.zoneId.message}</p>}
+
+                        <div className="w-full">
+                            <select
+                                {...register("zoneId")}
+                                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                            >
+                                <option value="" disabled>{t("selectZone")}</option>
+                                {zones.length > 0 ? zones.map(zone => (
+                                    <option key={zone.zone_id} value={zone.zone_id}>{zone.zoneName}</option>
+                                )) : <option value="">{t("noZone")}</option>}
+                            </select>
+                            <div className="h-6">
+                                {errors.zoneId && <p className="text-red-500 text-sm">{errors.zoneId.message}</p>}
+                            </div>
+                        </div>
                     </div>
 
                     <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-3">

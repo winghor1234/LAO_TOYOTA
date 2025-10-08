@@ -63,11 +63,11 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
           {/* Notification Bell */}
           <div className="relative">
             <button
-              className="border w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200"
+              className="border w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200"
               aria-label="Notifications"
               onClick={() => setShowNotifications(!showNotifications)}
             >
-              <Bell className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-600" />
+              <Bell className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-600 text-white" />
               {unreadCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                   {unreadCount}

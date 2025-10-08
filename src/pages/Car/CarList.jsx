@@ -10,10 +10,10 @@ import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import ExportExcelButton from "../../utils/ExcelExportButton";
 import { useTranslation } from "react-i18next";
+import ImportExcel from "../../utils/ImportExel";
 
 const CarList = () => {
   const { t } = useTranslation("car");
-
   const [showAddCarForm, setShowAddCarForm] = useState(false);
   const [showEditCarForm, setShowEditCarForm] = useState(false);
   const [carId, setCarId] = useState(null);
@@ -31,14 +31,22 @@ const CarList = () => {
         axiosInstance.get(APIPath.GET_PROFILE),
       ]);
       setCar(resAllCar?.data?.data);
+      // console.log(resAllCar?.data?.data);
       setUserId(resGetUserId?.data?.data?.user_id);
       setExportedData(
         resAllCar?.data?.data?.map((item) => ({
-          [t("model")]: item.model,
-          [t("plate")]: item.plateNumber,
-          [t("frame")]: item.frameNumber,
-          [t("engine")]: item.engineNumber,
-          [t("province")]: item.province,
+          // [t("userId")]: item.userId,
+          // [t("model")]: item.model,
+          // [t("plate")]: item.plateNumber,
+          // [t("frame")]: item.frameNumber,
+          // [t("engine")]: item.engineNumber,
+          // [t("province")]: item.province,
+          "ລະຫັດ": item.userId,
+          "ຊື່ລົດ": item.model,
+          "ປ້າຍທະບຽນ": item.plateNumber,
+          "ເລກຖັງ": item.frameNumber,
+          "ເລກຈັກ": item.engineNumber,
+          "ແຂວງ": item.province,
         }))
       );
     } catch (error) {
@@ -62,31 +70,32 @@ const CarList = () => {
     handleFetchCar();
   }, []);
 
-  const filteredCar = filterByDateRange(
-    filterSearch(car, "plateNumber", search),
-    startDate,
-    endDate,
-    "createdAt"
-  );
+  const filteredCar = filterByDateRange( filterSearch(car, "plateNumber", search), startDate, endDate, "createdAt" );
 
   return (
     <div>
       {/* Top Controls */}
       <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 mb-6">
-        <SelectDate
-          onSearch={setSearch}
-          placeholder={t("search_placeholder")}
-          onDateChange={({ startDate, endDate }) => {
-            setStartDate(startDate);
-            setEndDate(endDate);
-          }}
-        />
-
+        <SelectDate onSearch={setSearch} placeholder={t("search_placeholder")} onDateChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }} />
         <div className="flex flex-col sm:flex-row sm:justify-center gap-2 sm:gap-3">
           <button className="bg-red-600 hover:bg-red-700 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium">
             {t("search")}
           </button>
           <ExportExcelButton data={exportedData} />
+          {/*  ImportExcel */}
+          <ImportExcel
+            apiPath={APIPath.CREATE_CAR}
+            requiredFields={[ "ລະຫັດ", "ຊື່ລົດ", "ປ້າຍທະບຽນ", "ເລກຖັງ", "ເລກຈັກ", "ແຂວງ", ]}
+            transformData={(item) => ({
+              userId: item["ລະຫັດ"],
+              model: item["ຊື່ລົດ"],
+              plateNumber: item["ປ້າຍທະບຽນ"],
+              frameNumber: item["ເລກຖັງ"],
+              engineNumber: item["ເລກຈັກ"],
+              province: item["ແຂວງ"],
+            })}
+            onUploadSuccess={handleFetchCar}
+          />
           <button
             onClick={() => setShowAddCarForm(true)}
             className="bg-blue-500 hover:bg-blue-600 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium"
@@ -95,7 +104,6 @@ const CarList = () => {
           </button>
         </div>
       </div>
-
       {/* Desktop Table */}
       <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full">
         <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
@@ -109,7 +117,6 @@ const CarList = () => {
             <div className="flex justify-center items-center">{t("action")}</div>
           </div>
         </div>
-
         <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
           {filteredCar?.map((item, index) => (
             <div key={index} className="grid grid-cols-7 gap-2 px-3 py-3 items-center hover:bg-gray-50">
@@ -120,17 +127,8 @@ const CarList = () => {
               <div className="flex justify-center">{item.frameNumber}</div>
               <div className="flex justify-center">{item.province}</div>
               <div className="flex justify-center gap-6">
-                <Edit
-                  className="cursor-pointer"
-                  onClick={() => {
-                    setShowEditCarForm(true);
-                    setCarId(item.car_id);
-                  }}
-                />
-                <Trash
-                  onClick={() => handleDelete(item.car_id)}
-                  className="cursor-pointer"
-                />
+                <Edit className="cursor-pointer" onClick={() => { setShowEditCarForm(true); setCarId(item.car_id); }} />
+                <Trash onClick={() => handleDelete(item.car_id)} className="cursor-pointer" />
               </div>
             </div>
           ))}
@@ -171,20 +169,9 @@ const CarList = () => {
           ))}
         </div>
       </div>
-
       {/* Popups */}
-      <AddCarFormPopup
-        show={showAddCarForm}
-        onClose={() => setShowAddCarForm(false)}
-        handleFetchCar={handleFetchCar}
-      />
-      <EditCarFormPopup
-        show={showEditCarForm}
-        onClose={() => setShowEditCarForm(false)}
-        userId={userId}
-        carId={carId}
-        handleFetchCar={handleFetchCar}
-      />
+      <AddCarFormPopup show={showAddCarForm}  onClose={() => setShowAddCarForm(false)}  handleFetchCar={handleFetchCar}/>
+      <EditCarFormPopup  show={showEditCarForm}  onClose={() => setShowEditCarForm(false)}  userId={userId}  carId={carId}  handleFetchCar={handleFetchCar}  />
     </div>
   );
 };

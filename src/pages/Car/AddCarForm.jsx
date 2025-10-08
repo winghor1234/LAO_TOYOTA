@@ -5,12 +5,8 @@ import { useAddCarForm } from '../../component/schemaValidate/carValidate/AddCar
 import { useTranslation } from 'react-i18next';
 
 export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
-  const { register, handleSubmit, formState: { errors }, users = [], onSubmit, handleBack } =
-    useAddCarForm({ handleFetchCar, onClose });
-
+  const { register, handleSubmit, formState: { errors }, users = [], onSubmit, handleBack } = useAddCarForm({ handleFetchCar, onClose });
   const { t} = useTranslation("car"); 
-
-
   const fields = [
     { name: 'model', labelKey: 'model', placeholderKey: 'model_placeholder' },
     { name: 'engineNumber', labelKey: 'engine', placeholderKey: 'engine_placeholder' },
@@ -22,17 +18,9 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
   return (
     <>
       {/* Background */}
-      <div
-        className={`fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity ${show ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-          }`}
-        onClick={onClose}
-      />
-
+      <div className={`fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity ${show ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none' }`} onClick={onClose}/>
       {/* Popup */}
-      <div
-        className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-gray-50 rounded-2xl shadow-lg w-full max-w-3xl p-4 sm:p-6 text-sm transition-all ${show ? 'scale-100 opacity-100' : 'scale-90 opacity-0 pointer-events-none'
-          }`}
-      >
+      <div className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-gray-50 rounded-2xl shadow-lg w-full max-w-3xl p-4 sm:p-6 text-sm transition-all ${show ? 'scale-100 opacity-100' : 'scale-90 opacity-0 pointer-events-none'  }`} >
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div

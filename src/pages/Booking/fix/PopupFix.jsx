@@ -1,4 +1,3 @@
-// src/component/popup/PopupFix.jsx
 import { useFixForm } from "../../../component/schemaValidate/fixValidate/PopupFixValidate";
 import { useTranslation } from "react-i18next";
 
@@ -52,8 +51,8 @@ const PopupFix = ({ setShowPopup, bookingId, timeId }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div className="flex flex-col">
               <input
-                {...register("carFixPrice")}
-                placeholder={t("carFixPrice")}
+                {...register("fixCarPrice")}
+                placeholder={t("fixCarPrice")}
                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
               />
               <div className="h-6">{errors.carFixPrice && <p className="text-red-500 text-sm">{errors.carFixPrice.message}</p>}</div>

@@ -10,12 +10,13 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
   const { t } = useTranslation("booking"); // namespace booking
   const navigate = useNavigate();
   const [timeData, setTimeData] = useState([]);
-
+  
   const handleChangeStatus = async () => {
     try {
       const fixData = new URLSearchParams();
       fixData.append("bookingId", bookingId);
-      fixData.append("zoneId", timeData?.zone?.zone_id);
+      fixData.append("zoneId", timeData?.zoneId);
+      console.log("zone id : ",timeData.zoneId);
 
       const pointData = new URLSearchParams();
       pointData.append("user_id", userId);
@@ -40,6 +41,7 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_TIME(timeId));
       setTimeData(res?.data?.data);
+      console.log("time data:",res?.data?.data);
     } catch (error) {
       console.log(error);
     }

@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 const SuccessDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t } = useTranslation("successDetail");
+  const { t } = useTranslation("booking");
 
   const [data, setData] = useState([]);
   const [booking, setBooking] = useState([]);

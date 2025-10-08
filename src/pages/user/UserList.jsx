@@ -9,6 +9,8 @@ import { Car, Edit, Trash } from "lucide-react";
 import EditUser from "./EditUser";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 import { useTranslation } from "react-i18next";
+import ExportExcelButton from "../../utils/ExcelExportButton";
+import ImportExcel from "../../utils/ImportExel";
 
 const UserList = () => {
   const { t } = useTranslation("user");
@@ -19,6 +21,9 @@ const UserList = () => {
   const [search, setSearch] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [exportedData, setExportedData] = useState([]);
+
+
 
   const FilteredUser = filterByDateRange(
     filterSearch(users, "username", search),
@@ -31,6 +36,17 @@ const UserList = () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ALL_USER);
       setUsers(res?.data?.data);
+      setExportedData(
+        res?.data?.data?.map((item) => ({
+          ຊື່: item.username,
+          ເບີໂທ: item.phoneNumber,
+          ອີເມວ: item.email,
+          ບ້ານ: item.village,
+          ເມືອງ: item.district,
+          ແຂວງ: item.province,
+          ສະຖານະ: item.role,
+        }))
+      );
     } catch (error) {
       console.log(error);
     }
@@ -59,24 +75,26 @@ const UserList = () => {
     <div className="p-4">
       {/* Top Controls */}
       <div className="sticky top-0 flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-5 mb-6">
-        <SelectDate
-          onSearch={setSearch}
-          placeholder={t("search_user")}
-          onDateChange={({ startDate, endDate }) => {
-            setStartDate(startDate);
-            setEndDate(endDate);
-          }}
-        />
+        <SelectDate onSearch={setSearch} placeholder={t("search_user")} onDateChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }} />
         <div className="flex flex-col sm:flex-row sm:justify-center gap-2 sm:gap-3">
-          <button
-            onClick={() => setShowAdd(true)}
-            className="bg-blue-500 hover:bg-blue-600 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base"
-          >
+          <button onClick={() => setShowAdd(true)} className="bg-blue-500 hover:bg-blue-600 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
             {t("add_user")}
           </button>
+          {/* Excel Export */}
+          <ExportExcelButton data={exportedData} />
+          {/* Excel import */}
+          {/* <ImportExcel
+            apiPath={APIPath.REGISTER}
+            requiredFields={["ຊື່", "ວັນທີເດືອນປີ", "ໂຊນ"]}
+            transformData={(item) => ({
+              time: item["ເວລາ"],
+              date: item["ວັນທີເດືອນປີ"],
+              zoneId: item["ໂຊນ"],
+            })}
+            onUploadSuccess={handleFetchUser} 
+            /> */}
         </div>
       </div>
-
       {/* Table Header */}
       <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
         <div className="grid grid-cols-10 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
@@ -94,7 +112,7 @@ const UserList = () => {
       </div>
 
       {/* Table Body */}
-      <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
+      <div className="hidden md:block divide-y divide-gray-200 bg-gray-50 overflow-auto max-h-[400px]">
         {FilteredUser.map((item, index) => (
           <div
             key={index}
