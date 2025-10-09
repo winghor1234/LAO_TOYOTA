@@ -38,7 +38,7 @@ export const ForgotPasswordForm = () => {
     try {
       await axiosInstance.put(APIPath.FORGOT, data);
       SuccessAlert(t("change_password_success"), 1500, "success");
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       SuccessAlert(t("error"), 1500, "warning");
       console.error("Password reset failed:", error);

@@ -36,6 +36,7 @@ import FixList from "../pages/Booking/fix/FixList";
 import FixDetails from "../pages/Booking/fix/FixDetails";
 import BookingSuccess from "../pages/Booking/approve/BookingSuccess";
 import Auth from "../pages/auth/Auth";
+import BillDetail from "../pages/Booking/fix/BillDetail";
 
 
 
@@ -105,6 +106,10 @@ const router = createBrowserRouter([
       {
         path: "successDetail/:id",
         element: <SuccessDetail />
+      },
+      {
+        path: "billDetail/:id",
+        element: <BillDetail/>
       },
       {
         path: "car",

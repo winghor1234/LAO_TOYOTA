@@ -58,6 +58,20 @@
   "carPartPrice": "Car Parts Cost",
   "pending": "Pending",
   "fixing": "Fixing",
-  "success": "Success"
+  "success": "Success",
+  "billTitle": "Bill Detail",
+  "exportPDF": "Export PDF",
+  "date_bill": "Date",
+  "billId": "Bill ID",
+  "ID": "ID",
+  "list_bill": "List",
+  "price": "Price",
+  "thanks_message": "Thank you for using the service",
+  "fixDetail": "Fix Detail",
+  "back_button": "Back"
+
+  
+
+
 
 }

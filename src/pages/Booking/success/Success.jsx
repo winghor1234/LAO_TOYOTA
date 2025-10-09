@@ -72,13 +72,7 @@ const Success = () => {
 
     return (
         <div className="p-4">
-            <BookingSearch
-                onSearch={handleSearch}
-                exportData={exportData}
-                setExportData={setExportData}
-                fetchBooking={fetchData}
-            />
-
+            <BookingSearch  onSearch={handleSearch}  exportData={exportData}  setExportData={setExportData}  fetchBooking={fetchData} />
             <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
                 {/* Desktop/Tablet Header */}
                 <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">

@@ -71,7 +71,8 @@ export const useFixForm = ({ bookingId, timeId }) => {
 
       // ✅ แจ้งเตือนสำเร็จ
       SuccessAlert(t("fix_success"));
-      navigate(`/user/successDetail/${fixToUpdate.fix_id}`);
+      // navigate(`/user/successDetail/${fixToUpdate.fix_id}`);
+      navigate(`/user/billDetail/${fixToUpdate.fix_id}`);
     } catch (error) {
       console.log(error);
     }

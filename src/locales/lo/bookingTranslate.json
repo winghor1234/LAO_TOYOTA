@@ -59,6 +59,18 @@
   "pending": "ລໍອະນຸມັດ",
   "fixing": "ກຳລັງສ້ອມແປງ",
   "success": "ສຳເລັດ",
-  "fix_title": "ສ້ອມແປງລົດ"
+  "fix_title": "ສ້ອມແປງລົດ",
+  "billTitle": "ບິນການສ້ອມແປງ",
+  "exportPDF": "ດາວໂຫລດ PDF",
+  "date_bill": "ວັນທີອອກບິນ",
+  "billId": "ເລກບິນ",
+  "ID": "ລຳດັບ",
+  "list_bill": "ລາຍການ",
+  "price": "ລາຄາ",
+  "thanks_message": "ຂອບໃຈທີ່ໃຊ້ບໍລິການ",
+  "fixDetail": "ລາຍລະອຽດການສ້ອມແປງ",
+  "back_button": "ກັບໄປຫນ້າກ່ອນ"
+  
+
   
 }
