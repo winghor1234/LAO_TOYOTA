@@ -19,6 +19,7 @@
     "html2pdf.js": "^0.12.1",
     "i18next": "^25.5.2",
     "jspdf": "^3.0.3",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.536.0",
     "react": "^19.1.0",
     "react-datepicker": "^8.7.0",

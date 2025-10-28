@@ -31,7 +31,7 @@ export const useRegisterForm = () => {
     try {
       await axiosInstance.post(APIPath.REGISTER, data)
       SuccessAlert(t("register_success"), 1500, "success");
-      navigate("/login");
+      navigate("/");
       reset();
     } catch (error) {
       SuccessAlert(t("error"), 1500, "warning");

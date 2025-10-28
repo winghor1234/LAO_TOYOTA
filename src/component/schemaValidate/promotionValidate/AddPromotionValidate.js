@@ -3,14 +3,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import axios from "axios";
+
 import APIPath from "../../../api/APIPath";
 import { useTranslation } from "react-i18next";
+import axiosInstance from "../../../utils/AxiosInstance";
 
 // Zod schema
  const promoSchema = (t) => z.object({
   title: z.string().min(2, { message: t("min_length_2") }),
-  detail: z.string().min(5, { message: t("min_length_2") }),
+  detail: z.string().min(5, { message: t("min_length_5") }),
   image: z.any().optional()
 });
 
@@ -32,9 +33,10 @@ export const useAddPromotionForm = ({onClose, handleFetchPromotion}) => {
     if (data.image && data.image[0] instanceof File) {
       dataForm.append("files", data.image[0]);
     }
+    console.log(dataForm);
 
     try {
-      await axios.post(APIPath.CREATE_PROMOTION, dataForm);
+      await axiosInstance.post(APIPath.CREATE_PROMOTION, dataForm);
       handleFetchPromotion();
       SuccessAlert(t("add_success"));
       onClose();

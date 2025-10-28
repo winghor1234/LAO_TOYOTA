@@ -10,6 +10,7 @@
   "reward": "Gift",
   "car_info": "Car",
   "customer_info": "Customer ",
+  "admin_info": "Admin",
   "service": "Service",
   "report": "Report",
   "logout": "Logout"

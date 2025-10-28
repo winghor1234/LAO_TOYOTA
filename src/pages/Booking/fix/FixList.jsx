@@ -93,7 +93,7 @@ const FixList = () => {
 
         {/* Desktop/Tablet Body */}
         <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
-          {filteredBookings.map((item, index) => (
+          {filteredBookings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
             <div
               key={index}
               onClick={() => fixDetail(item.booking_id)}

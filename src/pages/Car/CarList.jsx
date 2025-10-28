@@ -136,7 +136,7 @@ const CarList = () => {
 
         {/* Mobile */}
         <div className="md:hidden divide-y divide-gray-200">
-          {car?.map((item, index) => (
+          {car?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
             <div key={index} className="p-4 hover:bg-gray-50">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">

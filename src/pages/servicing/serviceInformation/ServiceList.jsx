@@ -155,7 +155,7 @@ const ServiceList = () => {
 
                 {/* Mobile Card Layout */}
                 <div className="md:hidden divide-y divide-gray-200">
-                    {filteredServices.map((item, index) => (
+                    {filteredServices.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
                         <div
                             key={index}
                             onClick={() => handleToDetailService(item.service_id)}

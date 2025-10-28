@@ -16,6 +16,7 @@ const Approve = () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ALL_BOOKING);
       setBooking(res?.data?.data);
+      console.log("booking data:", res?.data?.data);
 
       setExportData(
         res?.data?.data
@@ -71,6 +72,7 @@ const Approve = () => {
         <div className="hidden md:block divide-y divide-gray-200 max-h-[400px] overflow-y-auto">
           {booking
             .filter((item) => item.bookingStatus === "await")
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
             .map((item, index) => (
               <div
                 key={index}

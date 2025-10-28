@@ -10,7 +10,8 @@ import axiosInstance from '../../../utils/AxiosInstance';
 import { useTranslation } from 'react-i18next';
 
 
- const LoginSchema = (t) =>z.object({
+
+const LoginSchema = (t) => z.object({
     phoneNumber: z.string().min(8, t("phone_min_length")),
     password: z.string().min(6, t("password_min_length")),
 });
@@ -28,8 +29,15 @@ export const useLoginForm = () => {
         setLoading(true);
         try {
             const res = await axiosInstance.post(APIPath.LOGIN, data)
-            // console.log("login data : ", res?.data?.data);
             const token = res?.data?.data?.token;
+            // console.log("login data : ", res?.data?.data?.role);
+            const role = res?.data?.data?.role;
+
+            if (role !== "admin") {
+                SuccessAlert(t("login_failed"), 1500, "warning");
+                setLoading(false);
+                return;
+            }
             const refreshToken = res?.data?.data?.refreshToken;
             const tokenExpire = Date.now() + 60 * 60 * 1000; // 1 ชั่วโมง = 3600000 ms
             useToyotaStore.getState().setToken(token, refreshToken, tokenExpire); // save token ลง store

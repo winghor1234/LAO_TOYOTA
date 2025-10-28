@@ -22,7 +22,6 @@ import GiftHistoryList from "../pages/gift/giftHistory/GiftHistoryList";
 import Time_Zone from "../pages/time_zone/Time_Zone";
 import TimeDetail from "../pages/time_zone/time/TimeDetail";
 import ZoneDetail from "../pages/time_zone/zone/ZoneDetail";
-import User from "../pages/user/UserList";
 import CarList from "../pages/Car/CarList";
 import Booking from "../pages/Booking/Booking";
 import Approve from "../pages/Booking/approve/Approve";
@@ -37,6 +36,8 @@ import FixDetails from "../pages/Booking/fix/FixDetails";
 import BookingSuccess from "../pages/Booking/approve/BookingSuccess";
 import Auth from "../pages/auth/Auth";
 import BillDetail from "../pages/Booking/fix/BillDetail";
+import AdminList from "../pages/admin/AdminList";
+import UserList from "../pages/user/UserList";
 
 
 
@@ -159,7 +160,11 @@ const router = createBrowserRouter([
       },
       {
         path: "user",
-        element: <User />
+        element: <UserList/>
+      },
+      {
+        path: "admin",
+        element: <AdminList/>
       },
       {
         path: "promotion",

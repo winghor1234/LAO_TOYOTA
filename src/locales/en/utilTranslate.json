@@ -22,5 +22,7 @@
     "Sep": "September",
     "Oct": "October",
     "Nov": "November",
-    "Dec": "December"
+    "Dec": "December",
+    "default_alert": "This operation!!!",
+    "alert_check_admin": "You do not have permission in"
 }

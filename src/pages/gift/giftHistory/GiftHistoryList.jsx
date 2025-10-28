@@ -73,7 +73,7 @@ const GiftHistoryList = () => {
 
                 {/* Table Body */}
                 <div className="divide-y divide-gray-200 overflow-auto max-h-[400px]">
-                    {gifts?.map((item, index) => (
+                    {gifts?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
                         <div key={index} className="grid grid-cols-4 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                                 {index + 1}

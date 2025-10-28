@@ -32,6 +32,7 @@
     "index": "No.",
     "code": "User Code",
     "username": "Username",
+    "admin_name": "Admin name",
     "village": "Village",
     "district": "District",
     "province": "Province",

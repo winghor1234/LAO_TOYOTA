@@ -126,7 +126,7 @@ const PromotionList = () => {
                     </div>
                 </div>
                 <div className="divide-y divide-gray-200 max-h-[400px] overflow-y-auto">
-                    {filteredPromotions.map((item, index) => (
+                    {filteredPromotions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
                         <div
                             onClick={() => handleToDetailPromotion(item.promotion_id)}
                             key={index}

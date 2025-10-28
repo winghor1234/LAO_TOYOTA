@@ -7,6 +7,7 @@ import { LiaGiftsSolid } from "react-icons/lia";
 import { FaPeopleArrows } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
 import { useTranslation } from "react-i18next";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
@@ -23,15 +24,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     currentPath.startsWith("/user/cancelDetail") ||
     currentPath.startsWith("/user/successDetail");
   const isGiftPath = currentPath.startsWith("/user/gift");
-  const isServicePath =
-    currentPath.startsWith("/user/servicing") ||
-    currentPath.startsWith("/user/service-detail/");
+  const isServicePath = currentPath.startsWith("/user/servicing") || currentPath.startsWith("/user/service-detail/");
   const isDashboardPath = currentPath.startsWith("/user/dashboard");
   const isPromotionPath = currentPath.startsWith("/user/promotion");
   const isCar = currentPath.startsWith("/user/car");
   const isTimePath = currentPath.startsWith("/user/time-zone");
-  const isUserPath = currentPath.startsWith("/user/user");
   const isReportPath = currentPath.startsWith("/user/report");
+  const isUserPath = currentPath.startsWith("/user/user");
+  const isAdminPath = currentPath.startsWith("/user/admin");
 
   const handleLogout = () => {
     removeToken();
@@ -46,6 +46,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     { icon: <LiaGiftsSolid className="w-5 h-5" />, label: t("reward"), path: "/user/gift", isActive: isGiftPath },
     { icon: <Car className="w-5 h-5" />, label: t("car_info"), path: "/user/car", isActive: isCar },
     { icon: <Users className="w-5 h-5" />, label: t("customer_info"), path: "/user/user", isActive: isUserPath },
+    { icon: <MdOutlineAdminPanelSettings className="w-5 h-5" />, label: t("admin_info"), path: "/user/admin", isActive: isAdminPath },
     { icon: <Settings className="w-5 h-5" />, label: t("service"), path: "/user/servicing", isActive: isServicePath },
     { icon: <TbReportAnalytics className="w-5 h-5" />, label: t("report"), path: "/user/report", isActive: isReportPath },
   ];

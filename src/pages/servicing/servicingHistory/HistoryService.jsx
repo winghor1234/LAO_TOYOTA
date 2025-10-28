@@ -57,7 +57,7 @@ const ServiceHistory = () => {
 
                 {/* Desktop/Tablet Table Body */}
                 <div className="hidden md:block divide-y divide-gray-200 max-h-[400px] overflow-y-auto">
-                    {filteredServices.map((item, index) => (
+                    {filteredServices.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
                         <div
                             onClick={() => handleToDetailService(item.service_id)}
                             key={index}

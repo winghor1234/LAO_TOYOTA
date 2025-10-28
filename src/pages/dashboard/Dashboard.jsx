@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
-
 import { Users, Clock3, Car, Gift } from "lucide-react";
 import { HiOutlineWrenchScrewdriver } from "react-icons/hi2";
 import { LiaGiftsSolid } from "react-icons/lia";
@@ -35,11 +34,12 @@ const Dashboard = () => {
     const [users, setUsers] = useState([]);
     const [promotions, setPromotions] = useState([]);
     const [booking, setBooking] = useState([]);
-    const [fix, setFix] = useState([]);
+    // const [fix, setFix] = useState([]);
     const [car, setCar] = useState([]);
     const [gift, setGift] = useState([]);
     const [time, setTime] = useState([]);
     const [zone, setZone] = useState([]);
+    const [service, setService] = useState([]);
     const [totalIncomes, setTotalIncomes] = useState(0);
     const [monthlyIncomes, setMonthlyIncomes] = useState([]);
     const [percentUserIncrease, setPercentUserIncrease] = useState(0);
@@ -49,7 +49,7 @@ const Dashboard = () => {
 
     const fetchData = async () => {
         try {
-            const [userRes, promoRes, bookingRes, fixRes, carRes, giftRes, timeRes, zoneRes] = await Promise.all([
+            const [userRes, promoRes, bookingRes, carRes, giftRes, timeRes, zoneRes, serviceRes] = await Promise.all([
                 axiosInstance.get(APIPath.SELECT_ALL_USER),
                 axiosInstance.get(APIPath.SELECT_ALL_PROMOTION),
                 axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
@@ -58,17 +58,19 @@ const Dashboard = () => {
                 axiosInstance.get(APIPath.SELECT_ALL_GIFT),
                 axiosInstance.get(APIPath.SELECT_ALL_TIME),
                 axiosInstance.get(APIPath.SELECT_ALL_ZONE),
+                axiosInstance.get(APIPath.SELECT_ALL_SERVICE),
             ]);
             const { monthlyData, totalPrice } = await getIncomes();
 
             setUsers(userRes?.data?.data || []);
             setPromotions(promoRes?.data?.data || []);
             setBooking(bookingRes?.data?.data || []);
-            setFix(fixRes?.data?.data || []);
+            // setFix(fixRes?.data?.data || []);
             setCar(carRes?.data?.data || []);
             setGift(giftRes?.data?.data || []);
             setTime(timeRes?.data?.data || []);
             setZone(zoneRes?.data?.data || []);
+            setService(serviceRes?.data?.data || []);
             setMonthlyIncomes(monthlyData);
             setTotalIncomes(totalPrice);
 
@@ -97,12 +99,12 @@ const Dashboard = () => {
     ];
 
     const dashboardItems = [
-        { title: t("customer_info"), path: "/user/user", value: users.length, icon: <Users className="w-10 h-10 text-red-600" /> },
+        { title: t("customer_info"), path: "/user/user", value: users.filter(user => user.role !== "admin").length, icon: <Users className="w-10 h-10 text-red-600" /> },
         { title: t("service_total"), path: "#", value: "1420", icon: <FaChartLine className="w-10 h-10 text-red-600" /> },
         { title: t("promotion_info"), path: "/user/promotion", value: promotions.length, icon: <Gift className="w-10 h-10 text-red-600" /> },
         { title: t("gift"), path: "/user/gift", value: gift.length, icon: <LiaGiftsSolid className="w-10 h-10 text-red-600" /> },
         { title: t("car_info"), path: "/user/car", value: car.length, icon: <Car className="w-10 h-10 text-red-600" /> },
-        { title: t("servicing_info"), path: "/user/servicing", value: fix.length, icon: <HiOutlineWrenchScrewdriver className="w-10 h-10 text-red-600" /> },
+        { title: t("servicing_info"), path: "/user/servicing", value: service.length, icon: <HiOutlineWrenchScrewdriver className="w-10 h-10 text-red-600" /> },
         { title: t("zone_time"), path: "/user/time-zone", value: `${zone.length}/${time.length}`, icon: <Clock3 className="w-10 h-10 text-red-600" /> },
         { title: t("user_permission"), path: "#", value: "3102", icon: <GrUserAdmin className="w-10 h-10 text-red-600" /> },
     ];

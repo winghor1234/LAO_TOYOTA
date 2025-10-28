@@ -16,6 +16,7 @@ const Cancel = () => {
             setExportData(
                 res?.data?.data
                     ?.filter((item) => item.bookingStatus === "cancel")
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                     .map((item) => ({
                         [t("car_model")]: item?.car?.model,
                         [t("customer_name")]: item?.user?.username,

@@ -97,7 +97,7 @@ const ZoneList = () => {
 
             {/* Zone Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 lg:gap-6">
-                {filteredZone.map((item) => (
+                {filteredZone.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item) => (
                     <div key={item.zone_id} className="flex justify-center hover:shadow-xl transition-shadow">
                         {/* Zone Info */}
                         <div

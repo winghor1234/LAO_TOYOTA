@@ -95,7 +95,7 @@ const TimeList = () => {
             </div>
             {/* Time Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 overflow-y-auto lg:items-center gap-2 lg:gap-4 mb-6">
-                {filteredTime.map((item) => (
+                {filteredTime.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item) => (
                     <div key={item.time_id} className="flex justify-center hover:shadow-xl">
                         <div
                             onClick={() => navigate(`/user/timeDetail/${item.time_id}`)}
