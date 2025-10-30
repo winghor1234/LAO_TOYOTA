@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { getBookingByMonth } from "../../utils/bookingCount";
 import { getIncomes } from "../../utils/Income";
 import { FormatNumber } from "../../utils/FormatNumber";
+import ExcelExportButton from "../../utils/ExcelExportButton";
 
 
 const ReportList = () => {
@@ -94,7 +95,10 @@ const ReportList = () => {
 
       {/* Booking Report */}
       <div className="bg-white rounded-lg shadow-lg p-4 mb-6">
-        <h2 className="text-lg font-medium mb-2">{t("booking_by_month")}</h2>
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="text-lg font-medium mb-2">{t("booking_by_month")}</h2>
+          <ExcelExportButton data={bookingByMonth} fileName="BookingReport.xlsx" />
+        </div>
         <div className="w-full h-64">
           <ResponsiveContainer>
             <BarChart data={bookingByMonth}>
@@ -116,7 +120,7 @@ const ReportList = () => {
       <div className="bg-white rounded-lg shadow-lg p-4">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-lg font-medium">{t("fix_revenue")}</h2>
-          <button className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm">{t("export")}</button>
+          <ExcelExportButton data={monthlyIncomes} fileName="FixRevenueReport.xlsx" />
         </div>
         <div className="w-full h-64">
           <ResponsiveContainer>
@@ -127,9 +131,9 @@ const ReportList = () => {
                   <stop offset="95%" stopColor="#E52020" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <XAxis dataKey="name" />
-              <YAxis tickFormatter={FormatNumber} /> 
-              <Tooltip formatter={(value) => FormatNumber(value)} /> 
+              <XAxis dataKey="name"  />
+              <YAxis tickFormatter={FormatNumber} tick={{ fontSize: 12 }} />
+              <Tooltip formatter={(value) => FormatNumber(value)} />
               <Area
                 type="monotone"
                 dataKey="value"

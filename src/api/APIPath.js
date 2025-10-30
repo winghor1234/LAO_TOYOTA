@@ -4,6 +4,7 @@ export default class APIPath {
     // Auth / User API
     static REGISTER = `${this.BASE_URL}/user/register`;
     static LOGIN = `${this.BASE_URL}/user/login`;
+    static INSERT_ADMIN = `${this.BASE_URL}/user/insertAdmin`; //add new
     static SELECT_ALL_USER = `${this.BASE_URL}/user/selAll`;
     static SELECT_ONE_USER(id) { return `${this.BASE_URL}/user/selOne/${id}`}
     static SEARCH = `${this.BASE_URL}/user/search`;

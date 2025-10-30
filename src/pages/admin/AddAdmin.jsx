@@ -1,11 +1,11 @@
 import { SuccessAlert } from '../../utils/handleAlert/SuccessAlert';
 import { FaArrowLeft } from 'react-icons/fa';
-import { useAddUserForm } from '../../component/schemaValidate/userValidate/AddUserValidate';
 import { useTranslation } from 'react-i18next';
+import { useAddAdminForm } from '../../component/schemaValidate/adminValidate/AddAdminValidate';
 
 const AddAdmin = ({ show, onClose, handleFetch }) => {
   const { t } = useTranslation("user"); // ใช้ namespace 'user'
-  const { register, handleSubmit, formState: { errors }, loading, submitForm } = useAddUserForm({ handleFetch, onClose });
+  const { register, handleSubmit, formState: { errors }, loading, submitForm } = useAddAdminForm({ handleFetch, onClose });
 
   return (
     <>

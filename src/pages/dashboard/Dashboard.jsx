@@ -68,9 +68,9 @@ const Dashboard = () => {
             // setFix(fixRes?.data?.data || []);
             setCar(carRes?.data?.data || []);
             setGift(giftRes?.data?.data || []);
-            setTime(timeRes?.data?.data || []);
+            setTime(serviceRes?.data?.data || []);
             setZone(zoneRes?.data?.data || []);
-            setService(serviceRes?.data?.data || []);
+            setService(timeRes?.data?.data || []);
             setMonthlyIncomes(monthlyData);
             setTotalIncomes(totalPrice);
 
@@ -89,7 +89,16 @@ const Dashboard = () => {
 
     useEffect(() => {
         fetchData();
+        
     }, []);
+    console.log("service data", service);
+    console.log("promotion data", promotions.length);
+    console.log("booking data", booking.length);
+    // console.log("car data", car);
+    // console.log("gift data", gift);
+    // console.log("time data", time);
+    // console.log("zone data", zone);
+    // console.log("user data", users);
 
 
     // PieChart data
@@ -100,13 +109,13 @@ const Dashboard = () => {
 
     const dashboardItems = [
         { title: t("customer_info"), path: "/user/user", value: users.filter(user => user.role !== "admin").length, icon: <Users className="w-10 h-10 text-red-600" /> },
-        { title: t("service_total"), path: "#", value: "1420", icon: <FaChartLine className="w-10 h-10 text-red-600" /> },
+        // { title: t("service_total"), path: "#", value: "1420", icon: <FaChartLine className="w-10 h-10 text-red-600" /> },
         { title: t("promotion_info"), path: "/user/promotion", value: promotions.length, icon: <Gift className="w-10 h-10 text-red-600" /> },
         { title: t("gift"), path: "/user/gift", value: gift.length, icon: <LiaGiftsSolid className="w-10 h-10 text-red-600" /> },
         { title: t("car_info"), path: "/user/car", value: car.length, icon: <Car className="w-10 h-10 text-red-600" /> },
         { title: t("servicing_info"), path: "/user/servicing", value: service.length, icon: <HiOutlineWrenchScrewdriver className="w-10 h-10 text-red-600" /> },
         { title: t("zone_time"), path: "/user/time-zone", value: `${zone.length}/${time.length}`, icon: <Clock3 className="w-10 h-10 text-red-600" /> },
-        { title: t("user_permission"), path: "#", value: "3102", icon: <GrUserAdmin className="w-10 h-10 text-red-600" /> },
+        { title: t("user_permission"), path: "/user/admin", value: users.filter(user => user.role === "admin").length, icon: <GrUserAdmin className="w-10 h-10 text-red-600" /> },
     ];
 
     return (
@@ -164,7 +173,7 @@ const Dashboard = () => {
                                     </linearGradient>
                                 </defs>
                                 <XAxis dataKey="name" />
-                                <YAxis tickFormatter={FormatNumber} domain={[0, 500]} />
+                                <YAxis tickFormatter={FormatNumber} domain={[0, 500]} tick={{ fontSize: 11 }} />
                                 <Tooltip formatter={(value) => FormatNumber(value)} contentStyle={{ backgroundColor: '#fff', border: '1px solid #E52020', borderRadius: 8, fontSize: 12 }} />
                                 <Area type="monotone" dataKey="value" stroke="#E52020" fill="url(#colorValue)" strokeWidth={2} />
                             </AreaChart>

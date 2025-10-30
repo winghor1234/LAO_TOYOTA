@@ -45,7 +45,7 @@ const AdminList = () => {
       const res = await axiosInstance.get(APIPath.SELECT_ALL_USER);
       setUsers(res?.data?.data);
       setExportedData(
-        res?.data?.data?.map((item) => ({
+        res?.data?.data?.filter((item) => item.role === "admin").map((item) => ({
           ຊື່: item.username,
           ເບີໂທ: item.phoneNumber,
           ອີເມວ: item.email,

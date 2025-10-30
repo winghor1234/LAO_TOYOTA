@@ -27,6 +27,7 @@ const ServiceList = () => {
     const handleFetchService = async () => {
         try {
             const res = await axiosInstance.get(APIPath.SELECT_ALL_SERVICE);
+            console.log("service length : ",res?.data?.data.length);
             setServices(res?.data?.data);
         } catch (error) {
             console.error("Failed to fetch services:", error);
@@ -65,12 +66,12 @@ const ServiceList = () => {
         "createdAt"
     );
 
-    const handleRefresh = (e) => {
-        e.preventDefault();
-        setSearch("");
-        setStartDate(null);
-        setEndDate(null);
-    };
+    // const handleRefresh = (e) => {
+    //     e.preventDefault();
+    //     setSearch("");
+    //     setStartDate(null);
+    //     setEndDate(null);
+    // };
 
     return (
         <div className="p-4">
@@ -84,12 +85,12 @@ const ServiceList = () => {
                         setEndDate(endDate);
                     }}
                 />
-                <button
+                {/* <button
                     onClick={handleRefresh}
                     className="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded text-sm"
                 >
                     {t("reset")}
-                </button>
+                </button> */}
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <button
                         onClick={() => setShowAddService(true)}
