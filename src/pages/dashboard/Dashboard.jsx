@@ -53,12 +53,12 @@ const Dashboard = () => {
                 axiosInstance.get(APIPath.SELECT_ALL_USER),
                 axiosInstance.get(APIPath.SELECT_ALL_PROMOTION),
                 axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
-                axiosInstance.get(APIPath.SELECT_ALL_FIX),
                 axiosInstance.get(APIPath.SELECT_ALL_CAR),
                 axiosInstance.get(APIPath.SELECT_ALL_GIFT),
                 axiosInstance.get(APIPath.SELECT_ALL_TIME),
                 axiosInstance.get(APIPath.SELECT_ALL_ZONE),
                 axiosInstance.get(APIPath.SELECT_ALL_SERVICE),
+                // axiosInstance.get(APIPath.SELECT_ALL_FIX),
             ]);
             const { monthlyData, totalPrice } = await getIncomes();
 
@@ -68,9 +68,9 @@ const Dashboard = () => {
             // setFix(fixRes?.data?.data || []);
             setCar(carRes?.data?.data || []);
             setGift(giftRes?.data?.data || []);
-            setTime(serviceRes?.data?.data || []);
+            setTime(timeRes?.data?.data || []);
             setZone(zoneRes?.data?.data || []);
-            setService(timeRes?.data?.data || []);
+            setService(serviceRes?.data?.data || []);
             setMonthlyIncomes(monthlyData);
             setTotalIncomes(totalPrice);
 
@@ -92,10 +92,10 @@ const Dashboard = () => {
         
     }, []);
     console.log("service data", service);
-    console.log("promotion data", promotions.length);
-    console.log("booking data", booking.length);
+    // console.log("promotion data", promotions.length);
+    // console.log("booking data", booking.length);
     // console.log("car data", car);
-    // console.log("gift data", gift);
+    console.log("gift data", gift);
     // console.log("time data", time);
     // console.log("zone data", zone);
     // console.log("user data", users);
